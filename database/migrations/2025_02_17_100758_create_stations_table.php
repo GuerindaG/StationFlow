@@ -4,23 +4,24 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
         Schema::create('stations', function (Blueprint $table) {
-            $table->id();                         // auto-increment id
-            $table->string('nom');                 // nom de la station
-            $table->string('adresse');             // adresse de la station
-            $table->string('type');                // type de station
-            $table->double('latitude');            // latitude
-            $table->double('longitude');           // longitude
-            $table->string('statut')->default('active');  // statut de la station
-            $table->date('dateCreation');          // date de création de la station
-            $table->timestamps();                  // created_at, updated_at
+            $table->id();
+            $table->string('nom');
+            $table->string('rccm')->nullable();
+            $table->string('ifu')->nullable();
+            $table->string('adresse');
+            $table->string('contact')->nullable();
+            $table->enum('statut', ['active', 'inactive'])->default('active');
+            $table->unsignedBigInteger('gerant_id');
+            $table->timestamps();
+
+            $table->foreign('gerant_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

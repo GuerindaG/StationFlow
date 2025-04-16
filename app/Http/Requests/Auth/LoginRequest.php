@@ -29,6 +29,7 @@ class LoginRequest extends FormRequest
         return [
             'email' => ['required', 'string', 'email'],
             'password' => ['required', 'string'],
+            'role' => ['required', 'in:admin,gerant'],
         ];
     }
 
@@ -39,17 +40,23 @@ class LoginRequest extends FormRequest
      */
     public function authenticate(): void
     {
-        $this->ensureIsNotRateLimited();
+        $credentials = $this->only('email', 'password');
 
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
-            RateLimiter::hit($this->throttleKey());
-
+        if (!Auth::attempt($credentials, $this->boolean('remember'))) {
             throw ValidationException::withMessages([
                 'email' => trans('auth.failed'),
             ]);
         }
 
-        RateLimiter::clear($this->throttleKey());
+        $user = Auth::user();
+
+        if ($user->role !== $this->input('role')) {
+            Auth::logout();
+
+            throw ValidationException::withMessages([
+                'role' => 'Le rôle sélectionné ne correspond pas à votre compte.',
+            ]);
+        }
     }
 
     /**
@@ -59,7 +66,7 @@ class LoginRequest extends FormRequest
      */
     public function ensureIsNotRateLimited(): void
     {
-        if (! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
+        if (!RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
             return;
         }
 
@@ -80,6 +87,6 @@ class LoginRequest extends FormRequest
      */
     public function throttleKey(): string
     {
-        return Str::transliterate(Str::lower($this->string('email')).'|'.$this->ip());
+        return Str::transliterate(Str::lower($this->string('email')) . '|' . $this->ip());
     }
 }

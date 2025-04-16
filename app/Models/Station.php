@@ -21,10 +21,23 @@ class Station extends Model
     /**
      * @var array
      */
-    protected $fillable = ['nom', 'adresse', 'type', 'latitude', 'longitude', 'statut', 'dateCreation', 'created_at', 'updated_at'];
+    protected $fillable = [
+        'nom',
+        'rccm',
+        'ifu',
+        'adresse',
+        'contact',
+        'statut',
+        'gerant_id',
+    ];
     // Relation avec les ventes
     public function ventes()
     {
         return $this->hasMany(Vente::class);
+    }
+
+    public function gerant()
+    {
+        return $this->belongsTo(User::class, 'gerant_id');
     }
 }

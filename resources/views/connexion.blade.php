@@ -49,7 +49,7 @@
             <div class="container">
                 <div class="row justify-content-center align-items-center">
                     <div class="col-12 col-md-6 col-lg-4 order-lg-1 order-2">
-                        <img src="./assets/images/svg-graphics/signin-g.svg" alt="" class="img-fluid" />
+                        <img src="./assets/images/svg-graphics/signup-g.svg" alt="" class="img-fluid" />
                     </div>
                     <div class="col-12 col-md-6 offset-lg-1 col-lg-4 order-lg-2 order-1">
                         <div class="mb-lg-9 mb-5">
@@ -63,9 +63,7 @@
                                 <!-- Email Address -->
                                 <div class="col-12">
                                     <label for="formSignupEmail" class="form-label ">Adresse email</label>
-                                    <input type="email" id="email" class="form-control" name="email"
-                                        :value="old('email')" placeholder="Email" required autofocus
-                                        autocomplete="username" />
+                                    <input type="email" id="email" class="form-control" name="email" placeholder="Email" required />
                                     <div class="invalid-feedback">Votre E-mail !</div>
                                 </div>
                                 <!-- Password -->
@@ -74,21 +72,20 @@
                                         <label for="formSignupPassword" class="form-label ">Mot de passe</label>
                                         <div class="password-field position-relative">
                                             <input type="password" class="form-control fakePassword" id="password"
-                                                name="password" required autocomplete="current-password"
-                                                placeholder="********" />
+                                                name="password" required placeholder="********" />
                                             <span><i class="bi bi-eye-slash passwordToggler"></i></span>
                                             <div class="invalid-feedback">Votre mot de passe !</div>
                                         </div>
                                     </div>
                                 </div>
-                                <!--div class="col-12">
+                                <div class="col-12">
                                     <label for="formSignuplname" class="form-label">Rôle</label>
-                                    <select class="default-select form-control wide">
-                                        <option>Gérant</option>
-                                        <option>Administrateur</option>
+                                    <select class="default-select form-control wide" name="role" id="role" required>
+                                        <option value="gerant">Gérant</option>
+                                        <option value="admin" >Admin</option>
                                     </select>
                                     <div class="invalid-feedback">Sélectionner un type de compte!</div>
-                                </div-->
+                                </div>
 
                                 <div class="d-flex justify-content-between">
                                     <!-- Remember Me -->

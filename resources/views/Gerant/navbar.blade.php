@@ -9,6 +9,16 @@
             <ul class="navbar-nav flex-column" id="sideNavbar">
 
                 <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('addRapport') ? 'active' : '' }}"
+                        href="{{ route('addRapport') }}">
+                        <div class="d-flex align-items-center">
+                            <span class="nav-link-icon"><i class="bi bi-newspaper"></i></span>
+                            <span class="nav-link-text">Rapport</span>
+                        </div>
+                    </a>
+                </li>
+
+                <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('produit.index') ? 'active' : '' }}"
                         href="{{ route('produit.index') }}">
                         <div class="d-flex align-items-center">
@@ -37,16 +47,8 @@
                         </div>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('addRapport') ? 'active' : '' }}"
-                        href="{{ route('addRapport') }}">
-                        <div class="d-flex align-items-center">
-                            <span class="nav-link-icon"><i class="bi bi-newspaper"></i></span>
-                            <span class="nav-link-text">Rapport</span>
-                        </div>
-                    </a>
-                </li>
-                
+
+
                 <li class="nav-item">
                     <hr />
                 </li>

@@ -41,12 +41,11 @@
                             <table
                                 class="table table-centered table-hover mb-0 text-nowrap table-borderless table-with-checkbox">
                                 <thead class="bg-light">
-                                    <tr>
+                                    <tr class="text-center">
                                         <th>
                                             N°
                                         </th>
-                                        <th>Logo</th>
-                                        <th>Code Station</th>
+                                        <th>Nom</th>
                                         <th>RCCM</th>
                                         <th>IFU</th>
                                         <th>Adresse</th>
@@ -58,12 +57,8 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>
+                                        <td class="text-center">
                                             1
-                                        </td>
-                                        <td>
-                                            <a href="#!"><img src="../assets/images/icons/bakery.svg" alt=""
-                                                    class="icon-shape icon-sm" /></a>
                                         </td>
                                         <td><a href="#" class="text-reset">0003</a></td>
                                         <td>8456595656</td>
@@ -78,9 +73,9 @@
                                             <div class="d-flex text-end">
                                                 <a href="#" data-bs-toggle="modal" data-bs-target="#product"
                                                     class="btn btn-primary shadow btn-xs sharp me-2"><i
-                                                        class="bi bi-pencil-square me-3"></i></a>
+                                                        class="bi bi-pencil-square "></i></a>
                                                 <a href="#" class="btn btn-danger shadow btn-xs sharp"><i
-                                                        class="bi bi-trash me-3"></i></a>
+                                                        class="bi bi-trash"></i></a>
                                             </div>
                                         </td>
                                     </tr>

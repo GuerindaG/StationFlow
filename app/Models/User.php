@@ -12,14 +12,18 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    public function role()
+    public function isAdmin()
     {
-        return $this->belongsTo(Role::class);
+        return $this->role === 'admin';
     }
 
-    // Vérifier si l'utilisateur a une permission
-    public function hasPermission($permission)
+    public function isGerant()
     {
-        return $this->role->permissions->contains('name', $permission);
+        return $this->role === 'gerant';
+    }
+
+    public function station()
+    {
+        return $this->hasOne(Station::class, 'gerant_id');
     }
 }
