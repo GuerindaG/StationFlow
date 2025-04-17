@@ -38,3 +38,4 @@
 <script src="{{ asset('../assets/libs/tiny-slider/dist/min/tiny-slider.js')}}"></script>
 <script src="{{ asset('../assets/js/vendors/tns-slider.js')}}"></script>
 <script src="{{ asset('../assets/js/vendors/zoom.js')}}"></script>
+<script src="../assets/libs/flatpickr/dist/flatpickr.min.js"></script>

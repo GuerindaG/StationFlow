@@ -25,7 +25,7 @@ Route::get('/error404', function () {
     return view('error404');
 })->middleware(['auth']);
 
-Route::prefix('/gerant')->group(function () {
+Route::prefix('/gerant')->middleware(['gerant'])->group(function () {
 
     Route::get('/', function () {
         return view('Gerant.addRapport');
@@ -37,7 +37,7 @@ Route::prefix('/gerant')->group(function () {
 
 });
 
-Route::prefix('/admin')->group(function () {
+Route::prefix('/admin')->middleware(['admin'])->group(function () {
 
     Route::get('/', function () {
         return view('Admin.rapport');

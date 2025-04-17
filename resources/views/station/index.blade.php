@@ -30,8 +30,8 @@
                             <div class="col-xl-2 col-md-4 col-12">
                                 <select class="form-select">
                                     <option selected>Status</option>
-                                    <option value="Published">Activée</option>
-                                    <option value="Unpublished">Désactivée</option>
+                                    <option value="Published">Active</option>
+                                    <option value="Unpublished">Inactive</option>
                                 </select>
                             </div>
                         </div>
@@ -49,6 +49,7 @@
                                         <th>RCCM</th>
                                         <th>IFU</th>
                                         <th>Adresse</th>
+                                        <th>Email</th>
                                         <th>Contact</th>
                                         <th>Statut</th>
                                         <th>Date & Heure</th>
@@ -56,29 +57,42 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td class="text-center">
-                                            1
-                                        </td>
-                                        <td><a href="#" class="text-reset">0003</a></td>
-                                        <td>8456595656</td>
-                                        <td>8456595656</td>
-                                        <td>Porto-Novo</td>
-                                        <td>01XXXXXXXX</td>
-                                        <td>
-                                            <span class="badge bg-light-primary text-dark-primary">Activée</span>
-                                        </td>
-                                        <td>01/05/09 07:30</td>
-                                        <td>
-                                            <div class="d-flex text-end">
-                                                <a href="#" data-bs-toggle="modal" data-bs-target="#product"
-                                                    class="btn btn-primary shadow btn-xs sharp me-2"><i
-                                                        class="bi bi-pencil-square "></i></a>
-                                                <a href="#" class="btn btn-danger shadow btn-xs sharp"><i
-                                                        class="bi bi-trash"></i></a>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    @foreach($stations as $station)
+                                        <tr>
+                                            <td class="text-center">
+                                                {{ $loop->iteration }}
+                                            </td>
+                                            <td><a href="#" class="text-reset">{{ $station->nom }}</a></td>
+                                            <td>{{ $station->rccm }}</td>
+                                            <td>{{ $station->ifu }}</td>
+                                            <td>{{ $station->adresse }}</td>
+                                            <td>{{ $station->gerant->email }}</td>
+                                            <td>{{ $station->contact }}</td>
+                                            <td>
+                                                <span
+                                                    class="badge {{ $station->statut == 'active' ? 'bg-light-primary text-dark-primary' : 'bg-light-danger text-dark-danger' }}">
+                                                    {{ ucfirst($station->statut) }}
+                                                </span>
+                                            </td>
+                                            <td>{{ $station->created_at->format('d/m/Y H:i') }}</td>
+                                            <td>
+                                                <div class="d-flex text-end">
+                                                    <a href="{{ route('station.edit', $station->id) }}"
+                                                        class="btn btn-primary shadow btn-xs sharp me-2"><i
+                                                            class="bi bi-pencil-square "></i></a>
+                                                    <form action="{{ route('station.destroy', $station->id) }}" method="POST"
+                                                        onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette station ?');">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger shadow btn-xs sharp">
+                                                            <i class="bi bi-trash"></i>
+                                                        </button>
+                                                    </form>
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

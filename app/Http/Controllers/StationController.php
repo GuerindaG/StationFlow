@@ -10,12 +10,10 @@ class StationController extends Controller
 {
     public function index()
     {
-         $stations = Station::with('gerant')->get();
+        $stations = Station::with('gerant')->get();
         return view('Station.index', compact('stations'));
     }
 
-    /**
-   
     public function create()
     {
         return view("Station.create");
@@ -51,38 +49,65 @@ class StationController extends Controller
             'statut' => $request->statut,
             'gerant_id' => $gerant->id,
         ]);
-        return redirect()->route('Station.index')->with('success', 'Station et gérant créés avec succès !');    
+        return redirect()->route('station.index')->with('success', 'Station et gérant créés avec succès !');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(Station $station)
     {
-        //
+        return view('Station.edit', compact('station'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Station $station)
     {
-        //
+        $request->validate([
+            'nom_station' => 'required|string',
+            'rccm' => 'nullable|string',
+            'ifu' => 'nullable|string',
+            'adresse' => 'required|string',
+            'contact' => 'nullable|string',
+            'statut' => 'required|in:active,inactive',
+        ]);
+
+        $station->update([
+            'nom' => $request->nom_station,
+            'rccm' => $request->rccm,
+            'ifu' => $request->ifu,
+            'adresse' => $request->adresse,
+            'contact' => $request->contact,
+            'statut' => $request->statut,
+        ]);
+
+        return redirect()->route('station.index')->with('success', 'Station mise à jour avec succès.');
+    }
+    public function destroy($id)
+    {
+        $station = Station::findOrFail($id);
+        $station->archiver = true;
+        $station->save();
+
+        return redirect()->route('station.index')->with('success', 'Station archivée avec succès.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function archiver()
     {
-        //
+        $station = Station::withoutGlobalScope('notArchived')
+            ->where('archiver', true)
+            ->get();
+
+        return view('station.archiver', compact('station'));
+
+    }
+    public function restore($id)
+    {
+        $station = Station::withoutGlobalScope('notArchived')->findOrFail($id);
+        $station->archiver = false;
+        $station->save();
+
+        return redirect()->route('station.index')->with('success', 'Station restaurée avec succès.');
     }
 }

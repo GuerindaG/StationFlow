@@ -2,24 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categorie;
 use Illuminate\Http\Request;
 
 class CategorieController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $categorie = Categorie::with('gerant')->get();
+        return view('categorie.index', compact('categorie'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view("categorie.create");
     }
 
     /**

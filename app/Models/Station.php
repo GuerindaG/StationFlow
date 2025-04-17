@@ -30,6 +30,15 @@ class Station extends Model
         'statut',
         'gerant_id',
     ];
+    protected $casts = [
+        'archiver' => 'boolean',
+    ];
+    protected static function booted()
+{
+    static::addGlobalScope('notArchived', function ($query) {
+        $query->where('archiver', false);
+    });
+}
     // Relation avec les ventes
     public function ventes()
     {

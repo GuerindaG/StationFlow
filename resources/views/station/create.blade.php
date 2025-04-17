@@ -1,5 +1,14 @@
 @extends('Admin.LayoutAdmin')
 @section('content-body')
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
     <div class="container">
         <!-- row -->
@@ -7,7 +16,7 @@
             <div class="col-md-12">
                 <div class="d-md-flex justify-content-between align-items-center">
                     <div>
-                        <h2>Ajouter une nouvelle station</h2>
+                        <h2>Créer la station</h2>
                     </div>
                     <div>
                         <a href="{{route('station.index')}}" class="btn btn-light">Retour</a>
@@ -27,7 +36,7 @@
                                 <!-- input -->
                                 <div class="mb-3 col-lg-6">
                                     <label class="form-label">
-                                        <h4 class=" h5">Nom station</h4>
+                                        <h4 class=" h5">Nom de la station</h4>
                                     </label>
                                     <input type="text" class="form-control" name="nom_station" placeholder="" required />
                                 </div>
@@ -79,15 +88,15 @@
                                         <h4 class="h5">Mot de passe</h4>
                                     </label>
                                     <div class="password-field position-relative">
-                                        <input type="password" class="form-control fakePassword"
-                                            name="password_gerant" required />
+                                        <input type="password" class="form-control fakePassword" name="password_gerant"
+                                            required />
                                         <span><i class="bi bi-eye-slash passwordToggler"></i></span>
                                     </div>
 
                                 </div>
 
                                 <div class="col-lg-12 text-end">
-                                    <a href="#" class="btn btn-primary w-100" type="submit">Créer la station</a>
+                                    <button class="btn btn-primary w-100" type="submit">Créer la station</button>
                                 </div>
                             </div>
                         </div>

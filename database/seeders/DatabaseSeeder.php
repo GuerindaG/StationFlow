@@ -3,18 +3,24 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use App\Models\Role;
-use App\Models\Permission;
+use Illuminate\Support\Facades\Hash;
+
 
 
 class DatabaseSeeder extends Seeder
 {
     public function run()
     {
-        // Appeler les seeders dédiés pour les rôles et les permissions
-        $this->call(RoleSeeder::class);
-        $this->call(PermissionSeeder::class);
+        User::firstOrCreate(
+            ['email' => 'guerindagohoue@gmail.com'],
+            [
+                'name' => 'Administrateur',
+                'password' => Hash::make('Gg242502**'),
+                'role' => 'admin',
+            ]
+        );
     }
 }
