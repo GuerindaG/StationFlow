@@ -9,6 +9,8 @@
     <title>Gestionnaire de station service</title>
     <!-- Favicon icon-->
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('./assets/images/favicon/favicon.ico')}}">
+    <title>Rapport Journalier de Station-Service</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
     @include('Gerant.css')
 
@@ -18,35 +20,18 @@
 
 
 <body>
-    <div class="header">
-        <div class="header-content">
-            <nav class="navbar navbar-glass row">
-                <div class="dashboard_bar col-lg-12 text-end">
-                    <h2>Tableau de bord JNP 050506</h2>
-                </div>
-            </nav>
-        </div>
+    <div class="header" style="width: 100%;">
+        <nav class="navbar navbar-glass" style="width: 100%; background-color: #f8f9fa; padding: 10px;">
+            <div class="container-fluid d-flex justify-content-between align-items-center">
+                <h2 class="m-0">Tableau de bord JNP 050506</h2>
+                <a href="#" class="btn btn-primary">Retour</a>
+            </div>
+        </nav>
     </div>
+    
     <div class="main-wrapper">
-
-        @include('Gerant.navbar')
-
         <main class="main-content-wrapper">
-            <section class="container">
-                <div class="row mb-8">
-                    <div class="col-md-12">
-                        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-4">
-                            <div>
-                                <h2>Valider Rapport</h2>
-                            </div>
-                            <!-- button -->
-                            <div>
-                                <a href="#" class="btn btn-primary">Retour</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- row -->
+            <div class="container" id="rapport">
                 <div class="row">
                     <div class="col-xl-12 col-12 mb-5">
                         <!-- card -->
@@ -81,7 +66,7 @@
                                                 <p class="mb-1 lh-lg">
                                                     Nom Station Service
                                                     <br />
-                                                   addresse
+                                                    addresse
                                                     <br />
                                                     +229 0121056987
                                                 </p>
@@ -122,7 +107,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            <!-- Section Produits Blancs -->
+                            <div class="section">
+                                <div class="section-header" onclick="toggleSection('produitsBlancsBlancs')">
+                                    <h2 class="mb-0">Produits Blancs</h2>
+                                    <i class="fas fa-chevron-down" id="icon-produitsBlancsBlancs"></i>
+                                </div>
                                 <div class="col-12">
                                     <div class="table-responsive">
                                         <!-- Table -->
@@ -270,7 +260,7 @@
                     </div>
                 </div>
 
-            </section>
+            </div>
 
         </main>
     </div>

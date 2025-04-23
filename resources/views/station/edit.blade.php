@@ -78,24 +78,6 @@
                                         <option value="inactive" {{ $station->statut == 'inactive' ? 'selected' : ''}}>Inactive</option>
                                     </select>
                                 </div>
-                                <!--div class="mb-3 col-lg-6">
-                                    <label class="form-label">
-                                        <h4 class="h5">Email</h4>
-                                    </label>
-                                    <input type="email" name="email_gerant" class="form-control" placeholder="" required />
-                                </div>
-                                <div class="mb-3 col-lg-6">
-                                    <label class="form-label">
-                                        <h4 class="h5">Mot de passe</h4>
-                                    </label>
-                                    <div class="password-field position-relative">
-                                        <input type="password" class="form-control fakePassword" name="password_gerant"
-                                            required />
-                                        <span><i class="bi bi-eye-slash passwordToggler"></i></span>
-                                    </div>
-
-                                </div-->
-
                                 <div class="col-lg-12 text-end">
                                     <button class="btn btn-primary w-100" type="submit">Mettre à jour</button>
                                 </div>

@@ -37,8 +37,6 @@
                     <img src="./assets/images/logo/freshcart-logo.svg" alt="" class="d-inline-block align-text-top" />
                 </a>
                 <span class="navbar-text">
-                    Vous n'avez pas encore un compte?
-                    <a href={{route('inscription')}}>S'inscrire</a>
                 </span>
             </div>
         </nav>
@@ -63,7 +61,8 @@
                                 <!-- Email Address -->
                                 <div class="col-12">
                                     <label for="formSignupEmail" class="form-label ">Adresse email</label>
-                                    <input type="email" id="email" class="form-control" name="email" placeholder="Email" required />
+                                    <input type="email" id="email" class="form-control" name="email" placeholder="Email"
+                                        required />
                                     <div class="invalid-feedback">Votre E-mail !</div>
                                 </div>
                                 <!-- Password -->
@@ -82,7 +81,7 @@
                                     <label for="formSignuplname" class="form-label">Rôle</label>
                                     <select class="default-select form-control wide" name="role" id="role" required>
                                         <option value="gerant">Gérant</option>
-                                        <option value="admin" >Admin</option>
+                                        <option value="admin">Admin</option>
                                     </select>
                                     <div class="invalid-feedback">Sélectionner un type de compte!</div>
                                 </div>
@@ -117,9 +116,9 @@
             <div class="row g-4 py-4">
                 <div class="border-top py-4">
                     <div class="row align-items-center">
-                        <div class="col-md-6">
+                        <div class="col-md-6 text-center">
                             <span class="small text-muted">
-                                copyright © 2025
+                                copyright © 2025.Guérinda GOHOUE
                         </div>
                     </div>
                 </div>

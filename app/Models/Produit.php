@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property integer $id
@@ -29,4 +30,7 @@ class Produit extends Model
     {
         return $this->belongsTo(Categorie::class);
     }
+
+    use SoftDeletes;
+
 }

@@ -4,21 +4,29 @@
     <div class="row">
         <div class="col-lg-12 col-md-8 col-12">
             <div class="py-6 p-md-6 p-lg-10">
-                <div class=" row mb-6">
-                    <!-- heading -->
+                <div class="row mb-6">
                     <h2 class="col-lg-10 mb-0">Mettre à jour mon profil</h2>
-                    <button class="col-lg-2 btn btn-danger">
-                        <i class="feather-icon icon-log-out me-2"></i>
-                        Déconnexion
-                    </button>
+                    <div class="col-lg-2 d-flex justify-content-end">
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button class="btn btn-danger">
+                                <i class="feather-icon icon-log-out"></i>
+                                Déconnexion
+                            </button>
+                        </form>
+                    </div>
                 </div>
+
                 <div class="row mb-8 g-5">
                     <div class="col-lg-8 col-12">
                         <div class="card card-lg border-0">
                             <div class="card-body d-flex flex-column gap-8 p-7">
                                 <div class="d-flex flex-column gap-4">
                                     <h4 class="mb-0 h5">Vos Informations</h4>
-                                    <form class="row g-3 needs-validation" novalidate>
+                                    <form class="row g-3 needs-validation" action="{{ route('profile.update') }}"
+                                        method="POST" novalidate>
+                                        @csrf
+                                        @method('PUT')
                                         <div class="col-lg-6 col-12">
                                             <div>
                                                 <!-- input -->
@@ -26,7 +34,7 @@
                                                     Nom
                                                     <span class="text-danger">*</span>
                                                 </label>
-                                                <input type="text" class="form-control" id="customerEditName" name="name"
+                                                <input type="text" class="form-control" id="customerEditName" name="name" value="{{ old('name', $user->name) }}" 
                                                     required />
                                                 <div class="invalid-feedback">svp entrez votre nom</div>
                                             </div>
@@ -38,7 +46,7 @@
                                                     Email
                                                     <span class="text-danger">*</span>
                                                 </label>
-                                                <input type="email" class="form-control" id="customerEditEmail" name="email"
+                                                <input type="email" class="form-control" id="customerEditEmail" name="email"  value="{{ old('email', $user->email) }}"
                                                     required />
                                                 <div class="invalid-feedback">Svp entrer votre email</div>
                                             </div>
@@ -48,22 +56,22 @@
                                                 <!-- input -->
                                                 <label for="customerEditPhone" class="form-label">Téléphone</label>
                                                 <input type="text" class="form-control" id="customerEditPhone"
-                                                    name="telephone" required />
+                                                    name="telephone" value="{{ old('telephone', $user->telephone) }}" required />
                                                 <div class="invalid-feedback">Svp entrer votre numéro</div>
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-6 col-12">
+                                        <!--div class="col-lg-6 col-12">
                                             <label class="form-label" for="customerEditBirthdate">Naissance</label>
                                             <input type="text" class="form-control flatpickr" placeholder="Select Date" />
                                             <div class="invalid-feedback">Svp entrer votre date de naissance</div>
-                                        </div>
+                                        </div -->
+
                                         <div>
                                             <div class="row mt-3">
                                                 <div class="d-flex flex-column flex-md-row gap-2">
-                                                    <button class="btn btn-primary col-lg-6" type="submit">Mettre à
-                                                        jour</button>
-                                                    <button class="btn btn-secondary col-lg-6" type="reset">Annuler</button>
+                                                <button class="btn btn-primary w-100 w-md-50" type="submit">Mettre à jour</button>
+                                                <button class="btn btn-secondary w-100 w-md-50" type="reset">Annuler</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -81,27 +89,27 @@
                                 <div class="d-flex flex-column gap-3">
                                     <div class="d-flex flex-row justify-content-between">
                                         <span class="fw-medium text-dark">Nom</span>
-                                        <span class="fw-medium">2 month ago</span>
+                                        <span class="fw-medium">{{ $user->name }}</span>
                                     </div>
                                     <div class="d-flex flex-row justify-content-between">
                                         <span class="fw-medium text-dark">Email</span>
-                                        <span class="fw-medium">2 month ago</span>
+                                        <span class="fw-medium">{{ $user->email }}</span>
                                     </div>
                                     <div class="d-flex flex-row justify-content-between">
                                         <span class="fw-medium text-dark">Téléphone</span>
-                                        <span class="fw-medium">2 month ago</span>
+                                        <span class="fw-medium">{{ $user->telephone }}</span>
                                     </div>
-                                    <div class="d-flex flex-row justify-content-between">
+                                    <!--div class="d-flex flex-row justify-content-between">
                                         <span class="fw-medium text-dark">Anniversaire</span>
                                         <span class="fw-medium">2 month ago</span>
-                                    </div>
+                                    </div-->
                                     <div class="d-flex flex-row justify-content-between">
                                         <span class="fw-medium text-dark">Date de création </span>
-                                        <span class="fw-medium">8 month ago</span>
+                                        <span class="fw-medium">{{ $user->created_at->diffForHumans() }}</span>
                                     </div>
                                     <div class="d-flex flex-row justify-content-between">
                                         <span class="fw-medium text-dark">Dernière modification</span>
-                                        <span class="fw-medium">2 month ago</span>
+                                        <span class="fw-medium">{{ $user->updated_at->diffForHumans() }}</span>
                                     </div>
                                 </div>
                             </div>

@@ -9,13 +9,10 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('categories', function (Blueprint $table) {
-            $table->id();
-            $table->string('nom')->unique(); 
-            $table->boolean('archiver')->default(false);
-            $table->timestamps();
+        Schema::table('produits', function (Blueprint $table) {
+            $table->softDeletes();
         });
     }
 
@@ -24,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('categories');
+        Schema::table('produits', function (Blueprint $table) {
+            //
+        });
     }
 };

@@ -9,52 +9,69 @@ class CategorieController extends Controller
 {
     public function index()
     {
-        $categorie = Categorie::with('gerant')->get();
-        return view('categorie.index', compact('categorie'));
+        $categories = Categorie::all();
+        return view('categorie.index', compact('categories'));
     }
 
     public function create()
     {
         return view("categorie.create");
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nom' => 'required|string',
+            'description' => 'required|string',
+        ]);
+        Categorie::create([
+            'nom' => $request->nom,
+            'description' => $request->description,
+        ]);
+        return redirect()->route('categorie.index')->with('success', 'categorie et gérant créés avec succès !');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         //
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(Categorie $categorie)
     {
-        //
+        return view('categorie.edit', compact('categorie'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'nom' => 'required|string|max:255',
+            'description' => 'nullable|string',
+        ]);
+    
+        $categorie = Categorie::findOrFail($id);
+    
+        $categorie->update([
+            'nom' => $request->nom,
+            'description' => $request->description,
+        ]);
+    
+        return redirect()->route('categorie.index')->with('success', 'Catégorie modifiée avec succès.');
     }
+    
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function archiver()
     {
-        //
+        $categorie =Categorie::withoutGlobalScope('notArchived')
+            ->where('archiver', true)
+            ->get();
+
+        return view('categorie.archiver', compact('categorie'));
+
+    }
+    public function restore($id)
+    {
+        $categorie =Categorie::withoutGlobalScope('notArchived')->findOrFail($id);
+        $categorie->archiver = false;
+        $categorie->save();
+
+        return redirect()->route('categorie.index')->with('success', 'categorie restaurée avec succès.');
     }
 }

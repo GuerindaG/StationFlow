@@ -66,7 +66,7 @@
                                             <td>{{ $station->rccm }}</td>
                                             <td>{{ $station->ifu }}</td>
                                             <td>{{ $station->adresse }}</td>
-                                            <td>{{ $station->gerant->email }}</td>
+                                            <td>{{ $station->gerant->email ?? 'Email non disponible' }}</td>
                                             <td>{{ $station->contact }}</td>
                                             <td>
                                                 <span

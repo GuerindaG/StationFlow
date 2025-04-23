@@ -12,15 +12,17 @@ use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
-    public function run()
+    public function run() 
     {
         User::firstOrCreate(
             ['email' => 'guerindagohoue@gmail.com'],
             [
                 'name' => 'Administrateur',
+                'telephone'=> '0190388922',
                 'password' => Hash::make('Gg242502**'),
                 'role' => 'admin',
             ]
         );
     }
+    
 }

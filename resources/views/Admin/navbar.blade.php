@@ -34,7 +34,7 @@
                             <a class="nav-link" href="{{ route('station.index') }}">Stations</a>
                         </li>
                         <li class="nav-item w-100 w-lg-auto">
-                            <a class="nav-link" href="{{ route('categorie.index') }}">Catégories</a>
+                            <a class="nav-link" href="{{ route('produit.index') }}">Produits</a>
                         </li>
                         <li class="nav-item w-100 w-lg-auto">
                             <a class="nav-link" href="{{ route('parametre') }}">
