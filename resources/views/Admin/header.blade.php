@@ -3,11 +3,11 @@
         <div class="row w-100 align-items-center gx-lg-2 gx-0">
             <div class="col-xxl-2 col-lg-4 col-md-6 col-5">
                 <a class="navbar-brand d-none d-lg-block" href="{{ route('rapport') }}">
-                    <img src="{{ asset('../assets/images/logo/freshcart-logo.svg')}}" alt="eCommerce HTML Template" />
+                    <img src="{{ asset('../assets/images/logo/stationflow-logo.svg')}}" alt="eCommerce HTML Template" />
                 </a>
                 <div class="d-flex justify-content-between w-100 d-lg-none">
                     <a class="navbar-brand" href="{{ route('rapport') }}">
-                        <img src="{{ asset('../assets/images/logo/freshcart-logo.svg')}}"
+                        <img src="{{ asset('../assets/images/logo/stationflow-logo.svg')}}"
                             alt="eCommerce HTML Template" />
                     </a>
                 </div>

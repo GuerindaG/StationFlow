@@ -12,13 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('ventes', function (Blueprint $table) {
-            $table->id();                             // Identifiant unique de la vente
-            $table->foreignId('station_id')->constrained()->onDelete('cascade');  // Clé étrangère vers la station
-            $table->foreignId('produit_id')->constrained()->onDelete('cascade');  // Clé étrangère vers le produit
-            $table->decimal('quantite', 10, 2);       // Quantité du produit vendu
-            $table->decimal('montant_total', 10, 2);   // Montant total de la vente (quantité * prix)
-            $table->date('date_vente');                // Date de la vente
-            $table->timestamps();                     // created_at, updated_at
+            $table->id();                             
+            $table->foreignId('station_id')->constrained()->onDelete('cascade');  
+            $table->foreignId('produit_id')->constrained()->onDelete('cascade');  
+            $table->decimal('quantite', 10, 2);       
+            $table->decimal('montant_total', 10, 2);   
+            $table->date('date_vente');                
+            $table->timestamps();                     
+            $table->softDeletes();
         });
     }
 

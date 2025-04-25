@@ -48,3 +48,29 @@
 <script src="{{ asset('./assets/libs/apexcharts/dist/apexcharts.min.js')}}"></script>
 <script src="{{ asset('./assets/js/vendors/chart.js')}}"></script>
 
+<script>
+    // Afficher la date et l'heure actuelles dans le pied de page
+    document.getElementById('generated-date').innerText = new Date().toLocaleString();
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $('#categorie_id').on('change', function () {
+        var categorieId = $(this).val();
+        if (categorieId) {
+            $.ajax({
+                url: '/get-produits/' + categorieId,
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#produit_id').empty(); // Vide la liste actuelle
+                    $('#produit_id').append('<option value="">Sélectionnez un produit</option>');
+                    $.each(data, function (key, produit) {
+                        $('#produit_id').append('<option value="' + produit.id + '">' + produit.nom + '</option>');
+                    });
+                }
+            });
+        } else {
+            $('#produit_id').empty().append('<option value="">Sélectionnez une catégorie d\'abord</option>');
+        }
+    });
+</script>

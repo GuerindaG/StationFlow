@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categorie;
+use App\Models\Paiement;
+use App\Models\Produit;
 use App\Models\Vente;
 use Illuminate\Http\Request;
 
@@ -12,8 +15,11 @@ class VenteController extends Controller
      */
     public function index()
     {
-        $donnee = Vente::all();
-        return view("vente.index", compact('donnee'));
+        $paiement = Paiement::all();
+        $produits = Produit::all();
+        $categories = Categorie::all();
+        $ventes = Vente::all();
+        return view("vente.index", compact('produits', 'categories', 'paiement', 'ventes'));
     }
 
     /**
@@ -21,7 +27,7 @@ class VenteController extends Controller
      */
     public function create()
     {
-        //
+        return view("vente.create");
     }
 
     /**
@@ -29,7 +35,20 @@ class VenteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'produit_id' => 'required|exists:produits,id',
+            'paiement_id' => 'required|exists:paiements,id',
+            'quantite' => 'required|numeric|min:0',
+        ]);
+
+        // Création 
+        Vente::create([
+            'produit_id' => $request->produit_id,
+            'paiement_id' => $request->paiement_id,
+            'quantite' => $request->quantite,
+        ]);
+
+        return redirect()->route('vente.index')->with('success', 'Vente ajouté avec succès');
     }
 
     /**

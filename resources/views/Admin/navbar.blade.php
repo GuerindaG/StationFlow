@@ -23,8 +23,8 @@
                         <li><a class="dropdown-item" href="../pages/shop-grid.html">Snacks & Munchies</a></li>
                     </ul>
                 </div>
-                <div class="col-lg-4"></div>
-                <div class="col-lg-5 text-end">
+                <div class="col-lg-3"></div>
+                <div class="col-lg-6 text-end">
                     <ul class="navbar-nav align-items-center">
                         <li class="nav-item w-100 w-lg-auto">
                             <a class="nav-link " href="{{ route('rapport') }}">Rapports</a>
@@ -32,6 +32,9 @@
 
                         <li class="nav-item w-100 w-lg-auto">
                             <a class="nav-link" href="{{ route('station.index') }}">Stations</a>
+                        </li>
+                        <li class="nav-item w-100 w-lg-auto">
+                            <a class="nav-link" href="{{ route('categorie.index') }}">Catégories</a>
                         </li>
                         <li class="nav-item w-100 w-lg-auto">
                             <a class="nav-link" href="{{ route('produit.index') }}">Produits</a>

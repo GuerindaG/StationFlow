@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <!-- Required meta tags -->
@@ -48,7 +48,7 @@
         <nav class="navbar navbar-light py-2">
             <div class="container justify-content-center justify-content-lg-between">
                 <a class="navbar-brand" href="../index.html">
-                    <img src="../assets/images/logo/freshcart-logo.svg" alt="" class="d-inline-block align-text-top">
+                    <img src="../assets/images/logo/stationflow-logo.svg" alt="" class="d-inline-block align-text-top">
                 </a>
                 <span class="navbar-text">
                     Vous avez déjà un compte? <a href={{ route('connexion') }}>Se connecter</a>

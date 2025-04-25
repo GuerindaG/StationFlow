@@ -117,7 +117,7 @@
                                     <tbody>
                                         <tr>
                                             <td>01</td>
-                                            <td>Product Name</td>
+                                            <td>COMPARER A rapport</td>
                                             <td>NanNan</td>
                                             <td>NanNanXOF</td>
                                             <td>NanNanXOF</td>
@@ -133,104 +133,7 @@
             </div>
         </div>
     </div>
-
-    <div class="modal fade" id="product" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Enregistrer une vente</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="row mb-2">
-                            <div class="col-sm-6">
-                                <label for="recipient-name" class="col-form-label">Catégorie</label>
-                                <select class="default-select form-control wide">
-                                    <option>Produits blancs</option>
-                                    <option>Gaz et accessoires</option>
-                                    <option>Lubrifiants</option>
-                                </select>
-                            </div>
-                            <div class="col-sm-6">
-                                <label for="recipient-name" class="col-form-label">Nom du produit</label>
-                                <select class="default-select form-control wide">
-                                    <option>Option 1</option>
-                                    <option>Option 2</option>
-                                    <option>Option 3</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-sm-12">
-                                <label for="recipient-name" class="col-form-label">Montant</label>
-                                <input type="number" placeholder="" class="form-control pop">
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                    <button type="button" class="btn btn-primary">Enregistrer</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="orders" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-3" id="exampleModalLabel">Historique de vente</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="table-responsive">
-                        <table class="table table-responsive-md table-centered table-borderless text-nowrap table-hover">
-                            <thead class="table-light">
-                                <tr class="text-center">
-                                    <th scope="col">N°</th>
-                                    <th scope="col">Désignation</th>
-                                    <th scope="col">Quantité</th>
-                                    <th scope="col">Prix Unitaire</th>
-                                    <th scope="col">Prix Total</th>
-                                    <th scope="col">Date de vente</th>
-                                    <th scope="col">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="text-center">
-                                    <td>01</td>
-                                    <td>
-                                        Product Name
-                                    </td>
-                                    <td>
-                                        NanNan
-                                    </td>
-                                    <td>
-                                        NanNan
-                                    </td>
-                                    <td>
-                                        NanNan
-                                    </td>
-                                    <td>00/00/20##</td>
-                                    <td>
-                                        <div class="d-flex text-end">
-                                            <a href="#" data-bs-toggle="modal" data-bs-target="#product"
-                                                class="btn btn-primary shadow btn-xs sharp me-1"><i
-                                                    class="bi bi-pencil-square me-3"></i></a>
-                                            <a href="#" class="btn btn-danger shadow btn-xs sharp"><i
-                                                    class="bi bi-trash me-3"></i></a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    @include('vente.create')
 
     <div class="modal fade" id="bilan" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">

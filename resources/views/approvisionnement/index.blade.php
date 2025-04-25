@@ -1,6 +1,8 @@
 @extends('Gerant.LayoutGerant')
 @section('content-body')
-
+    <?php
+    use App\Models\Approvisionnement;
+                        ?>
 
     <div class="card h-100 card-lg mb-5">
         <div class="card-body">
@@ -10,7 +12,7 @@
                 </form>
                 <div class="col-lg-3 ">
                     <button class="btn btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#stock">Nouvelle
-                        Livraison</button>
+                        Livraison</button>@include('approvisionnement.create')
                 </div>
             </div>
         </div>
@@ -21,7 +23,7 @@
             <div class="card h-100 card-lg mb-5">
                 <div class="card-header d-block d-sm-flex border-0">
                     <div class="col-lg-9 p-6">
-                        <h3 class="mb-0 fs-5">Gestion du stock</h3>
+                        <h3 class="mb-0 fs-5">Liste des approvisionnements</h3>
                     </div>
                     <div class="col-lg-3 text-end">
                         <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
@@ -51,29 +53,47 @@
                                     <thead class="bg-light text-center">
                                         <tr>
                                             <th style="width:80px;"><strong>#</strong></th>
-                                            <th><strong>Désignation</strong></th>
+                                            <th><strong>Produits</strong></th>
                                             <th><strong>Quantité</strong></th>
+                                            <th><strong>Montant</strong></th>
                                             <th><strong>Date de réception</strong></th>
                                             <th scope="col"><strong>Actions</strong></th>
                                         </tr>
                                     </thead>
                                     <tbody class="text-center">
-                                        <tr>
-                                            <td>1</td>
-                                            <td>product name</td>
-                                            <td>NanNan XOF</td>
-                                            <td><span class="badge bg-warningbadge border-warning border-1 text-warning"
-                                                    data-bs-toggle="modal" data-bs-target="#reception">00/00/20##</span></td>
-                                            <td>
-                                                <div>
-                                                    <a href="#" data-bs-toggle="modal" data-bs-target="#stock"
-                                                        class="btn btn-primary shadow btn-xs sharp me-1"><i
-                                                            class="bi bi-pencil-square me-3"></i></a>
-                                                    <a href="#" class="btn btn-danger shadow btn-xs sharp"><i
-                                                            class="bi bi-trash me-3"></i></a>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                        @forelse ($derniers_approvisionnements as $approvisionnement)
+                                            <tr>
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $approvisionnement->produit->nom }}</td>
+                                                <td>{{ $approvisionnement->qte_appro }}</td>
+                                                <td>{{ number_format($approvisionnement->montant_total, 2) }} FCFA</td>
+                                                <td><span class="badge bg-warningbadge border-warning border-1 text-warning"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#historiqueProduit{{ $approvisionnement->produit->id }}">{{ $approvisionnement->date_approvisionnement }}</span>
+                                                </td>
+                                                <td>
+                                                    <div>
+                                                        <a href="#" data-bs-toggle="modal"
+                                                            data-bs-target="#editModal{{ $approvisionnement->id }}"
+                                                            class="btn btn-primary shadow btn-xs sharp me-1"><i
+                                                                class="bi bi-pencil-square me-3"></i></a>
+                                                        <form
+                                                            action="{{ route('approvisionnement.destroy', $approvisionnement->id) }}"
+                                                            method="POST" class="d-inline"
+                                                            onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ?')">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-danger shadow btn-xs sharp"><i
+                                                                    class="bi bi-trash me-3"></i></button>
+                                                        </form>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="6">Aucun approvisionnement trouvé.</td>
+                                            </tr>
+                                        @endforelse
                                     </tbody>
                                 </table>
                             </div>
@@ -100,14 +120,14 @@
                                             <td><span class="badge bg-warningbadge border-warning border-1 text-warning"
                                                     data-bs-toggle="modal" data-bs-target="#entree">00/00/20##</span></td>
                                             <!--td>
-                                                                                <div>
-                                                                                    <a href="#" data-bs-toggle="modal" data-bs-target="#stock"
-                                                                                        class="btn btn-primary shadow btn-xs sharp me-1"><i
-                                                                                            class="bi bi-pencil-square me-3"></i></a>
-                                                                                    <a href="#" class="btn btn-danger shadow btn-xs sharp"><i
-                                                                                            class="bi bi-trash me-3"></i></a>
-                                                                                </div>
-                                                                            </td-->
+                                                                                                                                                                <div>
+                                                                                                                                                                    <a href="#" data-bs-toggle="modal" data-bs-target="#stock"
+                                                                                                                                                                        class="btn btn-primary shadow btn-xs sharp me-1"><i
+                                                                                                                                                                            class="bi bi-pencil-square me-3"></i></a>
+                                                                                                                                                                    <a href="#" class="btn btn-danger shadow btn-xs sharp"><i
+                                                                                                                                                                            class="bi bi-trash me-3"></i></a>
+                                                                                                                                                                </div>
+                                                                                                                                                            </td-->
                                         </tr>
                                     </tbody>
                                 </table>
@@ -135,132 +155,19 @@
                                             <td><span class="badge bg-warningbadge border-warning border-1 text-warning"
                                                     data-bs-toggle="modal" data-bs-target="#sortie">00/00/20##</span></td>
                                             <!--td>
-                                                                                <div>
-                                                                                    <a href="#" data-bs-toggle="modal" data-bs-target="#stock"
-                                                                                        class="btn btn-primary shadow btn-xs sharp me-1"><i
-                                                                                            class="bi bi-pencil-square me-3"></i></a>
-                                                                                    <a href="#" class="btn btn-danger shadow btn-xs sharp"><i
-                                                                                            class="bi bi-trash me-3"></i></a>
-                                                                                </div>
-                                                                            </td-->
+                                                                                                                                                                <div>
+                                                                                                                                                                    <a href="#" data-bs-toggle="modal" data-bs-target="#stock"
+                                                                                                                                                                        class="btn btn-primary shadow btn-xs sharp me-1"><i
+                                                                                                                                                                            class="bi bi-pencil-square me-3"></i></a>
+                                                                                                                                                                    <a href="#" class="btn btn-danger shadow btn-xs sharp"><i
+                                                                                                                                                                            class="bi bi-trash me-3"></i></a>
+                                                                                                                                                                </div>
+                                                                                                                                                            </td-->
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="stock" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Enregistrer une llivraison</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <ul class="nav nav-tabs" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" data-bs-toggle="tab" href="#home"><i class="la la-home me-2"></i>
-                                    Réception</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-bs-toggle="tab" href="#profile"><i class="la la-user me-2"></i>
-                                    Sorties</a>
-                            </li>
-                        </ul>
-                        <div class="tab-content">
-                            <div class="tab-pane fade show active" id="home" role="tabpanel">
-                                <div class="row mb-2">
-                                    <div class="col-sm-12">
-                                        <label for="recipient-name" class="col-form-label">Designation</label>
-                                        <select class="default-select form-control wide">
-                                            <option>Gasoil</option>
-                                            <option>Essence</option>
-                                            <option>Lubrifiants</option>
-                                            <option>Gaz</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <label for="recipient-name" class="col-form-label">Quantités</label>
-                                        <input type="number" placeholder="" class="form-control pop">
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <label for="recipient-name" class="col-form-label">Date de réception</label>
-                                        <input type="date" placeholder="" class="form-control pop">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="profile">
-                                <div class="row mb-2">
-                                    <div class="col-sm-8">
-                                        <label for="recipient-name" class="col-form-label">Designation</label>
-                                        <select class="default-select form-control wide">
-                                            <option>Gasoil</option>
-                                            <option>Essence</option>
-                                            <option>Lubrifiants</option>
-                                            <option>Gaz</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <label for="recipient-name" class="col-form-label">Quantités</label>
-                                        <input type="number" placeholder="" class="form-control pop">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                    <button type="button" class="btn btn-primary">Enregistrer</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="reception" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-3" id="exampleModalLabel">Historique des livraisons</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="table-responsive">
-                        <table class="table table-responsive-md table-centered table-borderless text-nowrap table-hover">
-                            <thead class="table-light">
-                                <tr class="text-center">
-                                    <th style="width:80px;"><strong>#</strong></th>
-                                    <th><strong>Désignation</strong></th>
-                                    <th><strong>Quantité</strong></th>
-                                    <th><strong>Date de réception</strong></th>
-                                    <th scope="col"><strong>Actions</strong></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="text-center">
-                                    <td>1</td>
-                                    <td>product name</td>
-                                    <td>NanNan XOF</td>
-                                    <td><span class="badge bg-warningbadge border-warning border-1 text-warning"
-                                            data-bs-toggle="modal" data-bs-target="#bilan">00/00/20##</span></td>
-                                    <td>
-                                        <div>
-                                            <a href="#" data-bs-toggle="modal" data-bs-target="#stock"
-                                                class="btn btn-primary shadow btn-xs sharp me-1"><i
-                                                    class="bi bi-pencil-square me-3"></i></a>
-                                            <a href="#" class="btn btn-danger shadow btn-xs sharp"><i
-                                                    class="bi bi-trash me-3"></i></a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
                     </div>
                 </div>
             </div>
@@ -294,14 +201,14 @@
                                     <td><span class="badge bg-warningbadge border-warning border-1 text-warning"
                                             data-bs-toggle="modal" data-bs-target="#bilan">00/00/20##</span></td>
                                     <!--td>
-                                        <div>
-                                            <a href="#" data-bs-toggle="modal" data-bs-target="#stock"
-                                                class="btn btn-primary shadow btn-xs sharp me-1"><i
-                                                    class="bi bi-pencil-square me-3"></i></a>
-                                            <a href="#" class="btn btn-danger shadow btn-xs sharp"><i
-                                                    class="bi bi-trash me-3"></i></a>
-                                        </div>
-                                    </td-->
+                                                                                                                        <div>
+                                                                                                                            <a href="#" data-bs-toggle="modal" data-bs-target="#stock"
+                                                                                                                                class="btn btn-primary shadow btn-xs sharp me-1"><i
+                                                                                                                                    class="bi bi-pencil-square me-3"></i></a>
+                                                                                                                            <a href="#" class="btn btn-danger shadow btn-xs sharp"><i
+                                                                                                                                    class="bi bi-trash me-3"></i></a>
+                                                                                                                        </div>
+                                                                                                                    </td-->
                                 </tr>
                             </tbody>
                         </table>
@@ -338,14 +245,14 @@
                                     <td><span class="badge bg-warningbadge border-warning border-1 text-warning"
                                             data-bs-toggle="modal" data-bs-target="#bilan">00/00/20##</span></td>
                                     <!--td>
-                                        <div>
-                                            <a href="#" data-bs-toggle="modal" data-bs-target="#stock"
-                                                class="btn btn-primary shadow btn-xs sharp me-1"><i
-                                                    class="bi bi-pencil-square me-3"></i></a>
-                                            <a href="#" class="btn btn-danger shadow btn-xs sharp"><i
-                                                    class="bi bi-trash me-3"></i></a>
-                                        </div>
-                                    </td-->
+                                                                                                                        <div>
+                                                                                                                            <a href="#" data-bs-toggle="modal" data-bs-target="#stock"
+                                                                                                                                class="btn btn-primary shadow btn-xs sharp me-1"><i
+                                                                                                                                    class="bi bi-pencil-square me-3"></i></a>
+                                                                                                                            <a href="#" class="btn btn-danger shadow btn-xs sharp"><i
+                                                                                                                                    class="bi bi-trash me-3"></i></a>
+                                                                                                                        </div>
+                                                                                                                    </td-->
                                 </tr>
                             </tbody>
                         </table>
@@ -354,7 +261,4 @@
             </div>
         </div>
     </div>
-
-
-
 @endsection

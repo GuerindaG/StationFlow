@@ -26,7 +26,6 @@
                                     <form class="row g-3 needs-validation" action="{{ route('profile.update') }}"
                                         method="POST" novalidate>
                                         @csrf
-                                        @method('PUT')
                                         <div class="col-lg-6 col-12">
                                             <div>
                                                 <!-- input -->
@@ -34,7 +33,7 @@
                                                     Nom
                                                     <span class="text-danger">*</span>
                                                 </label>
-                                                <input type="text" class="form-control" id="customerEditName" name="name" value="{{ old('name', $user->name) }}" 
+                                                <input type="text" class="form-control" id="customerEditName" name="name" value="" 
                                                     required />
                                                 <div class="invalid-feedback">svp entrez votre nom</div>
                                             </div>
@@ -46,7 +45,7 @@
                                                     Email
                                                     <span class="text-danger">*</span>
                                                 </label>
-                                                <input type="email" class="form-control" id="customerEditEmail" name="email"  value="{{ old('email', $user->email) }}"
+                                                <input type="email" class="form-control" id="customerEditEmail" name="email"
                                                     required />
                                                 <div class="invalid-feedback">Svp entrer votre email</div>
                                             </div>
@@ -56,22 +55,22 @@
                                                 <!-- input -->
                                                 <label for="customerEditPhone" class="form-label">Téléphone</label>
                                                 <input type="text" class="form-control" id="customerEditPhone"
-                                                    name="telephone" value="{{ old('telephone', $user->telephone) }}" required />
+                                                    name="telephone" required />
                                                 <div class="invalid-feedback">Svp entrer votre numéro</div>
                                             </div>
                                         </div>
 
-                                        <!--div class="col-lg-6 col-12">
+                                        <div class="col-lg-6 col-12">
                                             <label class="form-label" for="customerEditBirthdate">Naissance</label>
                                             <input type="text" class="form-control flatpickr" placeholder="Select Date" />
                                             <div class="invalid-feedback">Svp entrer votre date de naissance</div>
-                                        </div -->
-
+                                        </div>
                                         <div>
                                             <div class="row mt-3">
                                                 <div class="d-flex flex-column flex-md-row gap-2">
-                                                <button class="btn btn-primary w-100 w-md-50" type="submit">Mettre à jour</button>
-                                                <button class="btn btn-secondary w-100 w-md-50" type="reset">Annuler</button>
+                                                    <button class="btn btn-primary col-lg-6" type="submit">Mettre à
+                                                        jour</button>
+                                                    <button class="btn btn-secondary col-lg-6" type="reset">Annuler</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -89,27 +88,27 @@
                                 <div class="d-flex flex-column gap-3">
                                     <div class="d-flex flex-row justify-content-between">
                                         <span class="fw-medium text-dark">Nom</span>
-                                        <span class="fw-medium">{{ $user->name }}</span>
+                                        <span class="fw-medium">2 month ago</span>
                                     </div>
                                     <div class="d-flex flex-row justify-content-between">
                                         <span class="fw-medium text-dark">Email</span>
-                                        <span class="fw-medium">{{ $user->email }}</span>
+                                        <span class="fw-medium">2 month ago</span>
                                     </div>
                                     <div class="d-flex flex-row justify-content-between">
                                         <span class="fw-medium text-dark">Téléphone</span>
-                                        <span class="fw-medium">{{ $user->telephone }}</span>
+                                        <span class="fw-medium">2 month ago</span>
                                     </div>
-                                    <!--div class="d-flex flex-row justify-content-between">
+                                    <div class="d-flex flex-row justify-content-between">
                                         <span class="fw-medium text-dark">Anniversaire</span>
                                         <span class="fw-medium">2 month ago</span>
-                                    </div-->
+                                    </div>
                                     <div class="d-flex flex-row justify-content-between">
                                         <span class="fw-medium text-dark">Date de création </span>
-                                        <span class="fw-medium">{{ $user->created_at->diffForHumans() }}</span>
+                                        <span class="fw-medium">8 month ago</span>
                                     </div>
                                     <div class="d-flex flex-row justify-content-between">
                                         <span class="fw-medium text-dark">Dernière modification</span>
-                                        <span class="fw-medium">{{ $user->updated_at->diffForHumans() }}</span>
+                                        <span class="fw-medium">2 month ago</span>
                                     </div>
                                 </div>
                             </div>

@@ -19,7 +19,7 @@ class Vente extends Model
     /**
      * @var array
      */
-    protected $fillable = ['station_id', 'produit_id', 'quantite', 'montant_total', 'date_vente', 'created_at', 'updated_at'];
+    protected $fillable = ['produit_id','categorie_id', 'quantite','created_at', 'updated_at'];
      // Relation avec la station
      public function station()
      {

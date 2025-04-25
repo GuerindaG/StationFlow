@@ -1,16 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta content="Codescandy" name="author">
-    <title>Gestionnaire de station service</title>
+    <title>StationFlow - Gestion</title>
     <!-- Favicon icon-->
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('./assets/images/favicon/favicon.ico')}}">
-    <title>Rapport Journalier de Station-Service</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('./assets/images/favicon/stationflow-favicon.svg')}}">
 
     @include('Gerant.css')
 
@@ -20,239 +18,398 @@
 
 
 <body>
-    <div class="header" style="width: 100%;">
-        <nav class="navbar navbar-glass" style="width: 100%; background-color: #f8f9fa; padding: 10px;">
-            <div class="container-fluid d-flex justify-content-between align-items-center">
-                <h2 class="m-0">Tableau de bord JNP 050506</h2>
-                <a href="#" class="btn btn-primary">Retour</a>
-            </div>
-        </nav>
+    <div class="header">
+        <div class="header-content">
+            <nav class="navbar navbar-glass row">
+                <div class="dashboard_bar col-lg-12 text-end">
+                    <h2>Tableau de bord JNP 050506</h2>
+                </div>
+            </nav>
+        </div>
     </div>
-    
     <div class="main-wrapper">
+
+        @include('Gerant.navbar')
+
         <main class="main-content-wrapper">
-            <div class="container" id="rapport">
+            <section class="container">
+
                 <div class="row">
                     <div class="col-xl-12 col-12 mb-5">
-                        <!-- card -->
                         <div class="card h-100 card-lg">
                             <div class="card-body p-6">
-                                <div class="d-md-flex justify-content-between">
-                                    <div class="d-flex align-items-center mb-2 mb-md-0">
-                                        <h2 class="mb-0">Rapport: #FC001</h2>
-                                    </div>
-                                    <!-- select option -->
-                                    <div class="d-md-flex">
-                                        <div class="mb-2 mb-md-0">
-                                            <select class="form-select">
-                                                <option selected>Status</option>
-                                                <option value="Success">Success</option>
-                                                <option value="Pending">Pending</option>
-                                                <option value="Cancel">Cancel</option>
-                                            </select>
-                                        </div>
-                                        <!-- button -->
-                                        <div class="ms-md-3">
-                                            <a href="#" class="btn btn-secondary">Download Invoice</a>
+                                <div class="d-md-flex justify-content-between align-items-center mb-4">
+                                    <div class="d-flex align-items-center">
+                                        <div>
+                                            <h2 class="mb-0">Rapport du : Date</h2>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="mt-8">
-                                    <div class="row">
-                                        <!-- address -->
-                                        <div class="col-lg-4 col-md-4 col-12">
-                                            <div class="mb-6">
-                                                <h6>Détails de la station</h6>
-                                                <p class="mb-1 lh-lg">
-                                                    Nom Station Service
-                                                    <br />
-                                                    addresse
-                                                    <br />
-                                                    +229 0121056987
-                                                </p>
-                                                <a href="#">View Profile</a>
-                                            </div>
-                                        </div>
-                                        <!-- address -->
-                                        <div class="col-lg-4 col-md-4 col-12">
-                                            <div class="mb-6">
-                                                <h6>Shipping Address</h6>
-                                                <p class="mb-1 lh-lg">
-                                                    Gerg Harvell
-                                                    <br />
-                                                    568, Suite Ave.
-                                                    <br />
-                                                    Austrlia, 235153
-                                                    <br />
-                                                    Contact No. +91 99999 12345
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <!-- address -->
-                                        <div class="col-lg-4 col-md-4 col-12">
-                                            <div class="mb-6">
-                                                <h6>Order Details</h6>
-                                                <p class="mb-1 lh-lg">
-                                                    Order ID:
-                                                    <span class="text-dark">FC001</span>
-                                                    <br />
-                                                    Order Date:
-                                                    <span class="text-dark">October 22, 2023</span>
-                                                    <br />
-                                                    Order Total:
-                                                    <span class="text-dark">$734.28</span>
-                                                </p>
-                                            </div>
-                                        </div>
+                                    <div class="d-flex align-items-center mt-3 mt-md-0">
+                                        <button class="btn btn-primary" onclick="genererPDF()">
+                                            <i class="fas fa-download me-1"></i> Télécharger
+                                        </button>
                                     </div>
                                 </div>
                             </div>
-                            <!-- Section Produits Blancs -->
                             <div class="section">
-                                <div class="section-header" onclick="toggleSection('produitsBlancsBlancs')">
-                                    <h2 class="mb-0">Produits Blancs</h2>
-                                    <i class="fas fa-chevron-down" id="icon-produitsBlancsBlancs"></i>
-                                </div>
                                 <div class="col-12">
-                                    <div class="table-responsive">
-                                        <!-- Table -->
-                                        <table class="table mb-0 text-nowrap table-centered">
-                                            <!-- Table Head -->
-                                            <thead class="bg-light">
-                                                <tr>
-                                                    <th>Products</th>
-                                                    <th>Price</th>
-                                                    <th>Quantity</th>
-                                                    <th>Total</th>
-                                                </tr>
-                                            </thead>
-                                            <!-- tbody -->
-                                            <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <a href="#" class="text-inherit">
-                                                            <div class="d-flex align-items-center">
-                                                                <div>
-                                                                    <img src="../assets/images/products/product-img-1.jpg"
-                                                                        alt="" class="icon-shape icon-lg" />
-                                                                </div>
-                                                                <div class="ms-lg-4 mt-2 mt-lg-0">
-                                                                    <h5 class="mb-0 h6">Haldiram's Sev Bhujia</h5>
-                                                                </div>
-                                                            </div>
-                                                        </a>
-                                                    </td>
-                                                    <td><span class="text-body">$18.0</span></td>
-                                                    <td>1</td>
-                                                    <td>$18.00</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <a href="#" class="text-inherit">
-                                                            <div class="d-flex align-items-center">
-                                                                <div>
-                                                                    <img src="../assets/images/products/product-img-2.jpg"
-                                                                        alt="" class="icon-shape icon-lg" />
-                                                                </div>
-                                                                <div class="ms-lg-4 mt-2 mt-lg-0">
-                                                                    <h5 class="mb-0 h6">NutriChoice Digestive</h5>
-                                                                </div>
-                                                            </div>
-                                                        </a>
-                                                    </td>
-                                                    <td><span class="text-body">$24.0</span></td>
-                                                    <td>1</td>
-                                                    <td>$24.00</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <a href="#" class="text-inherit">
-                                                            <div class="d-flex align-items-center">
-                                                                <div>
-                                                                    <img src="../assets/images/products/product-img-3.jpg"
-                                                                        alt="" class="icon-shape icon-lg" />
-                                                                </div>
-                                                                <div class="ms-lg-4 mt-2 mt-lg-0">
-                                                                    <h5 class="mb-0 h6">Cadbury 5 Star Chocolate</h5>
-                                                                </div>
-                                                            </div>
-                                                        </a>
-                                                    </td>
-                                                    <td><span class="text-body">$32.0</span></td>
-                                                    <td>1</td>
-                                                    <td>$32.0</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <a href="#" class="text-inherit">
-                                                            <div class="d-flex align-items-center">
-                                                                <div>
-                                                                    <img src="../assets/images/products/product-img-4.jpg"
-                                                                        alt="" class="icon-shape icon-lg" />
-                                                                </div>
-                                                                <div class="ms-lg-4 mt-2 mt-lg-0">
-                                                                    <h5 class="mb-0 h6">Onion Flavour Potato</h5>
-                                                                </div>
-                                                            </div>
-                                                        </a>
-                                                    </td>
-                                                    <td><span class="text-body">$3.0</span></td>
-                                                    <td>2</td>
-                                                    <td>$6.0</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="border-bottom-0 pb-0"></td>
-                                                    <td class="border-bottom-0 pb-0"></td>
-                                                    <td colspan="1" class="fw-medium text-dark">
-                                                        <!-- text -->
-                                                        Sub Total :
-                                                    </td>
-                                                    <td class="fw-medium text-dark">
-                                                        <!-- text -->
-                                                        $80.00
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="border-bottom-0 pb-0"></td>
-                                                    <td class="border-bottom-0 pb-0"></td>
-                                                    <td colspan="1" class="fw-medium text-dark">
-                                                        <!-- text -->
-                                                        Shipping Cost
-                                                    </td>
-                                                    <td class="fw-medium text-dark">
-                                                        <!-- text -->
-                                                        $10.00
-                                                    </td>
-                                                </tr>
+                                    <div class="accordion" id="faqAccordion">
+                                        <!-- Produits Blancs -->
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="headingOne">
+                                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                                    data-bs-target="#collapseOne" aria-expanded="true"
+                                                    aria-controls="collapseOne">
+                                                    <i class="fas fa-gas-pump me-2"></i> Produits Blancs
+                                                </button>
+                                            </h2>
+                                            <div id="collapseOne" class="accordion-collapse collapse show"
+                                                aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                                                <div class="accordion-body">
+                                                    <h6>Stock et Mouvements</h6>
+                                                    <div class="table-responsive">
+                                                        <table class="table mb-0 text-nowrap table-centered">
+                                                            <thead class="bg-light">
+                                                                <tr>
+                                                                    <th>Produit</th>
+                                                                    <th class="text-right">Stock Initial</th>
+                                                                    <th class="text-right">Réceptions</th>
+                                                                    <th class="text-right">Sorties</th>
+                                                                    <th class="text-right">Stock Final</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>Gasoil</td>
+                                                                    <td class="text-right"> L</td>
+                                                                    <td class="text-right"> L</td>
+                                                                    <td class="text-right"> L</td>
+                                                                    <td class="text-right"> L</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Essence</td>
+                                                                    <td class="text-right"> L</td>
+                                                                    <td class="text-right"> L</td>
+                                                                    <td class="text-right"> L</td>
+                                                                    <td class="text-right"> L</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <h6>Détail des Réceptions</h6>
+                                                    <ul class="reception-list">
+                                                        <li>31/01/2025: Gasoil 2000 L, Essence 1000 L</li>
+                                                    </ul>
+                                                    <h6>Ventes (FCFA)</h6>
+                                                    <div class="table-responsive">
+                                                        <table class="table mb-0 text-nowrap table-centered">
+                                                            <thead class="bg-light">
+                                                                <tr>
+                                                                    <th>Mode de paiement</th>
+                                                                    <th class="text-right">Gasoil</th>
+                                                                    <th class="text-right">Essence</th>
+                                                                    <th class="text-right">Total</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>Tickets Valeurs</td>
+                                                                    <td class="text-right"></td>
+                                                                    <td class="text-right"></td>
+                                                                    <td class="text-right"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>JNP Pass</td>
+                                                                    <td class="text-right"></td>
+                                                                    <td class="text-right"></td>
+                                                                    <td class="text-right"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Comptant</td>
+                                                                    <td class="text-right"></td>
+                                                                    <td class="text-right"></td>
+                                                                    <td class="text-right"></td>
+                                                                </tr>
+                                                                <tr class="total-row">
+                                                                    <td>TOTAL</td>
+                                                                    <td class="text-right"></td>
+                                                                    <td class="text-right"></td>
+                                                                    <td class="text-right"></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Lubrifiants -->
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="headingTwo">
+                                                <button class="accordion-button collapsed" type="button"
+                                                    data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+                                                    aria-expanded="false" aria-controls="collapseTwo">
+                                                    <i class="fas fa-oil-can me-2"></i>Lubrifiants
+                                                </button>
+                                            </h2>
+                                            <div id="collapseTwo" class="accordion-collapse collapse"
+                                                aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+                                                <div class="accordion-body">
+                                                    <h6>Stock Initial (31/01/2025)</h6>
+                                                    <div class="table-responsive">
+                                                        <table class="table mb-0 text-nowrap table-centered">
+                                                            <thead class="bg-light">
+                                                                <tr>
+                                                                    <th>Produit</th>
+                                                                    <th class="text-right">Quantité Initiale</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>Lubrifiant 1</td>
+                                                                    <td class="text-right">38</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Lubrifiant 2</td>
+                                                                    <td class="text-right">30</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <h6>Réceptions (31/01/2025)</h6>
+                                                    <p>Aucune réception de lubrifiants</p>
+                                                    <h6>Sorties (31/01/2025)</h6>
+                                                    <div class="table-responsive">
+                                                        <table class="table mb-0 text-nowrap table-centered">
+                                                            <thead class="bg-light">
+                                                                <tr>
+                                                                    <th>Produit</th>
+                                                                    <th class="text-right">Quantité Vendue</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>VUL 660X 15w40</td>
+                                                                    <td class="text-right">1</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <h6>Stock Final (01/02/2025)</h6>
+                                                    <div class="table-responsive">
+                                                        <table class="table mb-0 text-nowrap table-centered">
+                                                            <thead class="bg-light">
+                                                                <tr>
+                                                                    <th>Produit</th>
+                                                                    <th class="text-right">Quantité Finale</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>Lubrifiant 1</td>
+                                                                    <td class="text-right">37</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Lubrifiant 2</td>
+                                                                    <td class="text-right">30</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <h6>Ventes (FCFA)</h6>
+                                                    <div class="table-responsive">
+                                                        <table class="table mb-0 text-nowrap table-centered">
+                                                            <thead class="bg-light">
+                                                                <tr>
+                                                                    <th>Mode de paiement</th>
+                                                                    <th class="text-right">Montant</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>Tickets Valeurs</td>
+                                                                    <td class="text-right">50000</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>JNP Pass</td>
+                                                                    <td class="text-right">25000</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Comptant</td>
+                                                                    <td class="text-right">75000</td>
+                                                                </tr>
+                                                                <tr class="total-row">
+                                                                    <td>TOTAL</td>
+                                                                    <td class="text-right">150000</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                                                <tr>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td colspan="1" class="fw-semibold text-dark">
-                                                        <!-- text -->
-                                                        Grand Total
-                                                    </td>
-                                                    <td class="fw-semibold text-dark">
-                                                        <!-- text -->
-                                                        $90.00
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                        <!-- Recharges Gaz et Accessoires -->
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="headingThree">
+                                                <button class="accordion-button collapsed" type="button"
+                                                    data-bs-toggle="collapse" data-bs-target="#collapseThree"
+                                                    aria-expanded="false" aria-controls="collapseThree">
+                                                    <i class="fas fa-fire-flame-simple me-2"></i> Gaz et Accessoires
+                                                </button>
+                                            </h2>
+                                            <div id="collapseThree" class="accordion-collapse collapse"
+                                                aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+                                                <div class="accordion-body">
+                                                    <h6>Stock Initial (31/01/2025)</h6>
+                                                    <div class="table-responsive">
+                                                        <table class="table mb-0 text-nowrap table-centered">
+                                                            <thead class="bg-light">
+                                                                <tr>
+                                                                    <th>Produit</th>
+                                                                    <th class="text-right">Quantité Initiale</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>Recharge 6kg</td>
+                                                                    <td class="text-right">38</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Recharge 12kg</td>
+                                                                    <td class="text-right">30</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <h6>Réceptions (31/01/2025)</h6>
+                                                    <p>Aucune réception de gaz et accessoires</p>
+                                                    <h6>Sorties (31/01/2025)</h6>
+                                                    <div class="table-responsive">
+                                                        <table class="table mb-0 text-nowrap table-centered">
+                                                            <thead class="bg-light">
+                                                                <tr>
+                                                                    <th>Produit</th>
+                                                                    <th class="text-right">Quantité Vendue</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>Recharge 6kg</td>
+                                                                    <td class="text-right">3</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Recharge 12kg</td>
+                                                                    <td class="text-right">7</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <h6>Stock Final (01/02/2025)</h6>
+                                                    <div class="table-responsive">
+                                                        <table class="table mb-0 text-nowrap table-centered">
+                                                            <thead class="bg-light">
+                                                                <tr>
+                                                                    <th>Produit</th>
+                                                                    <th class="text-right">Quantité Finale</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>Recharge 6kg</td>
+                                                                    <td class="text-right">3</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Recharge 12kg</td>
+                                                                    <td class="text-right">7</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <h6>Ventes (FCFA)</h6>
+                                                    <div class="table-responsive">
+                                                        <table class="table mb-0 text-nowrap table-centered">
+                                                            <thead class="bg-light">
+                                                                <tr>
+                                                                    <th>Mode de paiement</th>
+                                                                    <th class="text-right">Montant</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>Tickets Valeurs</td>
+                                                                    <td class="text-right">30000</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>JNP Pass</td>
+                                                                    <td class="text-right">15000</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Comptant</td>
+                                                                    <td class="text-right">55000</td>
+                                                                </tr>
+                                                                <tr class="total-row">
+                                                                    <td>TOTAL</td>
+                                                                    <td class="text-right">100000</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Informations Complémentaires -->
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="headingFour">
+                                                <button class="accordion-button collapsed" type="button"
+                                                    data-bs-toggle="collapse" data-bs-target="#collapseFour"
+                                                    aria-expanded="false" aria-controls="collapseFour">
+                                                    Informations Complémentaires
+                                                </button>
+                                            </h2>
+                                            <div id="collapseFour" class="accordion-collapse collapse"
+                                                aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
+                                                <div class="accordion-body">
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <h6>Informations sur les Ventes</h6>
+                                                            <div class="info-grid">
+                                                                <div class="info-card">
+                                                                    <div class="label">TV</div>
+                                                                    <div class="value">50000 F</div>
+                                                                </div>
+                                                                <div class="info-card">
+                                                                    <div class="label">Reste à Verser</div>
+                                                                    <div class="value">20000 F</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <h6>Livraisons en Attente (01/02/2025)</h6>
+                                                            <div class="info-grid">
+                                                                <div class="info-card blue-bg">
+                                                                    <div class="label">Gasoil</div>
+                                                                    <div class="value">3000 L</div>
+                                                                </div>
+                                                                <div class="info-card green-bg">
+                                                                    <div class="label">Essence</div>
+                                                                    <div class="value">2000 L</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="card-body p-6">
+                            <div class="card-footer p-6">
                                 <div class="row">
-                                    <div class="col-md-6 mb-4 mb-lg-0">
-                                        <h6>Payment Info</h6>
-                                        <span>Cash on Delivery</span>
+                                    <div class="col-md-6 mb-4 mb-lg-6">
+                                        Rapport généré le <span id="generated-date"></span> | Validé par: Nom du Gérant
                                     </div>
-                                    <div class="col-md-6">
-                                        <h5>Notes</h5>
-                                        <textarea class="form-control mb-3" rows="3"
-                                            placeholder="Write note for order"></textarea>
-                                        <a href="#" class="btn btn-primary">Save Notes</a>
+                                    <div class="col-md-6 col-lg-6 text-end">
+                                        <button type="submit" class="btn btn-primary">Sauvegarder</>
                                     </div>
                                 </div>
                             </div>
@@ -260,7 +417,7 @@
                     </div>
                 </div>
 
-            </div>
+            </section>
 
         </main>
     </div>

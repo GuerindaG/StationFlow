@@ -6,29 +6,8 @@
             <div class="col-md-12">
                 <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-4">
                     <div>
-                        <h2>Inventaire des produits</h2>
+                        <h2>Inventaire des catégories</h2>
                     </div>
-                    <ul class="nav nav-pills justify-content-center mb-6 bg-white border d-inline-flex rounded-3 p-2"
-                        id="myTab" role="tablist">
-                        <!-- nav item -->
-                        <li class="nav-item" role="presentation">
-                            <!-- btn -->
-                            <button class="nav-link active" id="categorie-tab" data-bs-toggle="tab"
-                                data-bs-target="#address-tab-pane" type="button" role="tab" aria-controls="address-tab-pane"
-                                aria-selected="true">
-                                Catégories
-                            </button>
-                        </li>
-                        <!-- nav item -->
-                        <li class="nav-item" role="presentation">
-                            <!-- btn -->
-                            <button class="nav-link" id="payment-tab" data-bs-toggle="tab"
-                                data-bs-target="#payment-tab-pane" type="button" role="tab" aria-controls="payment-tab-pane"
-                                aria-selected="false">
-                                Produits
-                            </button>
-                        </li>
-                    </ul>
                 </div>
             </div>
         </div>
