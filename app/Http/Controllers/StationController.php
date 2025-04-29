@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Station;
 use App\Models\User;
+use Hash;
 use Illuminate\Http\Request;
 
 class StationController extends Controller
@@ -37,8 +38,9 @@ class StationController extends Controller
         $gerant = User::create([
             'name' => 'Gérant de ' . $request->nom_station,
             'email' => $request->email_gerant,
-            'password' => bcrypt($request->password_gerant),
-            'role' => 'gerant',
+            'password' =>  Hash::make($request->password_gerant),
+            'telephone' => $request->contact,
+            'role' => User::ROLE_GESTIONNAIRE,
         ]);
         Station::create([
             'nom' => $request->nom_station,

@@ -12,38 +12,40 @@ use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
 {
-    /**
-     * Display the login view.
-     */
     public function create(): View
     {
-        return view('connexion');
+        return view('auth.login');
     }
-
-    /**
-     * Handle an incoming authentication request.
-     */
-    public function store(LoginRequest $request)
+    public function store(Request $request): RedirectResponse
     {
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
         ]);
 
-        // Redirection selon le rôle de l'utilisateur connecté
-        if (auth()->user()->role === 'admin') {
-            return redirect()->intended('/admin');
-        } elseif (auth()->user()->role === 'gerant') {
-            return redirect()->intended('/gerant');
-            } else {
-            return redirect()->intended('/'); 
+        if (Auth::attempt($request->only('email', 'password'), $request->boolean('remember'))) {
+            $request->session()->regenerate();
+
+            $user = Auth::user();
+
+            // Redirection personnalisée en fonction du rôle
+            switch ($user->role) {
+                case 'admin':
+                    return redirect()->route('admin.dashboard');
+                case 'gestionnaire':
+                    return redirect()->route('gestionnaire.dashboard');
+                default:
+                    return redirect()->route('connexion'); 
+            }
         }
+
+        return back()->withErrors([
+            'email' => 'Les identifiants sont incorrects.',
+        ])->onlyInput('email');
     }
 
 
-    /**
-     * Destroy an authenticated session.
-     */
+
     public function destroy(Request $request): RedirectResponse
     {
         Auth::guard('web')->logout();

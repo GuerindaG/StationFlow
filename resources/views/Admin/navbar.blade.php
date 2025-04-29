@@ -27,21 +27,27 @@
                 <div class="col-lg-6 text-end">
                     <ul class="navbar-nav align-items-center">
                         <li class="nav-item w-100 w-lg-auto">
-                            <a class="nav-link " href="{{ route('rapport') }}">Rapports</a>
+                            <a class="nav-link " href="{{ route('admin.dashboard') }}">
+                                <i class="fa-solid fa-print"></i>
+                                Rapports</a>
                         </li>
 
                         <li class="nav-item w-100 w-lg-auto">
-                            <a class="nav-link" href="{{ route('station.index') }}">Stations</a>
+                            <a class="nav-link" href="{{ route('station.index') }}"><i class="fa-solid fa-gas-pump"></i>
+                                Stations</a>
                         </li>
                         <li class="nav-item w-100 w-lg-auto">
-                            <a class="nav-link" href="{{ route('categorie.index') }}">Catégories</a>
+                            <a class="nav-link" href="{{ route('categorie.index') }}"><i
+                                    class="fa-solid fa-tags"></i>Catégories</a>
                         </li>
                         <li class="nav-item w-100 w-lg-auto">
-                            <a class="nav-link" href="{{ route('produit.index') }}">Produits</a>
+                            <a class="nav-link" href="{{ route('produit.index') }}"><i class="fa-solid fa-cubes"></i>
+                                Produits</a>
                         </li>
                         <li class="nav-item w-100 w-lg-auto">
                             <a class="nav-link" href="{{ route('parametre') }}">
-                                Paramètres du Compte</a>
+                                <i class="fa-solid fa-cogs"></i>
+                               Paramètres</a>
                         </li>
                     </ul>
                 </div>

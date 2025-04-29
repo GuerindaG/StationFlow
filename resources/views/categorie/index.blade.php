@@ -101,11 +101,11 @@
                                     <span></span>
                                     <nav class="mt-2 mt-md-0">
                                         <ul class="pagination mb-0">
-                                            <li class="page-item disabled"><a class="page-link" href="#!">Previous</a></li>
+                                            <li class="page-item disabled"><a class="page-link" href="#!">Précédent</a></li>
                                             <li class="page-item"><a class="page-link active" href="#!">1</a></li>
                                             <li class="page-item"><a class="page-link" href="#!">2</a></li>
                                             <li class="page-item"><a class="page-link" href="#!">3</a></li>
-                                            <li class="page-item"><a class="page-link" href="#!">Next</a></li>
+                                            <li class="page-item"><a class="page-link" href="#!">Suivant</a></li>
                                         </ul>
                                     </nav>
                                 </div>

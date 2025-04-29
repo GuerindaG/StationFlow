@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Administrateur',
                 'telephone' => '0190388922',
                 'password' => Hash::make('Gg242502**'),
+                'role' => User::ROLE_ADMIN
             ]
         );
         Paiement::firstOrCreate(
@@ -30,7 +31,7 @@ class DatabaseSeeder extends Seeder
             ['nom' => 'JNP Pass'],
         );
         Paiement::firstOrCreate(
-            ['nom' => 'Espèces'],
+            ['nom' => 'Espèce'],
         );
     }
 

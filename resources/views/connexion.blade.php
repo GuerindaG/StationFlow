@@ -402,8 +402,8 @@
                     <!-- Email Address -->
                     <div class="col-12">
                         <label for="formSignupEmail" class="form-label ">Adresse email</label>
-                        <input type="email" id="email" class="form-control" name="email" placeholder="Entrez votre email"
-                            required />
+                        <input type="email" id="email" class="form-control" name="email"
+                            placeholder="Entrez votre email" required />
                         <div class="invalid-feedback">Votre E-mail !</div>
                     </div>
                     <!-- Password -->
@@ -425,9 +425,8 @@
                             <label class="form-check-label" for="flexCheckDefault">Remember me</label>
                         </div>
                         <div>
-                            Mot de passe oublié?
                             @if (Route::has('password.request'))
-                                <a href={{route('password')}}>Renvoyer</a>
+                                <a href="{{ route('password.request') }}">Mot de passe oublié ?</a>
                             @endif
                         </div>
                     </div>

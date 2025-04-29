@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ApprovisionnementController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\ProduitController;
 use App\Http\Controllers\ProfileController;
@@ -12,26 +13,27 @@ use Illuminate\Support\Facades\Route;
 Route::get('/get-produits/{categorie_id}', [ApprovisionnementController::class, 'getProduits']);
 
 Route::get('/', fn() => view('connexion'))->name("connexion");
-Route::get('/motdepasseoublie', fn() => view('forgotpassword'))->name("password");
 
-Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
-Route::post('/login', [AuthenticatedSessionController::class, 'store']);
-Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
 Route::get('/error404', fn() => view('error404'))->middleware(['auth']);
 Route::get('/test', fn() => view('vente.version'));
 
-Route::prefix('/gerant')->group(function () {
-    Route::get('/', fn() => view('Gerant.addRapport'))->name("addRapport");
 
+
+Route::prefix('/gerant')->middleware(['auth', 'CheckGerant'])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('Gerant.dashboard');
+    })->name('gestionnaire.dashboard');
+    Route::get('/rapport', fn() => view('Gerant.addRapport'))->name("addRapport");
     Route::resource('/vente', VenteController::class);
     Route::resource('/approvisionnement', ApprovisionnementController::class);
 });
 
-Route::prefix('/admin')->middleware(['admin'])->group(function () {
-    Route::get('/', fn() => view('Admin.rapport'))->name("rapport");
-    Route::get('/parametre', fn() => view('Admin.parametre'))->name("parametre");
 
+
+Route::prefix('/admin')->middleware(['auth', 'CheckAdmin'])->group(function () {
+    Route::get('/dashboard', function () {return view('Admin.rapport');})->name('admin.dashboard');
+    Route::get('/parametre', fn() => view('Admin.parametre'))->name("parametre");
     Route::resource('/station', StationController::class);
     Route::resource('/categorie', CategorieController::class);
     Route::resource('/produit', ProduitController::class);

@@ -16,7 +16,7 @@
                         <label for="customerEditAdd" class="form-label">Nom de la catégorie</label>
                         <input type="text" class="form-control" name="nom" value="{{ old('nom', $categorie->nom) }}"placeholder="Street categorie"
                             required />
-                        <div class="invalid-feedback">Pelease enter categori</div>
+                        <div class="invalid-feedback">Pelease enter categorie</div>
                     </div>
                     <!-- input -->
                     <div class="col-lg- col-12">
