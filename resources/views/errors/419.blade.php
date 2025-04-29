@@ -4,8 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 - Page non trouvée | StationFlow</title>
-    <link rel="shortcut icon" type="" href="{{ asset('./assets/images/favicon/favicon.ico')}}"/>
+    <title>419 - Page expirée | StationFlow</title>
     <style>
         * {
             margin: 0;
@@ -110,22 +109,6 @@
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05);
         }
 
-        .pump-animation {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 120px;
-            height: 120px;
-        }
-
-        .fuel-drop {
-            position: absolute;
-            background-color: #14bd0b;
-            border-radius: 50%;
-            animation: drop 2s infinite;
-        }
-
         .buttons {
             display: flex;
             gap: 15px;
@@ -173,46 +156,44 @@
             position: relative;
         }
 
-        /* Animation pour les gouttelettes de carburant */
-        @keyframes drop {
+        /* Animation pour la station */
+        @keyframes fadeInOut {
             0% {
-                top: 0;
-                opacity: 0;
-                width: 10px;
-                height: 10px;
+                opacity: 0.5;
             }
 
             50% {
                 opacity: 1;
-                width: 15px;
-                height: 15px;
             }
 
             100% {
-                top: 120px;
-                opacity: 0;
-                width: 10px;
-                height: 10px;
+                opacity: 0.5;
             }
         }
 
-        /* Animation pour la pompe */
-        @keyframes pulse {
+        /* Animation pour l'horloge */
+        @keyframes clockRotate {
             0% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.05);
+                transform: rotate(0deg);
             }
 
             100% {
-                transform: scale(1);
+                transform: rotate(360deg);
             }
         }
 
-        .animated-element {
-            animation: pulse 2s infinite ease-in-out;
+        .clock-hand {
+            transform-origin: center;
+            animation: clockRotate 10s linear infinite;
+        }
+
+        .hour-hand {
+            transform-origin: center;
+            animation: clockRotate 60s linear infinite;
+        }
+
+        .fading {
+            animation: fadeInOut 3s infinite ease-in-out;
         }
 
         /* Responsive */
@@ -253,9 +234,9 @@
         <div class="error-container">
             <div class="error-content">
                 <div class="error-text">
-                    <h1 class="error-title">Oops ! La pompe est à sec.</h1>
-                    <p class="error-message">La page que vous recherchez n'existe pas ou a été déplacée. Peut-être
-                        avez-vous pris le mauvais chemin ?</p>
+                    <h1 class="error-title">Votre session a expiré !</h1>
+                    <p class="error-message">La page que vous avez demandée a expiré pour des raisons de sécurité.
+                        Veuillez rafraîchir votre page et réessayer.</p>
                     <div class="buttons">
                         <a href="javascript:history.back()" class="btn btn-secondary">
                             <span>← Retour</span>
@@ -267,31 +248,45 @@
                 </div>
 
                 <div class="error-visual">
-                    <div class="error-number animated-element">404</div>
+                    <div class="error-number">419</div>
                     <div class="gas-station-illustration">
                         <svg width="100%" height="100%" viewBox="0 0 240 200" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
-                            <!-- Station-service stylisée -->
-                            <rect x="40" y="80" width="120" height="80" fill="#14bd0b" rx="5" />
-                            <rect x="50" y="90" width="100" height="60" fill="white" rx="3" />
-                            <rect x="70" y="130" width="60" height="30" fill="#f8f9fa" />
-                            <rect x="85" y="130" width="30" height="30" fill="#14bd0b" />
+                            <!-- Station-service qui s'estompe -->
+                            <g class="fading">
+                                <rect x="40" y="100" width="120" height="80" fill="#14bd0b" rx="5" opacity="0.5" />
+                                <rect x="50" y="110" width="100" height="60" fill="white" rx="3" opacity="0.5" />
+                                <rect x="70" y="150" width="60" height="30" fill="#f8f9fa" opacity="0.5" />
+                            </g>
 
                             <!-- Pompe à essence -->
-                            <rect x="150" y="110" width="30" height="50" fill="#1e2a38" rx="3" />
-                            <rect x="155" y="115" width="20" height="30" fill="#f8f9fa" rx="2" />
-                            <path
-                                d="M165 150 L165 170 L175 170 L175 165 L170 165 L170 160 L180 160 L180 170 L190 170 L190 150"
-                                stroke="#14bd0b" stroke-width="4" fill="none" />
+                            <rect x="180" y="120" width="30" height="60" fill="#1e2a38" rx="3" />
+                            <rect x="185" y="125" width="20" height="30" fill="#f8f9fa" rx="2" />
 
-                            <!-- Gouttes animées -->
-                            <circle class="fuel-drop" cx="165" cy="20" r="5" style="animation-delay: 0s;" />
-                            <circle class="fuel-drop" cx="165" cy="40" r="5" style="animation-delay: 0.7s;" />
-                            <circle class="fuel-drop" cx="165" cy="60" r="5" style="animation-delay: 1.4s;" />
+                            <!-- Horloge pour symboliser l'expiration -->
+                            <circle cx="120" cy="60" r="40" fill="#f8f9fa" stroke="#14bd0b" stroke-width="4" />
+                            <circle cx="120" cy="60" r="3" fill="#1e2a38" />
 
-                            <!-- Nuages stylisés -->
-                            <ellipse cx="50" cy="40" rx="20" ry="10" fill="rgba(20, 189, 11, 0.1)" />
-                            <ellipse cx="190" cy="30" rx="25" ry="12" fill="rgba(20, 189, 11, 0.1)" />
+                            <!-- Aiguilles de l'horloge -->
+                            <line x1="120" y1="60" x2="120" y2="30" stroke="#1e2a38" stroke-width="3"
+                                stroke-linecap="round" class="hour-hand" />
+                            <line x1="120" y1="60" x2="145" y2="60" stroke="#e63946" stroke-width="2"
+                                stroke-linecap="round" class="clock-hand" />
+
+                            <!-- Repères des heures -->
+                            <line x1="120" y1="22" x2="120" y2="28" stroke="#1e2a38" stroke-width="2" />
+                            <line x1="120" y1="92" x2="120" y2="98" stroke="#1e2a38" stroke-width="2" />
+                            <line x1="82" y1="60" x2="88" y2="60" stroke="#1e2a38" stroke-width="2" />
+                            <line x1="152" y1="60" x2="158" y2="60" stroke="#1e2a38" stroke-width="2" />
+
+                            <!-- Sablier représentant le temps écoulé -->
+                            <path d="M180 40 L200 40 L190 60 L200 80 L180 80 L190 60 Z" fill="#f8f9fa" stroke="#14bd0b"
+                                stroke-width="2" />
+                            <path d="M185 45 L195 45 L190 55 Z" fill="#14bd0b" />
+
+                            <!-- Symbole d'expiration -->
+                            <text x="80" y="160" font-family="Arial" font-size="14" fill="#e63946" font-weight="bold"
+                                class="fading">SESSION EXPIRÉE</text>
                         </svg>
                     </div>
                 </div>

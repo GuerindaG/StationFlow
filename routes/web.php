@@ -9,7 +9,7 @@ use App\Http\Controllers\StationController;
 use App\Http\Controllers\VenteController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/get-produits/{categorie_id}', [App\Http\Controllers\ApprovisionnementController::class, 'getProduits']);
+Route::get('/get-produits/{categorie_id}', [ApprovisionnementController::class, 'getProduits']);
 
 Route::get('/', fn() => view('connexion'))->name("connexion");
 Route::get('/motdepasseoublie', fn() => view('forgotpassword'))->name("password");
@@ -19,6 +19,7 @@ Route::post('/login', [AuthenticatedSessionController::class, 'store']);
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
 Route::get('/error404', fn() => view('error404'))->middleware(['auth']);
+Route::get('/test', fn() => view('vente.version'));
 
 Route::prefix('/gerant')->group(function () {
     Route::get('/', fn() => view('Gerant.addRapport'))->name("addRapport");
@@ -27,7 +28,7 @@ Route::prefix('/gerant')->group(function () {
     Route::resource('/approvisionnement', ApprovisionnementController::class);
 });
 
-Route::prefix('/admin')->group(function () {
+Route::prefix('/admin')->middleware(['admin'])->group(function () {
     Route::get('/', fn() => view('Admin.rapport'))->name("rapport");
     Route::get('/parametre', fn() => view('Admin.parametre'))->name("parametre");
 

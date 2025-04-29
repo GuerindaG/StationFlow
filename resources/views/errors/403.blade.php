@@ -4,8 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 - Page non trouvée | StationFlow</title>
-    <link rel="shortcut icon" type="" href="{{ asset('./assets/images/favicon/favicon.ico')}}"/>
+    <title>403 - Accès interdit | StationFlow</title>
     <style>
         * {
             margin: 0;
@@ -110,22 +109,6 @@
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05);
         }
 
-        .pump-animation {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 120px;
-            height: 120px;
-        }
-
-        .fuel-drop {
-            position: absolute;
-            background-color: #14bd0b;
-            border-radius: 50%;
-            animation: drop 2s infinite;
-        }
-
         .buttons {
             display: flex;
             gap: 15px;
@@ -173,46 +156,71 @@
             position: relative;
         }
 
-        /* Animation pour les gouttelettes de carburant */
-        @keyframes drop {
+        /* Animation pour le panneau qui bouge */
+        @keyframes wiggle {
             0% {
-                top: 0;
-                opacity: 0;
-                width: 10px;
-                height: 10px;
+                transform: rotate(0deg);
+            }
+
+            25% {
+                transform: rotate(5deg);
             }
 
             50% {
+                transform: rotate(0deg);
+            }
+
+            75% {
+                transform: rotate(-5deg);
+            }
+
+            100% {
+                transform: rotate(0deg);
+            }
+        }
+
+        /* Animation pour la chaîne */
+        @keyframes sway {
+            0% {
+                transform: rotate(-2deg);
+            }
+
+            50% {
+                transform: rotate(2deg);
+            }
+
+            100% {
+                transform: rotate(-2deg);
+            }
+        }
+
+        .chain {
+            transform-origin: top;
+            animation: sway 3s infinite ease-in-out;
+        }
+
+        .sign {
+            transform-origin: center;
+            animation: wiggle 5s infinite ease-in-out;
+        }
+
+        /* Animation pour le clignotement */
+        @keyframes blink {
+            0% {
                 opacity: 1;
-                width: 15px;
-                height: 15px;
-            }
-
-            100% {
-                top: 120px;
-                opacity: 0;
-                width: 10px;
-                height: 10px;
-            }
-        }
-
-        /* Animation pour la pompe */
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
             }
 
             50% {
-                transform: scale(1.05);
+                opacity: 0.5;
             }
 
             100% {
-                transform: scale(1);
+                opacity: 1;
             }
         }
 
-        .animated-element {
-            animation: pulse 2s infinite ease-in-out;
+        .blinking {
+            animation: blink 2s infinite;
         }
 
         /* Responsive */
@@ -253,9 +261,9 @@
         <div class="error-container">
             <div class="error-content">
                 <div class="error-text">
-                    <h1 class="error-title">Oops ! La pompe est à sec.</h1>
-                    <p class="error-message">La page que vous recherchez n'existe pas ou a été déplacée. Peut-être
-                        avez-vous pris le mauvais chemin ?</p>
+                    <h1 class="error-title">Zone réservée !</h1>
+                    <p class="error-message">Vous n'avez pas l'autorisation d'accéder à cette section. Cette zone est
+                        réservée au personnel autorisé.</p>
                     <div class="buttons">
                         <a href="javascript:history.back()" class="btn btn-secondary">
                             <span>← Retour</span>
@@ -267,31 +275,54 @@
                 </div>
 
                 <div class="error-visual">
-                    <div class="error-number animated-element">404</div>
+                    <div class="error-number">403</div>
                     <div class="gas-station-illustration">
                         <svg width="100%" height="100%" viewBox="0 0 240 200" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
-                            <!-- Station-service stylisée -->
-                            <rect x="40" y="80" width="120" height="80" fill="#14bd0b" rx="5" />
-                            <rect x="50" y="90" width="100" height="60" fill="white" rx="3" />
-                            <rect x="70" y="130" width="60" height="30" fill="#f8f9fa" />
-                            <rect x="85" y="130" width="30" height="30" fill="#14bd0b" />
+                            <!-- Station-service -->
+                            <rect x="40" y="120" width="120" height="60" fill="#14bd0b" rx="5" />
+                            <rect x="50" y="130" width="100" height="40" fill="white" rx="3" />
 
-                            <!-- Pompe à essence -->
-                            <rect x="150" y="110" width="30" height="50" fill="#1e2a38" rx="3" />
-                            <rect x="155" y="115" width="20" height="30" fill="#f8f9fa" rx="2" />
-                            <path
-                                d="M165 150 L165 170 L175 170 L175 165 L170 165 L170 160 L180 160 L180 170 L190 170 L190 150"
-                                stroke="#14bd0b" stroke-width="4" fill="none" />
+                            <!-- Panneau "Accès interdit" -->
+                            <g class="sign">
+                                <!-- Panneau -->
+                                <rect x="140" y="60" width="60" height="40" fill="#e63946" rx="5" />
+                                <rect x="145" y="65" width="50" height="30" fill="white" rx="3" />
+                                <text x="170" y="85" text-anchor="middle" font-size="12" font-weight="bold"
+                                    fill="#e63946" class="blinking">ACCÈS INTERDIT</text>
 
-                            <!-- Gouttes animées -->
-                            <circle class="fuel-drop" cx="165" cy="20" r="5" style="animation-delay: 0s;" />
-                            <circle class="fuel-drop" cx="165" cy="40" r="5" style="animation-delay: 0.7s;" />
-                            <circle class="fuel-drop" cx="165" cy="60" r="5" style="animation-delay: 1.4s;" />
+                                <!-- Chaînes de suspension -->
+                                <g class="chain">
+                                    <line x1="150" y1="30" x2="150" y2="60" stroke="#6c757d" stroke-width="2"
+                                        stroke-dasharray="4 2" />
+                                    <line x1="190" y1="30" x2="190" y2="60" stroke="#6c757d" stroke-width="2"
+                                        stroke-dasharray="4 2" />
+                                </g>
 
-                            <!-- Nuages stylisés -->
-                            <ellipse cx="50" cy="40" rx="20" ry="10" fill="rgba(20, 189, 11, 0.1)" />
-                            <ellipse cx="190" cy="30" rx="25" ry="12" fill="rgba(20, 189, 11, 0.1)" />
+                                <!-- Symbole d'interdiction -->
+                                <circle cx="125" y="80" r="15" fill="#e63946" />
+                                <line x1="115" y1="70" x2="135" y2="90" stroke="white" stroke-width="3" />
+                                <line x1="135" y1="70" x2="115" y2="90" stroke="white" stroke-width="3" />
+                            </g>
+
+                            <!-- Pompe à essence avec cadenas -->
+                            <rect x="80" y="90" width="30" height="50" fill="#1e2a38" rx="3" />
+                            <rect x="85" y="95" width="20" height="30" fill="#f8f9fa" rx="2" />
+                            <path d="M95 140 L95 150" stroke="#14bd0b" stroke-width="4" fill="none" />
+
+                            <!-- Cadenas -->
+                            <rect x="87" y="90" width="16" height="12" fill="#ffc107" rx="2" />
+                            <rect x="93" y="85" width="4" height="8" fill="#ffc107" rx="1" />
+                            <circle cx="95" cy="93" r="2" fill="#212529" />
+
+                            <!-- Barrière -->
+                            <rect x="40" y="100" width="10" height="60" fill="#6c757d" />
+                            <rect x="40" y="100" width="100" height="10" fill="#f8f9fa" />
+                            <rect x="50" y="100" width="10" height="10" fill="#e63946" />
+                            <rect x="70" y="100" width="10" height="10" fill="#e63946" />
+                            <rect x="90" y="100" width="10" height="10" fill="#e63946" />
+                            <rect x="110" y="100" width="10" height="10" fill="#e63946" />
+                            <rect x="130" y="100" width="10" height="60" fill="#6c757d" />
                         </svg>
                     </div>
                 </div>

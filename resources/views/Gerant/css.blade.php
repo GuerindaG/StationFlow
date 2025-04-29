@@ -43,4 +43,34 @@
         padding: 20px;
         background-color: white;
     }
+
+    /* Appliquer un effet aux cartes dans la row invoice-card-row */
+.invoice-card-row .custom-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+}
+
+/* Animation au survol des cartes */
+.invoice-card-row .custom-card:hover {
+    transform: scale(1.05); /* Agrandir légèrement */
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Ombre plus marquée */
+    background-color: #f5f5f5; /* Changer la couleur de fond */
+}
+
+/* Changement de couleur des titres au survol */
+.invoice-card-row .custom-card:hover .card-title {
+    color: #007bff; /* Change la couleur du titre */
+}
+
+.invoice-card-row .custom-card:hover .card-subtitle {
+    color: #888; /* Change la couleur du sous-titre */
+}
+
 </style>

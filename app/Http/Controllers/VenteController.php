@@ -5,81 +5,72 @@ namespace App\Http\Controllers;
 use App\Models\Categorie;
 use App\Models\Paiement;
 use App\Models\Produit;
+use App\Models\Station;
 use App\Models\Vente;
 use Illuminate\Http\Request;
 
 class VenteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
-        $paiement = Paiement::all();
-        $produits = Produit::all();
         $categories = Categorie::all();
-        $ventes = Vente::all();
-        return view("vente.index", compact('produits', 'categories', 'paiement', 'ventes'));
+        $paiements = Paiement::all();
+        $ventes = Vente::with(['station', 'produit'])->latest()->get();
+        return view('vente.index', compact('ventes','categories','paiements'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        return view("vente.create");
+        $stations = Station::all();
+        $produits = Produit::all();
+        return view('vente.create', compact('stations', 'produits'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
+            'station_id' => 'required|exists:stations,id',
             'produit_id' => 'required|exists:produits,id',
-            'paiement_id' => 'required|exists:paiements,id',
             'quantite' => 'required|numeric|min:0',
+            'montant_total' => 'required|numeric|min:0',
+            'date_vente' => 'required|date',
         ]);
 
-        // Création 
-        Vente::create([
-            'produit_id' => $request->produit_id,
-            'paiement_id' => $request->paiement_id,
-            'quantite' => $request->quantite,
+        Vente::create($request->all());
+
+        return redirect()->route('vente.index')->with('success', 'Vente enregistrée avec succès.');
+    }
+
+    public function show(Vente $vente)
+    {
+        return view('vente.show', compact('vente'));
+    }
+    public function edit(Vente $vente)
+    {
+        $stations = Station::all();
+        $produits = Produit::all();
+        return view('vente.edit', compact('vente', 'stations', 'produits'));
+    }
+
+    public function update(Request $request, Vente $vente)
+    {
+        $request->validate([
+            'station_id' => 'required|exists:stations,id',
+            'produit_id' => 'required|exists:produits,id',
+            'quantite' => 'required|numeric|min:0',
+            'montant_total' => 'required|numeric|min:0',
+            'date_vente' => 'required|date',
         ]);
 
-        return redirect()->route('vente.index')->with('success', 'Vente ajouté avec succès');
+        $vente->update($request->all());
+
+        return redirect()->route('vente.index')->with('success', 'Vente mise à jour avec succès.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function destroy(Vente $vente)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $vente->delete();
+        return redirect()->route('ventes.index')->with('success', 'Vente supprimée avec succès.');
     }
 }

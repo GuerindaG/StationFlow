@@ -1,6 +1,7 @@
 <div class="row invoice-card-row mb-5">
+
     <div class="col-xl-4 col-xxl-4 col-sm-6">
-        <div class="card bg-success invoice-card">
+        <div class="card custom-card bg-success invoice-card">
             <div class="card-body d-flex">
                 <div class="icon me-3">
                     <svg width="33px" height="32px">
@@ -17,8 +18,9 @@
             </div>
         </div>
     </div>
+
     <div class="col-xl-4 col-xxl-4 col-sm-6">
-        <div class="card bg-success invoice-card">
+        <div class="card custom-card bg-success invoice-card">
             <div class="card-body d-flex">
                 <div class="icon me-3">
                     <svg width="35px" height="34px">
@@ -38,8 +40,9 @@
             </div>
         </div>
     </div>
+
     <div class="col-xl-4 col-xxl-4 col-sm-6">
-        <div class="card bg-success invoice-card">
+        <div class="card custom-card bg-success invoice-card">
             <div class="card-body d-flex">
                 <div class="icon me-3">
                     <svg width="35px" height="34px">
@@ -59,4 +62,5 @@
             </div>
         </div>
     </div>
+
 </div>

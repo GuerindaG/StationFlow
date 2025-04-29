@@ -19,16 +19,21 @@ class Vente extends Model
     /**
      * @var array
      */
-    protected $fillable = ['produit_id','categorie_id', 'quantite','created_at', 'updated_at'];
-     // Relation avec la station
-     public function station()
-     {
-         return $this->belongsTo(Station::class);
-     }
+    protected $fillable = [
+        'station_id',
+        'produit_id',
+        'quantite',
+        'montant_total',
+        'date_vente',
+    ];
+    public function station()
+    {
+        return $this->belongsTo(Station::class);
+    }
 
-     // Relation avec le produit
-     public function produit()
-     {
-         return $this->belongsTo(Produit::class);
-     }
+    // Relation avec le produit
+    public function produit()
+    {
+        return $this->belongsTo(Produit::class);
+    }
 }
