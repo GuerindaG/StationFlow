@@ -19,7 +19,9 @@ Route::get('/error404', fn() => view('error404'))->middleware(['auth']);
 Route::get('/test', fn() => view('vente.version'));
 
 
-
+Route::get('/gestionnaire/no-station', function () {
+    return 'Aucune station assignée à votre compte.';
+})->name('gestionnaire.no-station');
 Route::prefix('/gerant')->middleware(['auth', 'CheckGerant'])->group(function () {
     Route::get('/dashboard', function () {
         return view('Gerant.dashboard');
@@ -32,7 +34,8 @@ Route::prefix('/gerant')->middleware(['auth', 'CheckGerant'])->group(function ()
 
 
 Route::prefix('/admin')->middleware(['auth', 'CheckAdmin'])->group(function () {
-    Route::get('/dashboard', function () {return view('Admin.rapport');})->name('admin.dashboard');
+    Route::get('/dashboard', function () {
+        return view('Admin.rapport'); })->name('admin.dashboard');
     Route::get('/parametre', fn() => view('Admin.parametre'))->name("parametre");
     Route::resource('/station', StationController::class);
     Route::resource('/categorie', CategorieController::class);
@@ -40,6 +43,23 @@ Route::prefix('/admin')->middleware(['auth', 'CheckAdmin'])->group(function () {
 
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+});
+
+
+Route::get('/redirect-by-role', function () {
+    $user = Auth::user();
+
+    if (!$user)
+        return redirect()->route('login');
+
+    switch ($user->role) {
+        case 'admin':
+            return redirect()->route('admin.dashboard');
+        case 'gestionnaire':
+            return redirect()->route('gestionnaire.dashboard');
+        default:
+            return redirect('/');
+    }
 });
 
 require __DIR__ . '/auth.php';

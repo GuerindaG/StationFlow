@@ -1,7 +1,7 @@
 <nav class="navbar-vertical-nav d-none d-xl-block">
     <div class="navbar-vertical">
         <div class="px-4 py-5">
-            <a href="" class="navbar-brand">
+            <a href="{{ route('approvisionnement.index') }}" class="navbar-brand">
                 <img src="{{ asset('./assets/images/logo/stationflow-logo.svg')}}" alt="" />
             </a>
         </div>

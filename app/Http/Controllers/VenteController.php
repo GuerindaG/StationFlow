@@ -14,10 +14,11 @@ class VenteController extends Controller
 
     public function index()
     {
+        $station = auth()->user()->station;
         $categories = Categorie::all();
         $paiements = Paiement::all();
-        $ventes = Vente::with(['station', 'produit'])->latest()->get();
-        return view('vente.index', compact('ventes','categories','paiements'));
+        $ventes = $station->ventes()->latest()->get();
+        return view('vente.index', compact('ventes', 'categories', 'paiements'));
     }
 
     public function create()
@@ -29,13 +30,13 @@ class VenteController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'station_id' => 'required|exists:stations,id',
+        $station = auth()->user()->station;
+        $station->ventes()->create($request->validate([
             'produit_id' => 'required|exists:produits,id',
             'quantite' => 'required|numeric|min:0',
             'montant_total' => 'required|numeric|min:0',
             'date_vente' => 'required|date',
-        ]);
+        ]));
 
         Vente::create($request->all());
 
