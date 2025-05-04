@@ -108,4 +108,35 @@ class ProduitController extends Controller
         return redirect()->route('produit.index')->with('success', 'Produit restauré avec succès');
     }
 
+    public function getProduits(Request $request)
+{
+    $query = Produit::query();
+    
+    // Filtrer par catégorie si spécifié
+    if ($request->has('categorie_id') && $request->categorie_id) {
+        $query->where('categorie_id', $request->categorie_id);
+    }
+    
+    // Recherche par terme
+    if ($request->has('search') && $request->search) {
+        $search = $request->search;
+        $query->where(function($q) use ($search) {
+            $q->where('nom', 'like', "%{$search}%")
+              ->orWhere('prix_unitaire', 'like', "%{$search}%");
+        });
+    }
+    
+    // Pagination
+    $produits = $query->with('categorie')->paginate(10);
+    
+    return response()->json([
+        'produits' => $produits,
+        'pagination' => [
+            'total' => $produits->total(),
+            'per_page' => $produits->perPage(),
+            'current_page' => $produits->currentPage(),
+            'last_page' => $produits->lastPage(),
+        ]
+    ]);
+}
 }

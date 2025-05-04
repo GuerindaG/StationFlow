@@ -73,4 +73,5 @@
             $('#produit_id').empty().append('<option value="">Sélectionnez une catégorie d\'abord</option>');
         }
     });
+    
 </script>

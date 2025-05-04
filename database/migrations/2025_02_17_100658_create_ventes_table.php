@@ -17,7 +17,6 @@ return new class extends Migration
             $table->foreignId('produit_id')->constrained()->onDelete('cascade');  
             $table->decimal('quantite', 10, 2);       
             $table->decimal('montant_total', 10, 2);   
-            $table->date('date_vente');                
             $table->timestamps();                     
             $table->softDeletes();
         });

@@ -8,40 +8,62 @@ use App\Models\Produit;
 use App\Models\Station;
 use App\Models\Vente;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class VenteController extends Controller
 {
 
     public function index()
     {
-        $station = auth()->user()->station;
+        $station = Auth::user()->station;
+
+        if (!$station) {
+            return redirect()->route('gestionnaire.no-station');
+        }
+
+        $ventes = Vente::where('station_id', $station->id)->latest()->get();
         $categories = Categorie::all();
         $paiements = Paiement::all();
-        $ventes = $station->ventes()->latest()->get();
         return view('vente.index', compact('ventes', 'categories', 'paiements'));
     }
-
     public function create()
     {
-        $stations = Station::all();
-        $produits = Produit::all();
-        return view('vente.create', compact('stations', 'produits'));
+        $categories = Categorie::all();
+        $paiements = Paiement::all();
+        $produits = Produit::all(); 
+
+        return view('Gerant.Vente.create', compact('categories', 'paiements', 'produits'));
     }
+
 
     public function store(Request $request)
     {
-        $station = auth()->user()->station;
-        $station->ventes()->create($request->validate([
+        $station = Auth::user()->station;
+
+        $validated = $request->validate([
             'produit_id' => 'required|exists:produits,id',
-            'quantite' => 'required|numeric|min:0',
-            'montant_total' => 'required|numeric|min:0',
+            'quantite' => 'required|integer|min:1',
             'date_vente' => 'required|date',
-        ]));
+            'moyen_paiement_id' => 'required|exists:paiements,id',
+        ]);
 
-        Vente::create($request->all());
+        $produit = Produit::findOrFail($validated['produit_id']);
+        $prix_unitaire = $produit->prix_unitaire;
+        $montant_total = $prix_unitaire * $validated['quantite'];
 
-        return redirect()->route('vente.index')->with('success', 'Vente enregistrée avec succès.');
+        Vente::create([
+            'station_id' => $station->id,
+            'produit_id' => $validated['produit_id'],
+            'quantite' => $validated['quantite'],
+            'prix_unitaire' => $prix_unitaire,
+            'montant_total' => $montant_total,
+            'date_vente' => $validated['date_vente'],
+            'moyen_paiement_id' => $validated['moyen_paiement_id'],
+        ]);
+
+        return redirect()->route('vente.index')->with('success', 'Vente enregistrée.');
     }
+
 
     public function show(Vente $vente)
     {
@@ -74,4 +96,5 @@ class VenteController extends Controller
         $vente->delete();
         return redirect()->route('ventes.index')->with('success', 'Vente supprimée avec succès.');
     }
+
 }

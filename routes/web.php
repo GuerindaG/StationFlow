@@ -14,24 +14,29 @@ Route::get('/get-produits/{categorie_id}', [ApprovisionnementController::class, 
 
 Route::get('/', fn() => view('connexion'))->name("connexion");
 
-
-Route::get('/error404', fn() => view('error404'))->middleware(['auth']);
-Route::get('/test', fn() => view('vente.version'));
-
-
 Route::get('/gestionnaire/no-station', function () {
     return 'Aucune station assignée à votre compte.';
 })->name('gestionnaire.no-station');
+
 Route::prefix('/gerant')->middleware(['auth', 'CheckGerant'])->group(function () {
     Route::get('/dashboard', function () {
-        return view('Gerant.dashboard');
+        $user = Auth::user();
+        $station = $user->station; 
+
+        if (!$station) {
+            return redirect()->route('gestionnaire.no-station');
+        }
+
+        return view('Gerant.dashboard', compact('station'));
     })->name('gestionnaire.dashboard');
+    
     Route::get('/rapport', fn() => view('Gerant.addRapport'))->name("addRapport");
     Route::resource('/vente', VenteController::class);
     Route::resource('/approvisionnement', ApprovisionnementController::class);
 });
 
-
+Route::get('generate-report', 'ReportController@generateReport');
+Route::get('/api/produits', [ProduitController::class, 'getProduits'])->name('api.produits');
 
 Route::prefix('/admin')->middleware(['auth', 'CheckAdmin'])->group(function () {
     Route::get('/dashboard', function () {

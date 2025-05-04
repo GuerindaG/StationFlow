@@ -36,7 +36,7 @@ class StationController extends Controller
             'password_gerant' => 'required|min:6',
         ]);
         $gerant = User::create([
-            'name' => 'Gérant de ' . $request->nom_station,
+            'name' => $request->nom_station,
             'email' => $request->email_gerant,
             'password' =>  Hash::make($request->password_gerant),
             'telephone' => $request->contact,

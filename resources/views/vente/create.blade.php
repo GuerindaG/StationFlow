@@ -8,7 +8,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body p-0">
-                <form action="{{ route('produit.store') }}" method="POST" class="row needs-validation g-3" novalidate>
+                <form action="{{ route('vente.store') }}" method="POST" class="row needs-validation g-3" novalidate>
                     @csrf
                     <div class="col-sm-6">
                         <label for="recipient-name" class="col-form-label">Catégorie</label>
@@ -27,7 +27,7 @@
                     </div>
                     <div class="col-sm-6">
                         <label for="recipient-name" class="col-form-label">Moyen de paiement</label>
-                        <select class="default-select form-control wide" id="paiement_id" name="paiement_id">
+                        <select class="default-select form-control wide" id="paiement_id" name="moyen_paiement_id">
                             <option value="">Sélectionnez une moyen de paiement </option>
                             @foreach($paiements as $paiement)
                                 <option value="{{ $paiement->id }}">{{ $paiement->nom }}</option>

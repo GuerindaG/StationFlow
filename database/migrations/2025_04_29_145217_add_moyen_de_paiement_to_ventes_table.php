@@ -1,4 +1,4 @@
-_<?php
+<?php
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('stations', function (Blueprint $table) {
-            $table->boolean('archiver')->default(false);
+        Schema::table('ventes', function (Blueprint $table) {
+            $table->foreignId('paiement_id')->constrained('moyens_paiement');
         });
     }
 
@@ -21,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('station', function (Blueprint $table) {
+        Schema::table('ventes', function (Blueprint $table) {
             //
         });
     }

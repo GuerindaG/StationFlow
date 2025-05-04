@@ -13,4 +13,8 @@ class Paiement extends Model
         'description',
     ];
     use SoftDeletes;
+    public function ventes()
+    {
+        return $this->hasMany(Vente::class);
+    }
 }

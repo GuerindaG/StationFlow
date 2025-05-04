@@ -31,8 +31,8 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('addRapport') ? 'active' : '' }}"
-                        href="{{ route('addRapport') }}">
+                    <a class="nav-link {{ request()->routeIs('gestionnaire.dashboard') ? 'active' : '' }}"
+                        href="{{ route('gestionnaire.dashboard') }}">
                         <div class="d-flex align-items-center">
                             <span class="nav-link-icon"><i class="bi bi-newspaper"></i></span>
                             <span class="nav-link-text">Rapport</span>

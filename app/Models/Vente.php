@@ -36,4 +36,9 @@ class Vente extends Model
     {
         return $this->belongsTo(Produit::class);
     }
+
+    public function Paiement()
+    {
+        return $this->belongsTo(Paiement::class);
+    }
 }

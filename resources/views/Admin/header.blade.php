@@ -5,6 +5,7 @@
                 <a class="navbar-brand d-none d-lg-block" href="{{ route('admin.dashboard') }}">
                     <img src="{{ asset('../assets/images/logo/stationflow-logo.svg')}}" alt="eCommerce HTML Template" />
                 </a>
+                <H1>{{ Auth::user()->name }}</H1>
                 <div class="d-flex justify-content-between w-100 d-lg-none">
                     <a class="navbar-brand" href="{{ route('admin.dashboard') }}">
                         <img src="{{ asset('../assets/images/logo/stationflow-logo.svg')}}"
