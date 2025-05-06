@@ -14,7 +14,6 @@ class StationController extends Controller
         $stations = Station::with('gerant')->get();
         return view('Station.index', compact('stations'));
     }
-
     public function create()
     {
         return view("Station.create");

@@ -18,9 +18,7 @@
                         Tous les rapports
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li><a class="dropdown-item" href="../pages/shop-grid.html">Dairy, Bread & EggsBread & Eggs</a>
-                        </li>
-                        <li><a class="dropdown-item" href="../pages/shop-grid.html">Snacks & Munchies</a></li>
+                        <li><a class="dropdown-item" href="#"></a></li>
                     </ul>
                 </div>
                 <div class="col-lg-3"></div>
@@ -47,7 +45,7 @@
                         <li class="nav-item w-100 w-lg-auto">
                             <a class="nav-link" href="{{ route('parametre') }}">
                                 <i class="fa-solid fa-cogs"></i>
-                               Paramètres</a>
+                                Paramètres</a>
                         </li>
                     </ul>
                 </div>

@@ -18,23 +18,13 @@
 
 
 <body>
-    <div class="header">
-        <div class="header-content">
-            <nav class="navbar navbar-glass row">
-                <div class="dashboard_bar col-lg-12 text-end">
-                    <h2>Tableau de bord {{ Auth::user()->name }}</h2>
-                </div>
-            </nav>
-        </div>
-    </div>
+    
     <div class="main-wrapper">
 
         @include('Gerant.navbar')
 
         <main class="main-content-wrapper">
             <section class="container">
-
-                @include('Gerant.card')
 
                 @yield('content-body')
 

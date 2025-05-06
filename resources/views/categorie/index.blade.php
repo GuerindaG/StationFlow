@@ -6,7 +6,7 @@
             <div class="col-md-12">
                 <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-4">
                     <div>
-                        <h2>Inventaire des catégories</h2>
+                        <h2>Liste des catégories</h2>
                     </div>
                 </div>
             </div>
@@ -33,7 +33,7 @@
                                     <table
                                         class="table table-centered table-hover table-borderless mb-0 table-with-checkbox text-nowrap">
                                         <thead class="bg-light">
-                                            <tr class="text-center">
+                                            <tr class="">
                                                 <th>
                                                     N°
                                                 </th>
@@ -45,7 +45,7 @@
                                         </thead>
                                         <tbody>
                                             @foreach($categories as $categorie)
-                                                <tr class="text-center">
+                                                <tr class="">
                                                     <td> {{ $loop->iteration }}</td>
                                                     <td>{{ $categorie->nom }}</td>
                                                     <td><span class="badge bg-warning" data-bs-toggle="modal"

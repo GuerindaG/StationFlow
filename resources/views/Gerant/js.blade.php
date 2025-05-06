@@ -23,22 +23,21 @@
     })(window, document, "clarity", "script", "kuc8w5o9nt");
 </script>
 
-<script src="../assets/js/vendors/validation.js"></script>
 <!-- Javascript-->
-<script src="../assets/libs/nouislider/dist/nouislider.min.js"></script>
-<script src="../assets/libs/wnumb/wNumb.min.js"></script>
+<script src="{{ asset('../assets/libs/nouislider/dist/nouislider.min.js')}}"></script>
+<script src="{{ asset('../assets/libs/wnumb/wNumb.min.js')}}"></script>
 <!-- Libs JS -->
-<!-- <script src="../assets/libs/jquery/dist/jquery.min.js"></script> -->
-<script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="../assets/libs/simplebar/dist/simplebar.min.js"></script>
+<!-- <script src="{{ asset('../assets/libs/jquery/dist/jquery.min.js')}}"></script> -->
+<script src="{{ asset('../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
+<script src="{{ asset('../assets/libs/simplebar/dist/simplebar.min.js')}}"></script>
 
 
 <!-- Theme JS -->
-<script src="../assets/js/theme.min.js"></script>
+<script src="{{ asset('../assets/js/theme.min.js')}}"></script>
 
-<script src="../assets/libs/tiny-slider/dist/min/tiny-slider.js"></script>
-<script src="../assets/js/vendors/tns-slider.js"></script>
-<script src="../assets/js/vendors/zoom.js"></script>
+<script src="{{ asset('../assets/libs/tiny-slider/dist/min/tiny-slider.js')}}"></script>
+<script src="{{ asset('../assets/js/vendors/tns-slider.js')}}"></script>
+<script src="{{ asset('../assets/js/vendors/zoom.js')}}"></script>
 
 
 <!-- <script src="{{ asset('../assets/libs/jquery/dist/jquery.min.js')}}"></script> -->
@@ -52,7 +51,7 @@
     // Afficher la date et l'heure actuelles dans le pied de page
     document.getElementById('generated-date').innerText = new Date().toLocaleString();
 </script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js')}}"></script>
 <script>
     $('#categorie_id').on('change', function () {
         var categorieId = $(this).val();
