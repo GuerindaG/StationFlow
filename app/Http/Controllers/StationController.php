@@ -6,13 +6,29 @@ use App\Models\Station;
 use App\Models\User;
 use Hash;
 use Illuminate\Http\Request;
+use Schema;
 
 class StationController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $stations = Station::with('gerant')->get();
-        return view('Station.index', compact('stations'));
+        $searchTerm = $request->input('search');
+
+        $query = Station::query();
+
+        if ($searchTerm) {
+            $columns = Schema::getColumnListing('stations'); 
+            $columns = array_diff(Schema::getColumnListing('stations'), ['id', 'created_at', 'updated_at']);
+            $query->where(function ($q) use ($columns, $searchTerm) {
+                foreach ($columns as $column) {
+                    $q->orWhere($column, 'like', '%' . $searchTerm . '%');
+                }
+            });
+        }
+
+        $stations = $query->paginate(5);
+        return view('Station.index', compact('stations', 'searchTerm'));
     }
     public function create()
     {
@@ -37,7 +53,7 @@ class StationController extends Controller
         $gerant = User::create([
             'name' => $request->nom_station,
             'email' => $request->email_gerant,
-            'password' =>  Hash::make($request->password_gerant),
+            'password' => Hash::make($request->password_gerant),
             'telephone' => $request->contact,
             'role' => User::ROLE_GESTIONNAIRE,
         ]);
@@ -50,13 +66,17 @@ class StationController extends Controller
             'statut' => $request->statut,
             'gerant_id' => $gerant->id,
         ]);
-        return redirect()->route('station.index')->with('success', 'Station et gérant créés avec succès !');
+        return redirect()->route('station.index')->with('success', 'Votre station a été enregistré avec succès.');
     }
 
     public function show(string $id)
     {
-        //
+        $station = Station::findOrFail($id); // une seule station
+        $rapports = $station->rapports()->latest()->get(); // rapports de cette station
+
+        return view('station.show', compact('station', 'rapports'));
     }
+
 
     public function edit(Station $station)
     {
@@ -91,7 +111,7 @@ class StationController extends Controller
         $station->archiver = true;
         $station->save();
 
-        return redirect()->route('station.index')->with('success', 'Station archivée avec succès.');
+        return redirect()->route('station.index')->with('success', 'Station supprimée avec succès.');
     }
 
     public function archiver()

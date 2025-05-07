@@ -34,11 +34,11 @@ class Station extends Model
         'archiver' => 'boolean',
     ];
     protected static function booted()
-{
-    static::addGlobalScope('notArchived', function ($query) {
-        $query->where('archiver', false);
-    });
-}
+    {
+        static::addGlobalScope('notArchived', function ($query) {
+            $query->where('archiver', false);
+        });
+    }
     // Relation avec les ventes
     public function ventes()
     {
@@ -49,4 +49,10 @@ class Station extends Model
     {
         return $this->belongsTo(User::class, 'gerant_id');
     }
+    // Station.php
+    public function rapports()
+    {
+        return $this->hasMany(Rapport::class);
+    }
+
 }

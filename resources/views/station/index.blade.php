@@ -6,7 +6,7 @@
             <div class="col-md-12">
                 <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-4">
                     <div>
-                        <h2>Stations services</h2>
+                        <h2>Liste des stations services</h2>
                     </div>
                     <div>
                         <a href="{{route('station.create')}}" class="btn btn-primary">Ajouter une station</a>
@@ -19,29 +19,22 @@
                 <div class="card h-100 card-lg">
                     <div class="px-6 py-6">
                         <div class="row justify-content-between">
-                            <div class="col-lg-4 col-md-6 col-12 mb-2 mb-md-0">
-                                <!-- form -->
-                                <form class="d-flex" role="search">
-                                    <input class="form-control" type="search" placeholder="Rechercher une  station"
-                                        aria-label="Search" />
+                            <div class="col-lg-12 col-md-6 col-12 mb-2 mb-md-0">
+                                <form method="GET" action="{{ route('station.index') }}" class="d-flex mb-3">
+                                    <input class="form-control me-2" type="search" name="search"
+                                        placeholder="Rechercher une station" value="{{ request('search') }}"
+                                        aria-label="Search">
+                                    <button class="btn btn-secondary" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
                                 </form>
-                            </div>
-                            <!-- select option -->
-                            <div class="col-xl-2 col-md-4 col-12">
-                                <select class="form-select">
-                                    <option selected>Status</option>
-                                    <option value="Published">Active</option>
-                                    <option value="Unpublished">Inactive</option>
-                                </select>
                             </div>
                         </div>
                     </div>
                     <div class="card-body p-0">
                         <div class="table-responsive">
-                            <table
+                            <table id="stationTable"
                                 class="table table-centered table-hover mb-0 text-nowrap table-borderless table-with-checkbox">
                                 <thead class="bg-light">
-                                    <tr class="text-center">
+                                    <tr class="">
                                         <th>
                                             N°
                                         </th>
@@ -102,11 +95,23 @@
                         <span></span>
                         <nav>
                             <ul class="pagination mb-0">
-                                <li class="page-item disabled"><a class="page-link" href="#!">Previous</a></li>
-                                <li class="page-item"><a class="page-link active" href="#!">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#!">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#!">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#!">Next</a></li>
+                                <!-- Previous button -->
+                                <li class="page-item {{ $stations->onFirstPage() ? 'disabled' : '' }}">
+                                    <a class="page-link" href="{{ $stations->previousPageUrl() }}"
+                                        tabindex="-1">Previous</a>
+                                </li>
+
+                                <!-- Display limited number of pages (3 pages max) -->
+                                @foreach ($stations->getUrlRange(1, 3) as $page => $url)
+                                    <li class="page-item {{ $page == $stations->currentPage() ? 'active' : '' }}">
+                                        <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                                    </li>
+                                @endforeach
+
+                                <!-- Next button -->
+                                <li class="page-item {{ $stations->hasMorePages() ? '' : 'disabled' }}">
+                                    <a class="page-link" href="{{ $stations->nextPageUrl() }}">Next</a>
+                                </li>
                             </ul>
                         </nav>
                     </div>
@@ -114,5 +119,4 @@
             </div>
         </div>
     </div>
-
 @endsection

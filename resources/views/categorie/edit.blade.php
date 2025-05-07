@@ -11,21 +11,21 @@
                 <form action="{{ route('categorie.update', $categorie->id) }}" method="POST" class="row needs-validation g-3" novalidate>
                     @csrf
                     @method('PUT')
-                    <div class="col-lg- col-12">
+                    <div class="col-lg- col-12  p-2">
                         <!-- input -->
                         <label for="customerEditAdd" class="form-label">Nom de la catégorie</label>
-                        <input type="text" class="form-control" name="nom" value="{{ old('nom', $categorie->nom) }}"placeholder="Street categorie"
+                        <input type="text" class="form-control" name="nom" value="{{ old('nom', $categorie->nom) }}"
                             required />
                         <div class="invalid-feedback">Pelease enter categorie</div>
                     </div>
                     <!-- input -->
-                    <div class="col-lg- col-12">
+                    <div class="col-lg- col-12  p-2">
                         <label class="form-label">Description</label>
                         <textarea class="form-control" rows="3" name="description" placeholder="Meta Description">{{ old('description', $categorie->description) }}</textarea>
                     </div>
-                    <div class="d-flex flex-row gap-3">
-                        <button type="submit" class="btn btn-primary">Modifier</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <div class="d-flex flex-row gap-3  p-2">
+                        <button type="submit" class="btn btn-primary w-50">Modifier</button>
+                        <button type="button" class="btn btn-secondary w-50" data-bs-dismiss="modal">Annuler</button>
                     </div>
                 </form>
             </div>

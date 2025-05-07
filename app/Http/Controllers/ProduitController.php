@@ -5,17 +5,33 @@ namespace App\Http\Controllers;
 use App\Models\Categorie;
 use App\Models\Produit;
 use Illuminate\Http\Request;
+use Schema;
 
 class ProduitController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
         $produits = Produit::with('categorie')->get();
+        $searchTerm = $request->input('search');
+
+        $query = Produit::query();
+        // Filtrage par catégorie
+        if ($request->filled('categorie_id')) {
+            $query->where('categorie_id', $request->categorie_id);
+        }
+        if ($searchTerm) {
+            $columns = Schema::getColumnListing('produits');
+            $columns = array_diff(Schema::getColumnListing('produits'), ['id', 'created_at', 'updated_at']);
+            $query->where(function ($q) use ($columns, $searchTerm) {
+                foreach ($columns as $column) {
+                    $q->orWhere($column, 'like', '%' . $searchTerm . '%');
+                }
+            });
+        }
+
+        $produits = $query->paginate(5);
         $categories = Categorie::all();
-        return view('produit.index', compact('produits', 'categories'));
+        return view('produit.index', compact('produits', 'categories', 'searchTerm'));
     }
 
     /**
@@ -32,6 +48,8 @@ class ProduitController extends Controller
      */
     public function store(Request $request)
     {
+        $produits = $request->input('produits');
+
         $request->validate([
             'nom' => 'required|string|max:255',
             'categorie_id' => 'required|exists:categories,id',
@@ -109,34 +127,34 @@ class ProduitController extends Controller
     }
 
     public function getProduits(Request $request)
-{
-    $query = Produit::query();
-    
-    // Filtrer par catégorie si spécifié
-    if ($request->has('categorie_id') && $request->categorie_id) {
-        $query->where('categorie_id', $request->categorie_id);
+    {
+        $query = Produit::query();
+
+        // Filtrer par catégorie si spécifié
+        if ($request->has('categorie_id') && $request->categorie_id) {
+            $query->where('categorie_id', $request->categorie_id);
+        }
+
+        // Recherche par terme
+        if ($request->has('search') && $request->search) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('nom', 'like', "%{$search}%")
+                    ->orWhere('prix_unitaire', 'like', "%{$search}%");
+            });
+        }
+
+        // Pagination
+        $produits = $query->with('categorie')->paginate(10);
+
+        return response()->json([
+            'produits' => $produits,
+            'pagination' => [
+                'total' => $produits->total(),
+                'per_page' => $produits->perPage(),
+                'current_page' => $produits->currentPage(),
+                'last_page' => $produits->lastPage(),
+            ]
+        ]);
     }
-    
-    // Recherche par terme
-    if ($request->has('search') && $request->search) {
-        $search = $request->search;
-        $query->where(function($q) use ($search) {
-            $q->where('nom', 'like', "%{$search}%")
-              ->orWhere('prix_unitaire', 'like', "%{$search}%");
-        });
-    }
-    
-    // Pagination
-    $produits = $query->with('categorie')->paginate(10);
-    
-    return response()->json([
-        'produits' => $produits,
-        'pagination' => [
-            'total' => $produits->total(),
-            'per_page' => $produits->perPage(),
-            'current_page' => $produits->currentPage(),
-            'last_page' => $produits->lastPage(),
-        ]
-    ]);
-}
 }

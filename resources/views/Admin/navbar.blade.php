@@ -18,7 +18,15 @@
                         Tous les rapports
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li><a class="dropdown-item" href="#"></a></li>
+                        @forelse($stations as $station)
+                            <li>
+                                <a class="dropdown-item" href="{{ route('station.show', $station->id) }}">
+                                    {{ $station->nom }}
+                                </a>
+                            </li>
+                        @empty
+                            <li><a class="dropdown-item" href="#">Aucune station</a></li>
+                        @endforelse
                     </ul>
                 </div>
                 <div class="col-lg-3"></div>

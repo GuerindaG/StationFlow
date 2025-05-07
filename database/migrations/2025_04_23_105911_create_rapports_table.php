@@ -12,10 +12,11 @@ return new class extends Migration {
     {
         Schema::create('rapports', function (Blueprint $table) {
             $table->id();
-            $table->date('date');
-            $table->string('station');
+            $table->foreignId('station_id')->constrained()->onDelete('cascade');
+            $table->foreignId('vente_id')->constrained('ventes')->onDelete('cascade');
+            $table->foreignId('approvisionnement_id')->constrained('approvisionnements')->onDelete('cascade');
             $table->timestamps();
-            $table->softDeletes(); 
+            $table->softDeletes();
         });
     }
 

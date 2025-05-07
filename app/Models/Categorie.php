@@ -2,9 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Categorie extends Model
 {
@@ -13,5 +11,10 @@ class Categorie extends Model
         'description',
     ];
 
-    Use SoftDeletes;
+    protected static function booted()
+    {
+        static::addGlobalScope('notArchived', function ($query) {
+            $query->where('archiver', false);
+        });
+    }
 }

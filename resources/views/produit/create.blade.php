@@ -9,14 +9,12 @@
                 <form action="{{ route('produit.store') }}" method="POST">
                     @csrf
                     <div class="row mb-2">
-                        <div class="col-sm-12">
+                        <div class="col-sm-5">
                             <label for="recipient-name" class="col-form-label">Nom du Produit</label>
                             <input type="text" name="nom" class="form-control pop">
                         </div>
 
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-sm-6">
+                        <div class="col-sm-5">
                             <label for="recipient-name" class="col-form-label">Catégorie</label>
                             <select class="default-select form-control wide" id="categorie_id" name="categorie_id">
                                 @foreach($categories as $categorie)
@@ -24,15 +22,15 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-2">
                             <label for="recipient-name" class="col-form-label">Prix Unitaire</label>
                             <input type="number" placeholder="" id="prix_unitaire" name="prix_unitaire"
                                 class="form-control pop">
                         </div>
                     </div>
                     <div class="d-flex flex-row gap-3">
-                        <button type="submit" class="btn btn-primary">Créer</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                        <button type="submit" class="btn btn-primary w-50">Créer</button>
+                        <button type="button" class="btn btn-secondary w-50" data-bs-dismiss="modal">Annuler</button>
                     </div>
                 </form>
             </div>

@@ -15,7 +15,7 @@
                         <label for="customerEditAdd" class="form-label">Nom de la catégorie</label>
                         <input type="text" class="form-control" name="nom" placeholder="Street categorie"
                             required />
-                        <div class="invalid-feedback">Pelease enter categori</div>
+                        <div class="invalid-feedback">Pelease enter categorie</div>
                     </div>
                     <!-- input -->
                     <div class="col-lg- col-12">
@@ -23,8 +23,8 @@
                         <textarea class="form-control" rows="3" name="description" placeholder="Meta Description"></textarea>
                     </div>
                     <div class="d-flex flex-row gap-3">
-                        <button type="submit" class="btn btn-primary">Créer</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                        <button type="submit" class="btn btn-primary w-50">Créer</button>
+                        <button type="button" class="btn btn-secondary w-50" data-bs-dismiss="modal">Annuler</button>
                     </div>
                 </form>
             </div>
