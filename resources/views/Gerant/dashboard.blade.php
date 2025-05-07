@@ -1,30 +1,22 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta content="Codescandy" name="author">
-    <title>StationFlow - Gestion</title>
-    <!-- Favicon icon-->
+    <meta content="StationFlow - Gestion" name="author">
+    <title></title>
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('./assets/images/favicon/stationflow-favicon.svg')}}">
-
     @include('Gerant.css')
-
     @include('Gerant.js')
-
 </head>
 
-
 <body>
-
+    @include('Gerant.navbar')
     <div class="main-wrapper">
-
-        @include('Gerant.navbar')
-
+        @include('Gerant.verticalNav')
         <main class="main-content-wrapper">
-            <section class="container">
+            <div class="container">
                 @include('Gerant.card')
                 <!-- row -->
                 <div class="row">
@@ -311,13 +303,10 @@
                         </div>
                     </div>
                 </div>
-            </section>
+            </div>
 
         </main>
     </div>
-
-    @include('Gerant.js')
-
 </body>
 
 </html>

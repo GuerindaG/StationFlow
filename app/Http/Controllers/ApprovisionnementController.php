@@ -6,17 +6,35 @@ use App\Models\Approvisionnement;
 use App\Models\Categorie;
 use App\Models\Produit;
 use Illuminate\Http\Request;
+use Schema;
 
 class ApprovisionnementController extends Controller
 {
-    public function getProduits($categorie_id)
+    public function getByCategorie($id)
     {
-        $produits = Produit::where('categorie_id', $categorie_id)->get();
+        $produits = Produit::where('categorie_id', $id)->get();
         return response()->json($produits);
     }
 
-    public function index()
+
+    public function index(Request $request)
     {
+        $searchTerm = $request->input('search');
+
+        $query = Approvisionnement::with('produit');
+
+        if ($searchTerm) {
+            $columns = array_diff(Schema::getColumnListing('approvisionnements'), ['id', 'created_at', 'updated_at']);
+            $query->where(function ($q) use ($columns, $searchTerm) {
+                foreach ($columns as $column) {
+                    $q->orWhere($column, 'like', '%' . $searchTerm . '%');
+                }
+            });
+        }
+
+        $approvisionnements_pagines = $query->orderByDesc('date_approvisionnement')->paginate(5);
+
+        // Récupérer les derniers approvisionnements pour chaque produit
         $derniers_approvisionnements = Approvisionnement::with('produit')
             ->select('produit_id', \DB::raw('MAX(date_approvisionnement) as date_appro'))
             ->groupBy('produit_id')
@@ -25,16 +43,19 @@ class ApprovisionnementController extends Controller
                 return Approvisionnement::with('produit')
                     ->where('produit_id', $item->produit_id)
                     ->where('date_approvisionnement', $item->date_appro)
-                    ->latest('id') // au cas où plusieurs le même jour
+                    ->latest('id')
                     ->first();
             });
 
-        $produits = Produit::all();
+        $produits = Produit::select('id', 'nom')->get();
         $categories = Categorie::all();
+
         return view("approvisionnement.index", [
+            'approvisionnements_pagines' => $approvisionnements_pagines,
             'derniers_approvisionnements' => $derniers_approvisionnements,
             'produits' => $produits,
-            'categories' => $categories
+            'categories' => $categories,
+            'searchTerm' => $searchTerm
         ]);
     }
 
@@ -85,20 +106,17 @@ class ApprovisionnementController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'categorie_id' => 'required|exists:categories,id',
-            'produit_id' => 'required|exists:produits,id',
             'qte_appro' => 'required|numeric|min:0',
             'date_approvisionnement' => 'required|date',
         ]);
 
         $approvisionnement = Approvisionnement::findOrFail($id);
+        $produit = $approvisionnement->produit;
 
-        $produit = Produit::findOrFail($request->produit_id);
         $prix_unitaire = $produit->prix_unitaire ?? 0;
         $montant_total = $request->qte_appro * $prix_unitaire;
 
         $approvisionnement->update([
-            'produit_id' => $request->produit_id,
             'qte_appro' => $request->qte_appro,
             'montant_total' => $montant_total,
             'date_approvisionnement' => $request->date_approvisionnement,
@@ -106,6 +124,7 @@ class ApprovisionnementController extends Controller
 
         return redirect()->route('approvisionnement.index')->with('success', 'Approvisionnement mis à jour avec succès.');
     }
+
     public function destroy(string $id)
     {
         $approvisionnement = Approvisionnement::findOrFail($id);

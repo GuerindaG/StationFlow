@@ -6,15 +6,6 @@
             <div class="py-6 p-md-6 p-lg-10">
                 <div class="row mb-6">
                     <h2 class="col-lg-10 mb-0">Mettre à jour mon profil</h2>
-                    <div class="col-lg-2 d-flex justify-content-end">
-                        <form action="{{ route('logout') }}" method="POST">
-                            @csrf
-                            <button class="btn btn-danger">
-                                <i class="feather-icon icon-log-out"></i>
-                                Déconnexion
-                            </button>
-                        </form>
-                    </div>
                 </div>
 
                 <div class="row mb-8 g-5">

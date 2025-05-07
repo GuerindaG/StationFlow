@@ -10,7 +10,8 @@ use App\Http\Controllers\StationController;
 use App\Http\Controllers\VenteController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/get-produits/{categorie_id}', [ApprovisionnementController::class, 'getProduits']);
+Route::get('/get-produits/{id}', [ApprovisionnementController::class, 'getByCategorie']);
+
 
 Route::get('/', fn() => view('connexion'))->name("connexion");
 
@@ -30,7 +31,7 @@ Route::prefix('/gerant')->middleware(['auth', 'CheckGerant'])->group(function ()
         return view('Gerant.dashboard', compact('station'));
     })->name('gestionnaire.dashboard');
     
-    Route::get('/rapport', fn() => view('Gerant.addRapport'))->name("addRapport");
+    Route::get('/rapport', fn() => view('rapportpdf'))->name("rapport");
     Route::resource('/vente', VenteController::class);
     Route::resource('/approvisionnement', ApprovisionnementController::class);
 });
