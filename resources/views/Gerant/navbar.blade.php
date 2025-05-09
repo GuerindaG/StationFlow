@@ -6,33 +6,31 @@
             </div>
             <div>
                 <ul class="list-unstyled d-flex align-items-center mb-0 ms-5 ms-lg-0">
-                    <li class="dropdown ms-2">
+                    <li class="dropdown ms-4">
                         <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="../assets/images/avatar/avatar-1.jpg" alt=""
-                                class="avatar avatar-md rounded-circle" />
+                            <div class="lh-1">
+                                <div class="mb-2">
+                                    <i class="bi bi-person-circle fs-1"></i>
+                                </div>
+                            </div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end p-0">
-                            <div class="lh-1 px-5 py-4 border-bottom">
-                                <h5 class="mb-1 h6">{{ Auth::user()->name }}</h5>
-                                <small>{{ Auth::user()->email }}</small>
-                            </div>
-
                             <ul class="list-unstyled px-2 py-3">
                                 <li>
                                     <a class="dropdown-item" href="#!">Acceuil</a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="#!">Profil</a>
+                                    <a class="dropdown-item" href="#!">Editer Profil</a>
+                                </li>
+                                <li>
+                                    <form action="{{ route('logout') }}" method="POST">
+                                        @csrf
+                                        <button class="dropdown-item btn btn-danger">
+                                            Déconnexion
+                                        </button>
+                                    </form>
                                 </li>
                             </ul>
-                            <div class="border-top px-5 py-3">
-                                <form action="{{ route('logout') }}" method="POST">
-                                    @csrf
-                                    <button class="dropdown-iten" href="#">
-                                        Déconnexion
-                                    </button>
-                                </form>
-                            </div>
                         </div>
                     </li>
                 </ul>

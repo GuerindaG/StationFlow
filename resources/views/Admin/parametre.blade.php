@@ -24,8 +24,8 @@
                                                     Nom
                                                     <span class="text-danger">*</span>
                                                 </label>
-                                                <input type="text" class="form-control" id="customerEditName" name="name" value="" 
-                                                    required />
+                                                <input type="text" class="form-control" id="customerEditName" name="name"
+                                                    value="" required />
                                                 <div class="invalid-feedback">svp entrez votre nom</div>
                                             </div>
                                         </div>
@@ -66,41 +66,6 @@
                                             </div>
                                         </div>
                                     </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-12">
-                        <div class="card card-lg border-0">
-                            <div class="card-body p-6 d-flex flex-column gap-6">
-                                <div>
-                                    <h4 class="mb-0 h5">Résumé</h4>
-                                </div>
-                                <div class="d-flex flex-column gap-3">
-                                    <div class="d-flex flex-row justify-content-between">
-                                        <span class="fw-medium text-dark">Nom</span>
-                                        <span class="fw-medium">2 month ago</span>
-                                    </div>
-                                    <div class="d-flex flex-row justify-content-between">
-                                        <span class="fw-medium text-dark">Email</span>
-                                        <span class="fw-medium">2 month ago</span>
-                                    </div>
-                                    <div class="d-flex flex-row justify-content-between">
-                                        <span class="fw-medium text-dark">Téléphone</span>
-                                        <span class="fw-medium">2 month ago</span>
-                                    </div>
-                                    <div class="d-flex flex-row justify-content-between">
-                                        <span class="fw-medium text-dark">Anniversaire</span>
-                                        <span class="fw-medium">2 month ago</span>
-                                    </div>
-                                    <div class="d-flex flex-row justify-content-between">
-                                        <span class="fw-medium text-dark">Date de création </span>
-                                        <span class="fw-medium">8 month ago</span>
-                                    </div>
-                                    <div class="d-flex flex-row justify-content-between">
-                                        <span class="fw-medium text-dark">Dernière modification</span>
-                                        <span class="fw-medium">2 month ago</span>
-                                    </div>
                                 </div>
                             </div>
                         </div>

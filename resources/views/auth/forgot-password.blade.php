@@ -292,10 +292,11 @@
                         @error('email')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
-                    </div>   
-                    <div class="col-12 d-grid"> <button type="submit" class="btn btn-primary">Envoyer</button></>
-                        <div class="col-12 d-grid"> <a href={{route('login')}} class="btn btn-light">Retour</a>
-                        </div>
+                    </div>
+                    <div class="col-12 d-grid">
+                        <button type="submit" class="btn btn-primary">Envoyer</button>
+                    </div>
+                    <div class="col-12 d-grid"> <a href={{route('login')}} class="btn btn-light">Retour</a>
                     </div>
             </form>
         </div>
