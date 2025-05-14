@@ -28,14 +28,16 @@ class VenteController extends Controller
     }
     public function create()
     {
+        $station = Auth::user()->station;
+        if (!$station) {
+            return redirect()->route('gestionnaire.no-station');
+        }
         $categories = Categorie::all();
         $paiements = Paiement::all();
-        $produits = Produit::all(); 
+        $produits = Produit::where('station_id', $station->id)->get();
 
         return view('Gerant.Vente.create', compact('categories', 'paiements', 'produits'));
     }
-
-
     public function store(Request $request)
     {
         $station = Auth::user()->station;
@@ -63,21 +65,26 @@ class VenteController extends Controller
 
         return redirect()->route('vente.index')->with('success', 'Vente enregistrée.');
     }
-
-
     public function show(Vente $vente)
     {
         return view('vente.show', compact('vente'));
     }
     public function edit(Vente $vente)
     {
-        $stations = Station::all();
+        $station = Auth::user()->station;
+
+        if ($vente->station_id !== $station->id) {
+            abort(403, "Accès interdit");
+        }
         $produits = Produit::all();
         return view('vente.edit', compact('vente', 'stations', 'produits'));
     }
-
     public function update(Request $request, Vente $vente)
     {
+        $station = Auth::user()->station;
+        if ($vente->station_id !== $station->id) {
+            abort(403, "Accès interdit");
+        }
         $request->validate([
             'station_id' => 'required|exists:stations,id',
             'produit_id' => 'required|exists:produits,id',
@@ -90,11 +97,10 @@ class VenteController extends Controller
 
         return redirect()->route('vente.index')->with('success', 'Vente mise à jour avec succès.');
     }
-
     public function destroy(Vente $vente)
     {
         $vente->delete();
-        return redirect()->route('ventes.index')->with('success', 'Vente supprimée avec succès.');
+        return redirect()->route('vente.index')->with('success', 'Vente supprimée avec succès.');
     }
 
 }
