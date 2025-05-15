@@ -24,7 +24,9 @@ class Vente extends Model
         'produit_id',
         'quantite',
         'montant_total',
+        'paiement_id',
         'date_vente',
+        
     ];
     public function station()
     {

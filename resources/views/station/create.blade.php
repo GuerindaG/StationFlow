@@ -61,6 +61,18 @@
                                     </label>
                                     <input type="text" class="form-control" name="adresse" placeholder="" required />
                                 </div>
+                                <div class="mb-3 col-lg-6">
+                                    <label class="form-label">
+                                        <h4 class="h5">Longitude</h4>
+                                    </label>
+                                    <input type="text" class="form-control" name="longitude" placeholder="Ex: 2.370292" required />
+                                </div>
+                                <div class="mb-3 col-lg-6">
+                                    <label class="form-label">
+                                        <h4 class="h5">Latitude</h4>
+                                    </label>
+                                    <input type="text" class="form-control" name="latitude" placeholder="Ex: 6.370292" required />
+                                </div>
                                 <!-- input -->
                                 <div class="mb-3 col-lg-6">
                                     <label class="form-label">
@@ -92,9 +104,7 @@
                                             required />
                                         <span><i class="bi bi-eye-slash passwordToggler"></i></span>
                                     </div>
-
                                 </div>
-
                                 <div class="col-lg-12 text-end">
                                     <button class="btn btn-primary w-100" type="submit">Créer la station</button>
                                 </div>

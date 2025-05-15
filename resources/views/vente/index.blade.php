@@ -1,6 +1,5 @@
 @extends('Gerant.LayoutGerant')
 @section('content-body')
-    @include('vente.create')
 
     <div class="container">
         <div class="row mb-8">
@@ -10,8 +9,7 @@
                         <h2>Ventes</h2>
                     </div>
                     <div>
-                        <a href="add-category.html" data-bs-toggle="modal" data-bs-target="#newSaleModal"
-                            class="btn btn-primary">Nouvelle vente</a>
+                        <a href="{{ route('vente.create') }}" class="btn btn-primary">Nouvelle vente</a>
                     </div>
                 </div>
             </div>
@@ -75,24 +73,24 @@
                                             <tr>
                                                 <th>N°</th>
                                                 <th>Produits</th>
-                                                <th>Vente en TV</th>
-                                                <th>Vente en JNP PASS</th>
-                                                <th>Vente au Comptant</th>
+                                                <th>TV(XOF)</th>
+                                                <th>JNP PASS(XOF)</th>
+                                                <th>Comptant(XOF)</th>
                                                 <th>Total</th>
                                                 <th>Historique</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @forelse ($ventes as $approvisionnement)
+                                            @forelse ($ventes->filter(fn($v) => $v->produit->categorie->nom === 'Produits blancs') as $pb)
                                                 <tr>
-                                                    <td>1</td>
-                                                    <td>Essence</td>
-                                                    <td>165,000 XOF</td>
-                                                    <td>125,000 XOF</td>
-                                                    <td>50,000 XOF</td>
-                                                    <td>340,000 XOF</td>
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td>{{ $pb->produit->nom}}</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
                                                     <td class="text-center">
-                                                        <a href="{{ route('vente    .index') }}"
+                                                        <a href="{{ route('vente.show', $pb->produit->id) }}"
                                                             class="btn btn-sm btn-outline-primary view-details">
                                                             <i class="fas fa-eye"></i>
                                                         </a>
@@ -100,7 +98,7 @@
                                                 </tr>
                                             @empty
                                                 <tr>
-                                                    <td colspan="7">Aucun approvisionnement trouvé.</td>
+                                                    <td colspan="7">Aucune vente trouvée pour les produits blancs.</td>
                                                 </tr>
                                             @endforelse
                                         </tbody>
@@ -137,30 +135,36 @@
                                     <table class="table table-centered table-hover text-nowrap table-borderless mb-0">
                                         <thead class="bg-light">
                                             <tr>
-                                                <th></th>
+                                                <th>N°</th>
                                                 <th>Produits</th>
-                                                <th>Vente en TV</th>
-                                                <th>Vente en JNP PASS</th>
-                                                <th>Vente au Comptant</th>
+                                                <th>TV(XOF)</th>
+                                                <th>JNP PASS(XOF)</th>
+                                                <th>Comptant(XOF)</th>
                                                 <th>Total</th>
                                                 <th>Historique</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Essence</td>
-                                                <td>165,000 XOF</td>
-                                                <td>125,000 XOF</td>
-                                                <td>50,000 XOF</td>
-                                                <td>340,000 XOF</td>
-                                                <td class="text-center">
-                                                    <a href="{{ route('vente.index') }}"
-                                                        class="btn btn-sm btn-outline-primary view-details">
-                                                        <i class="fas fa-eye"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
+                                            @forelse ($ventes->filter(fn($v) => $v->produit->categorie->nom === 'Gaz et accessoires') as $pb)
+                                                <tr>
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td>{{ $pb->produit->nom}}</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td class="text-center">
+                                                        <a href="{{ route('vente.show', $pb->produit->id) }}"
+                                                            class="btn btn-sm btn-outline-primary view-details">
+                                                            <i class="fas fa-eye"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            @empty
+                                                <tr>
+                                                    <td colspan="7">Aucune vente trouvée pour les Gaz et accessoires.</td>
+                                                </tr>
+                                            @endforelse
                                         </tbody>
                                     </table>
                                 </div>
@@ -198,29 +202,34 @@
                                             <tr>
                                                 <th>N°</th>
                                                 <th>Produits</th>
-                                                <th>Vente en TV</th>
-                                                <th>Vente en JNP PASS</th>
-                                                <th>Vente au Comptant</th>
+                                                <th>TV(XOF)</th>
+                                                <th>JNP PASS(XOF)</th>
+                                                <th>Comptant(XOF)</th>
                                                 <th>Total</th>
                                                 <th>Historique</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Essence</td>
-                                                <td>165,000 XOF</td>
-                                                <td>125,000 XOF</td>
-                                                <td>50,000 XOF</td>
-                                                <td>340,000 XOF</td>
-                                                <td class="text-center">
-                                                    <button class="btn btn-sm btn-outline-primary view-details"
-                                                        data-bs-toggle="modal" data-bs-target="#detailsModal"
-                                                        data-category="produits-blancs">
-                                                        <i class="fas fa-eye"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
+                                            @forelse ($ventes->filter(fn($v) => $v->produit->categorie->nom === 'Lubrifiants') as $pb)
+                                                <tr>
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td>{{ $pb->produit->nom}}</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td class="text-center">
+                                                        <a href="{{ route('vente.show', $pb->produit->id) }}"
+                                                            class="btn btn-sm btn-outline-primary view-details">
+                                                            <i class="fas fa-eye"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            @empty
+                                                <tr>
+                                                    <td colspan="7">Aucune vente trouvée pour les lubrifiants.</td>
+                                                </tr>
+                                            @endforelse
                                         </tbody>
                                     </table>
                                 </div>
@@ -240,66 +249,6 @@
                             </ul>
                         </nav>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Details Modal -->
-    <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="detailsModalLabel">Historique du produit: <span>productname</span>
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="table-responsive">
-                        <table class="table table-responsive-md table-centered table-borderless text-nowrap table-hover">
-                            <thead class="bg-light">
-                                <tr>
-                                    <th style="width:80px;">#</th>
-                                    <th>Vente en TV</th>
-                                    <th>Vente en JNP PASS</th>
-                                    <th>Vente au Comptant</th>
-                                    <th>Total</th>
-                                    <th>Date</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>165,000 XOF</td>
-                                    <td>125,000 XOF</td>
-                                    <td>50,000 XOF</td>
-                                    <td>340,000 XOF</td>
-                                    <td>28/04/2025</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div class="d-flex justify-content-between align-items-center mt-3">
-                        <div>
-
-                        </div>
-                        <nav aria-label="Pagination TV">
-                            <ul class="pagination pagination-sm" id="tv-pagination">
-                                <li class="page-item disabled">
-                                    <a class="page-link" href="#" tabindex="-1">Précédent</a>
-                                </li>
-                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">Suivant</a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
                 </div>
             </div>
         </div>

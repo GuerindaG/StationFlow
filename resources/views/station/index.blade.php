@@ -8,7 +8,11 @@
                     <div>
                         <h2>Liste des stations services</h2>
                     </div>
+
                     <div>
+                        <a href="{{ route('export.pdf', ['type' => 'stations']) }}" target="_blank" class="btn btn-secondary">
+                            📄 Télécharger PDF 
+                        </a>
                         <a href="{{route('station.create')}}" class="btn btn-primary">Ajouter une station</a>
                     </div>
                 </div>
@@ -53,6 +57,7 @@
                                         <th>RCCM</th>
                                         <th>IFU</th>
                                         <th>Adresse</th>
+                                        <th>Itinéraire</th>
                                         <th>Email</th>
                                         <th>Contact</th>
                                         <th>Statut</th>
@@ -70,6 +75,10 @@
                                             <td>{{ $station->rccm }}</td>
                                             <td>{{ $station->ifu }}</td>
                                             <td>{{ $station->adresse }}</td>
+                                            <td><a href="https://www.google.com/maps/dir/?api=1&destination={{ $station->latitude }},{{ $station->longitude }}"
+                                                    target="_blank">
+                                                    Voir l'itinéraire
+                                                </a></td>
                                             <td>{{ $station->gerant->email ?? 'Email non disponible' }}</td>
                                             <td>{{ $station->contact }}</td>
                                             <td>

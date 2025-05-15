@@ -18,7 +18,7 @@ class Produit extends Model
     /**
      * @var array
      */
-    protected $fillable = ['nom', 'categorie_id', 'prix_unitaire', 'created_at', 'updated_at'];
+    protected $fillable = ['nom', 'description','categorie_id', 'prix_unitaire', 'created_at', 'updated_at'];
     // Relation avec les ventes
     public function ventes()
     {

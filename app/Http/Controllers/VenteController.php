@@ -12,6 +12,11 @@ use Illuminate\Support\Facades\Auth;
 
 class VenteController extends Controller
 {
+    public function getByCategorie($id)
+    {
+        $produits = Produit::where('categorie_id', $id)->get();
+        return response()->json($produits);
+    }
 
     public function index()
     {
@@ -20,8 +25,8 @@ class VenteController extends Controller
         if (!$station) {
             return redirect()->route('gestionnaire.no-station');
         }
-
         $ventes = Vente::where('station_id', $station->id)->latest()->get();
+
         $categories = Categorie::all();
         $paiements = Paiement::all();
         return view('vente.index', compact('ventes', 'categories', 'paiements'));
@@ -34,9 +39,9 @@ class VenteController extends Controller
         }
         $categories = Categorie::all();
         $paiements = Paiement::all();
-        $produits = Produit::where('station_id', $station->id)->get();
+        $produits = Produit::all();
 
-        return view('Gerant.Vente.create', compact('categories', 'paiements', 'produits'));
+        return view('vente.create', compact('categories', 'paiements', 'produits'));
     }
     public function store(Request $request)
     {
@@ -45,8 +50,7 @@ class VenteController extends Controller
         $validated = $request->validate([
             'produit_id' => 'required|exists:produits,id',
             'quantite' => 'required|integer|min:1',
-            'date_vente' => 'required|date',
-            'moyen_paiement_id' => 'required|exists:paiements,id',
+            'paiement_id' => 'required|exists:paiements,id',
         ]);
 
         $produit = Produit::findOrFail($validated['produit_id']);
@@ -59,15 +63,19 @@ class VenteController extends Controller
             'quantite' => $validated['quantite'],
             'prix_unitaire' => $prix_unitaire,
             'montant_total' => $montant_total,
-            'date_vente' => $validated['date_vente'],
-            'moyen_paiement_id' => $validated['moyen_paiement_id'],
+            'paiement_id' => $validated['paiement_id'],
         ]);
 
         return redirect()->route('vente.index')->with('success', 'Vente enregistrée.');
     }
-    public function show(Vente $vente)
+    public function show($produit_id)
     {
-        return view('vente.show', compact('vente'));
+        $ventes = Vente::with(['produit', 'paiement'])
+        ->where('produit_id', $produit_id)
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+        return view('vente.show', compact('ventes'));
     }
     public function edit(Vente $vente)
     {

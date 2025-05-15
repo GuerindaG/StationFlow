@@ -9,6 +9,10 @@
 						<h2>Liste des produits</h2>
 					</div>
 					<div>
+						<a href="{{ route('export.pdf', ['type' => 'produits']) }}" target="_blank"
+							class="btn btn-secondary">
+							📄 Télécharger PDF
+						</a>
 						<button type="button" class="btn btn-primary" data-bs-toggle="modal"
 							data-bs-target="#produit">Ajouter un produit</button>
 					</div>
@@ -61,6 +65,7 @@
 									<tr class="">
 										<th>N°</th>
 										<th>Désignation</th>
+										<th>Description</th>
 										<th>Prix unitaire</th>
 										<th>Date d'enregistrement</th>
 										<th>Actions</th>
@@ -71,7 +76,29 @@
 										<tr class="">
 											<td>{{ $loop->iteration }}</td>
 											<td>{{ $produit->nom }}</td>
-											<td>{{ $produit->prix_unitaire }} FCFA</td>
+											<td><span class="badge bg-warning" data-bs-toggle="modal"
+													data-bs-target="#description-{{ $produit->id }}">VOIR</span>
+											</td>
+											<!-- Modal -->
+											<div class="modal fade" id="description-{{ $produit->id }}" tabindex="-1"
+												role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+												<div class="modal-dialog modal-dialog-centered" role="document">
+													<div class="modal-content">
+														<div class="modal-header">
+															<h5 class="modal-title" id="exampleModalCenterTitle">
+																Description</h5>
+															<button type="button" class="btn-close" data-bs-dismiss="modal"
+																aria-label="Close">
+																<span aria-hidden="true">&times;</span>
+															</button>
+														</div>
+														<div class="modal-body">
+															<p>{{ $produit->description }}</p>
+														</div>
+													</div>
+												</div>
+											</div>
+											<td>{{ $produit->prix_unitaire }} F/L</td>
 											<td>{{ $produit->created_at }}</td>
 											<td>
 												@include('produit.edit')

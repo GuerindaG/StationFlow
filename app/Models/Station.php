@@ -26,6 +26,8 @@ class Station extends Model
         'rccm',
         'ifu',
         'adresse',
+        'longitude',
+        'latitude',
         'contact',
         'statut',
         'gerant_id',

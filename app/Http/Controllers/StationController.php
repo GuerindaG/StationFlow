@@ -18,7 +18,7 @@ class StationController extends Controller
         $query = Station::query();
 
         if ($searchTerm) {
-            $columns = Schema::getColumnListing('stations'); 
+            $columns = Schema::getColumnListing('stations');
             $columns = array_diff(Schema::getColumnListing('stations'), ['id', 'created_at', 'updated_at']);
             $query->where(function ($q) use ($columns, $searchTerm) {
                 foreach ($columns as $column) {
@@ -45,11 +45,14 @@ class StationController extends Controller
             'rccm' => 'nullable|string',
             'ifu' => 'nullable|string',
             'adresse' => 'required|string',
+            'longitude' => 'required|string',
+            'latitude' => 'required|string',
             'contact' => 'nullable|string',
             'statut' => 'required|in:active,inactive',
             'email_gerant' => 'required|email|unique:users,email',
             'password_gerant' => 'required|min:6',
         ]);
+       
         $gerant = User::create([
             'name' => $request->nom_station,
             'email' => $request->email_gerant,
@@ -62,6 +65,8 @@ class StationController extends Controller
             'rccm' => $request->rccm,
             'ifu' => $request->ifu,
             'adresse' => $request->adresse,
+            'longitude' => $request->longitude,
+            'latitude' => $request->latitude,
             'contact' => $request->contact,
             'statut' => $request->statut,
             'gerant_id' => $gerant->id,
@@ -71,8 +76,8 @@ class StationController extends Controller
 
     public function show(string $id)
     {
-        $station = Station::findOrFail($id); // une seule station
-        $rapports = $station->rapports()->latest()->get(); // rapports de cette station
+        $station = Station::findOrFail($id);
+        $rapports = $station->rapports()->latest()->get();
 
         return view('station.show', compact('station', 'rapports'));
     }
@@ -90,15 +95,19 @@ class StationController extends Controller
             'rccm' => 'nullable|string',
             'ifu' => 'nullable|string',
             'adresse' => 'required|string',
+            'longitude' => 'required|string',
+            'latitude' => 'required|string',
             'contact' => 'nullable|string',
             'statut' => 'required|in:active,inactive',
         ]);
-
+       
         $station->update([
             'nom' => $request->nom_station,
             'rccm' => $request->rccm,
             'ifu' => $request->ifu,
             'adresse' => $request->adresse,
+            'longitude' => $request->longitude,
+            'latitude' => $request->latitude,
             'contact' => $request->contact,
             'statut' => $request->statut,
         ]);

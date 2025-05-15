@@ -11,13 +11,10 @@
                     @csrf
                     @method('PUT')
                     <div class="row mb-2">
-                        <div class="col-sm-12">
+                        <div class="col-sm-6">
                             <label for="recipient-name" class="col-form-label">Nom du Produit</label>
                             <input type="text" name="nom" value="{{ $produit->nom }}" class="form-control pop">
                         </div>
-
-                    </div>
-                    <div class="row mb-2">
                         <div class="col-sm-6">
                             <label for="recipient-name" class="col-form-label">Catégorie</label>
                             <select class="default-select form-control wide" id="categorie_id" name="categorie_id">
@@ -27,10 +24,19 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-sm-6">
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
                             <label for="recipient-name" class="col-form-label">Prix Unitaire</label>
                             <input type="number" placeholder="" id="prix_unitaire" value="{{ $produit->prix_unitaire }}"
                                 name="prix_unitaire" class="form-control pop">
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-control" rows="3" name="description"
+                                placeholder="Meta Description">{{ old('description', $produit->description) }}</textarea>
                         </div>
                     </div>
                     <div class="d-flex flex-row gap-3">

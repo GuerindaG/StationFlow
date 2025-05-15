@@ -4,6 +4,7 @@ use App\Http\Controllers\ApprovisionnementController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\CategorieController;
+use App\Http\Controllers\PDFController;
 use App\Http\Controllers\ProduitController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StationController;
@@ -12,8 +13,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/acc', fn() => view('Client.index'))->name("home");
-
-
+Route::get('/export/pdf/{type}', [PDFController::class, 'exportPDF'])->name('export.pdf');
 Route::get('/get-produits/{id}', [ApprovisionnementController::class, 'getByCategorie']);
 Route::get('/acc', fn() => view('Gerant.exVente'))->name("acc");
 Route::get('/', fn() => view('connexion'))->name("connexion");
@@ -53,6 +53,7 @@ Route::prefix('/admin')->middleware(['auth', 'CheckAdmin'])->group(function () {
 
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::post('/profile/destroy', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 Route::get('/redirect-by-role', function () {

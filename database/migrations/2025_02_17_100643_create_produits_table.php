@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('produits', function (Blueprint $table) {
             $table->id();
             $table->string('nom');
+            $table->text('description')->nullable();
             $table->unsignedBigInteger('categorie_id'); // Lien avec la table "categories"
             $table->decimal('prix_unitaire', 10, 2);
             $table->timestamps();

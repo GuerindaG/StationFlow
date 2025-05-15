@@ -44,6 +44,11 @@
 <script src="{{ asset('assets/libs/flatpickr/dist/flatpickr.min.js') }}"></script>
 
 
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- jQuery Repeater -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.repeater/1.2.1/jquery.repeater.min.js"></script>
 
 <!-- Affichage de la date et de l'heure actuelles dans le pied de page -->
 <script>

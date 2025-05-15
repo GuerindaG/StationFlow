@@ -52,6 +52,7 @@ class ProduitController extends Controller
 
         $request->validate([
             'nom' => 'required|string|max:255',
+            'description' => 'required|string',
             'categorie_id' => 'required|exists:categories,id',
             'prix_unitaire' => 'required|numeric|min:0',
         ]);
@@ -59,6 +60,7 @@ class ProduitController extends Controller
         // Création du produit
         Produit::create([
             'nom' => $request->nom,
+            'description' => $request->description,
             'categorie_id' => $request->categorie_id,
             'prix_unitaire' => $request->prix_unitaire,
         ]);
@@ -91,6 +93,7 @@ class ProduitController extends Controller
     {
         $request->validate([
             'nom' => 'required|string|max:255',
+            'description' => 'required|string',
             'categorie_id' => 'required|exists:categories,id',
             'prix_unitaire' => 'required|numeric|min:0',
         ]);
@@ -99,6 +102,7 @@ class ProduitController extends Controller
 
         $produits->update([
             'nom' => $request->nom,
+            'description' => $request->description,
             'categorie_id' => $request->categorie_id,
             'prix_unitaire' => $request->prix_unitaire,
         ]);

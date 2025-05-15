@@ -12,7 +12,6 @@
                         ->orderByDesc('date_approvisionnement')
                         ->get();
                 @endphp
-
                 <table class="table table-hover text-center">
                     <thead>
                         <tr>
