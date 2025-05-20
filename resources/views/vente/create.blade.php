@@ -5,7 +5,7 @@
             <div class="col-md-12">
                 <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-4">
                     <div>
-                        <h2>Ajouter une vente</h2>
+                        <h2>Enregistrer une vente</h2>
                     </div>
                     <div>
                         <a href="{{route('vente.index')}}" class="btn btn-light">Retour</a>
@@ -20,48 +20,53 @@
                     <form action="{{ route('vente.store') }}" method="POST" class="row needs-validation g-3" novalidate>
                         @csrf
                         <div class="card-body p-6">
+                            <table class="table" id="venteTable">
+                                <thead>
+                                    <tr>
+                                        <th>Catégorie</th>
+                                        <th>Produit</th>
+                                        <th>Quantité</th>
+                                        <th>Moyen de paiement</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <select name="ventes[0][categorie_id]" class="form-control categorie-select">
+                                                <option value="">Choisir</option>
+                                                @foreach($categories as $categorie)
+                                                    <option value="{{ $categorie->id }}">{{ $categorie->nom }}</option>
+                                                @endforeach
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select name="ventes[0][produit_id]" class="form-control produit-select">
+                                                <option value="">--</option>
+                                            </select>
+                                        </td>
+                                        <td><input type="number" name="ventes[0][quantite]" class="form-control"></td>
+                                        <td>
+                                            <select name="ventes[0][paiement_id]" class="form-control">
+                                                <option value="">Choisir</option>
+                                                @foreach($paiements as $paiement)
+                                                    <option value="{{ $paiement->id }}">{{ $paiement->nom }}</option>
+                                                @endforeach
+                                            </select>
+                                        </td>
+                                        <td><button type="button" class="btn btn-danger removeRow">X</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
                             <div class="row">
-                                <div class="col-sm-6">
-                                    <label for="recipient-name" class="col-form-label">Catégorie</label>
-                                    <select class="default-select form-control wide" id="categorie_id" name="categorie_id">
-                                        <option value="">Sélectionnez une catégorie</option>
-                                        @foreach($categories as $categorie)
-                                            <option value="{{ $categorie->id }}">{{ $categorie->nom }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-sm-6">
-                                    <label for="recipient-name" class="col-form-label">Produits</label>
-                                    <select class="default-select form-control wide" id="produit_id" name="produit_id">
-                                        <option value="">Sélectionnez une catégorie d'abord</option>
-                                    </select>
-                                </div>
-                                <div class="col-sm-6">
-                                    <label for="recipient-name" class="col-form-label">Moyen de paiement</label>
-                                    <select class="default-select form-control wide" id="paiement_id" name="paiement_id">
-                                        <option value="">Sélectionnez une moyen de paiement </option>
-                                        @foreach($paiements as $paiement)
-                                            <option value="{{ $paiement->id }}">{{ $paiement->nom }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <!-- input -->
-                                <div class="col-sm-6 mb-3">
-                                    <label for="recipient-name" class="col-form-label">Quantité</label>
-                                    <input type="number" placeholder="" id="quantite" name="quantite"
-                                        class="form-control pop">
-                                </div>
-
-                                <div class="col-lg-12 text-end">
-                                    <button class="btn btn-primary w-100" type="submit">Enregistrer</button>
-                                </div>
+                                <button type="button" id="addRow" class="btn btn-primary col-6">+ Ajouter un
+                                    produit</button>
+                                <button type="submit" class="btn btn-success col-6">Enregistrer</button>
                             </div>
                         </div>
-                        
                     </form>
                 </div>
             </div>
         </div>
-    </div>
     </div>
 @endsection

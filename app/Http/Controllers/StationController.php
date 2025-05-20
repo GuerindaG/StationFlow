@@ -48,7 +48,6 @@ class StationController extends Controller
             'longitude' => 'required|string',
             'latitude' => 'required|string',
             'contact' => 'nullable|string',
-            'statut' => 'required|in:active,inactive',
             'email_gerant' => 'required|email|unique:users,email',
             'password_gerant' => 'required|min:6',
         ]);
@@ -68,7 +67,6 @@ class StationController extends Controller
             'longitude' => $request->longitude,
             'latitude' => $request->latitude,
             'contact' => $request->contact,
-            'statut' => $request->statut,
             'gerant_id' => $gerant->id,
         ]);
         return redirect()->route('station.index')->with('success', 'Votre station a été enregistré avec succès.');
@@ -98,7 +96,6 @@ class StationController extends Controller
             'longitude' => 'required|string',
             'latitude' => 'required|string',
             'contact' => 'nullable|string',
-            'statut' => 'required|in:active,inactive',
         ]);
        
         $station->update([
@@ -109,7 +106,6 @@ class StationController extends Controller
             'longitude' => $request->longitude,
             'latitude' => $request->latitude,
             'contact' => $request->contact,
-            'statut' => $request->statut,
         ]);
 
         return redirect()->route('station.index')->with('success', 'Station mise à jour avec succès.');

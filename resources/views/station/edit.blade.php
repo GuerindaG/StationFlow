@@ -35,7 +35,7 @@
                         <div class="card-body p-6">
                             <div class="row">
                                 <!-- input -->
-                                <div class="mb-3 col-lg-6">
+                                <div class="mb-3 col-lg-12">
                                     <label class="form-label">
                                         <h4 class=" h5">Nom de la station</h4>
                                     </label>
@@ -82,15 +82,6 @@
                                         <h4 class="h5">Contact</h4>
                                     </label>
                                     <input type="text" name="contact" class="form-control" value="{{ old('contact', $station->contact) }}" placeholder="" required />
-                                </div>
-                                <div class="mb-3 col-lg-6">
-                                    <label for="formSignuplname" class="form-label">
-                                        <h4 class="h5">Statut</h4>
-                                    </label>
-                                    <select class="default-select form-control wide" name="statut" required>
-                                        <option value="active" {{ $station->statut == 'active' ? 'selected' : '' }}>Active</option>
-                                        <option value="inactive" {{ $station->statut == 'inactive' ? 'selected' : ''}}>Inactive</option>
-                                    </select>
                                 </div>
                                 <div class="col-lg-12 text-end">
                                     <button class="btn btn-primary w-100" type="submit">Mettre à jour</button>

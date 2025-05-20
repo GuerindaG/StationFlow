@@ -84,32 +84,3 @@
         });
     @endif
 </script>
-<!-- Script Ajax pour charger les produits en fonction de la catégorie sélectionnée -->
-<script>
-    $(document).ready(function () {
-        $('#categorie_id').on('change', function () {
-            var categorieId = $(this).val();
-
-            if (categorieId) {
-                $.ajax({
-                    url: '/get-produits/' + categorieId,
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function (data) {
-                        $('#produit_id').empty();
-                        $('#produit_id').append('<option value="">Sélectionnez un produit</option>');
-
-                        $.each(data, function (key, produit) {
-                            $('#produit_id').append('<option value="' + produit.id + '">' + produit.nom + '</option>');
-                        });
-                    },
-                    error: function () {
-                        alert("Erreur lors du chargement des produits.");
-                    }
-                });
-            } else {
-                $('#produit_id').empty().append('<option value="">Sélectionnez une catégorie d\'abord</option>');
-            }
-        });
-    });
-</script>

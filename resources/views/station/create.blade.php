@@ -34,7 +34,7 @@
                         <div class="card-body p-6">
                             <div class="row">
                                 <!-- input -->
-                                <div class="mb-3 col-lg-6">
+                                <div class="mb-3 col-lg-12">
                                     <label class="form-label">
                                         <h4 class=" h5">Nom de la station</h4>
                                     </label>
@@ -79,15 +79,6 @@
                                         <h4 class="h5">Contact</h4>
                                     </label>
                                     <input type="text" name="contact" class="form-control" placeholder="" required />
-                                </div>
-                                <div class="mb-3 col-lg-6">
-                                    <label for="formSignuplname" class="form-label">
-                                        <h4 class="h5">Statut</h4>
-                                    </label>
-                                    <select class="default-select form-control wide" name="statut" required>
-                                        <option value="active">Active</option>
-                                        <option value="inactive">Inactive</option>
-                                    </select>
                                 </div>
                                 <div class="mb-3 col-lg-6">
                                     <label class="form-label">

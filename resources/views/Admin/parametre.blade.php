@@ -87,7 +87,7 @@
                         <button type="button" class="btn btn-danger" id="delete-account" disabled>Supprimer mon
                             compte</button>
 
-                        <form id="delete-form" action="{{ route('profile.delete') }}" method="POST" style="display: none;">
+                        <form id="delete-form" action="{{ route('profile.destroy') }}" method="POST" style="display: none;">
                             @csrf
                             @method('DELETE')
                         </form>

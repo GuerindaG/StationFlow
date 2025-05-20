@@ -11,7 +11,8 @@ use App\Http\Controllers\StationController;
 use App\Http\Controllers\VenteController;
 use Illuminate\Support\Facades\Route;
 
-
+Route::get('generate-report', 'ReportController@generateReport');
+Route::get('/api/produits', [ProduitController::class, 'getProduits'])->name('api.produits');
 Route::get('/acc', fn() => view('Client.index'))->name("home");
 Route::get('/export/pdf/{type}', [PDFController::class, 'exportPDF'])->name('export.pdf');
 Route::get('/get-produits/{id}', [ApprovisionnementController::class, 'getByCategorie']);
@@ -26,21 +27,15 @@ Route::prefix('/gerant')->middleware(['auth', 'CheckGerant'])->group(function ()
     Route::get('/dashboard', function () {
         $user = Auth::user();
         $station = $user->station;
-
         if (!$station) {
             return redirect()->route('gestionnaire.no-station');
         }
-
         return view('Gerant.dashboard', compact('station'));
     })->name('gestionnaire.dashboard');
-
     Route::get('/rapport', fn() => view('rapportpdf'))->name("rapport");
     Route::resource('/vente', VenteController::class);
     Route::resource('/approvisionnement', ApprovisionnementController::class);
 });
-
-Route::get('generate-report', 'ReportController@generateReport');
-Route::get('/api/produits', [ProduitController::class, 'getProduits'])->name('api.produits');
 
 Route::prefix('/admin')->middleware(['auth', 'CheckAdmin'])->group(function () {
     Route::get('/dashboard', function () {

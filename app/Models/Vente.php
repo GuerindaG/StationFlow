@@ -26,13 +26,12 @@ class Vente extends Model
         'montant_total',
         'paiement_id',
         'date_vente',
-        
+
     ];
     public function station()
     {
         return $this->belongsTo(Station::class);
     }
-
     // Relation avec le produit
     public function produit()
     {

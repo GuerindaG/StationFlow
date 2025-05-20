@@ -66,7 +66,7 @@
 										<th>N°</th>
 										<th>Désignation</th>
 										<th>Description</th>
-										<th>Prix unitaire</th>
+										<th>Prix unitaire (F/L)</th>
 										<th>Date d'enregistrement</th>
 										<th>Actions</th>
 									</tr>
@@ -98,7 +98,7 @@
 													</div>
 												</div>
 											</div>
-											<td>{{ $produit->prix_unitaire }} F/L</td>
+											<td>{{ $produit->prix_unitaire }} </td>
 											<td>{{ $produit->created_at }}</td>
 											<td>
 												@include('produit.edit')

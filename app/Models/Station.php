@@ -29,7 +29,6 @@ class Station extends Model
         'longitude',
         'latitude',
         'contact',
-        'statut',
         'gerant_id',
     ];
     protected $casts = [

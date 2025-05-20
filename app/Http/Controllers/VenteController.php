@@ -47,36 +47,49 @@ class VenteController extends Controller
     {
         $station = Auth::user()->station;
 
-        $validated = $request->validate([
-            'produit_id' => 'required|exists:produits,id',
-            'quantite' => 'required|integer|min:1',
-            'paiement_id' => 'required|exists:paiements,id',
+        $request->validate([
+            'ventes' => 'required|array|min:1',
+            'ventes.*.categorie_id' => 'required|exists:categories,id',
+            'ventes.*.produit_id' => 'required|exists:produits,id',
+            'ventes.*.paiement_id' => 'required|exists:paiements,id',
+            'ventes.*.quantite' => 'required|numeric|min:1',
         ]);
 
-        $produit = Produit::findOrFail($validated['produit_id']);
-        $prix_unitaire = $produit->prix_unitaire;
-        $montant_total = $prix_unitaire * $validated['quantite'];
+        foreach ($request->ventes as $venteData) {
+            // Récupérer le produit
+            $produit = Produit::findOrFail($venteData['produit_id']);
+            $quantite = $venteData['quantite'];
+            $prix_unitaire = $produit->prix_unitaire ?? 0;
+            $montant_total = $quantite * $prix_unitaire;
 
-        Vente::create([
-            'station_id' => $station->id,
-            'produit_id' => $validated['produit_id'],
-            'quantite' => $validated['quantite'],
-            'prix_unitaire' => $prix_unitaire,
-            'montant_total' => $montant_total,
-            'paiement_id' => $validated['paiement_id'],
-        ]);
+            // Enregistrer la vente
+            Vente::create([
+                'station_id' => $station->id,
+                'categorie_id' => $venteData['categorie_id'],
+                'produit_id' => $venteData['produit_id'],
+                'paiement_id' => $venteData['paiement_id'],
+                'quantite' => $quantite,
+                'montant_total' => $montant_total,
+            ]);
 
-        return redirect()->route('vente.index')->with('success', 'Vente enregistrée.');
+        }
+
+        return redirect()->route('vente.index')->with('success', 'Vente(s) enregistrée(s) avec succès.');
     }
-    public function show($produit_id)
+
+    public function show(Produit $produit)
     {
-        $ventes = Vente::with(['produit', 'paiement'])
-        ->where('produit_id', $produit_id)
-        ->orderBy('created_at', 'desc')
-        ->get();
-
-        return view('vente.show', compact('ventes'));
+        // Récupère toutes les ventes du produit triées de la plus récente à la plus ancienne
+        $ventes = Vente::with('paiement', 'produit', 'station')
+            ->where('produit_id', $produit->id)
+            ->orderByDesc('created_at')
+            ->get();
+        $categories = Categorie::all();
+        $paiements = Paiement::all();
+        return view('vente.show', compact('produit', 'ventes', 'categories', 'paiements'));
     }
+
+
     public function edit(Vente $vente)
     {
         $station = Auth::user()->station;

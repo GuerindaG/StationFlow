@@ -6,7 +6,7 @@
             <div class="col-md-12">
                 <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-4">
                     <div>
-                        <h2>Ventes</h2>
+                        <h2>Gestion des ventes</h2>
                     </div>
                     <div>
                         <a href="{{ route('vente.create') }}" class="btn btn-primary">Nouvelle vente</a>
@@ -45,24 +45,28 @@
                                 aria-labelledby="contact-tab" tabindex="0">
                                 <div class="p-6">
                                     <div class="row">
-                                        <div class="col-md-4 col-12">
-                                            <form method="GET" action="{{ route('vente.index') }}" class="d-flex mb-3">
-                                                <input class="form-control me-2" type="search" name="search"
-                                                    placeholder="Rechercher " value="{{ request('search') }}"
-                                                    aria-label="Search">
-                                                <span class="input-group-append">
-                                                    <button
-                                                        class="btn bg-white border border-start-0 ms-n10 rounded-0 rounded-end"
-                                                        type="submit">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                            class="feather feather-search">
-                                                            <circle cx="11" cy="11" r="8"></circle>
-                                                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                                                        </svg>
-                                                    </button>
-                                                </span>
+                                        <div class="col-md-12 g-3 col-12">
+                                            <form method="GET" class="mb-4">
+                                                <div class="row g-6 align-items-center">
+                                                    <div class="col-auto">
+                                                        <label for="date_debut" class="col-form-label">Date de début
+                                                            :</label>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <input type="date" id="date_debut" name="date_debut"
+                                                            class="form-control" value="{{ request('date_debut') }}">
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <label for="date_fin" class="col-form-label">Date de fin :</label>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <input type="date" id="date_fin" name="date_fin"
+                                                            class="form-control" value="{{ request('date_fin') }}">
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <button type="submit" class="btn btn-primary">Filtrer</button>
+                                                    </div>
+                                                </div>
                                             </form>
                                         </div>
                                     </div>
@@ -80,19 +84,31 @@
                                                 <th>Historique</th>
                                             </tr>
                                         </thead>
+                                        @php
+                                            $ventesPB = $ventes->filter(fn($v) => $v->produit->categorie->nom === 'Produits blancs');
+                                            $ventesGroupées = $ventesPB->groupBy('produit_id');
+                                        @endphp
                                         <tbody>
-                                            @forelse ($ventes->filter(fn($v) => $v->produit->categorie->nom === 'Produits blancs') as $pb)
+                                            @forelse ($ventesGroupées as $index => $venteParProduit)
+                                                @php
+                                                    $produit = $venteParProduit->first()->produit;
+                                                    $tv = $venteParProduit->where('paiement.nom', 'Ticket Valeur')->sortByDesc('created_at')->first()?->montant_total ?? 0;
+                                                    $jnp = $venteParProduit->where('paiement.nom', 'JNP Pass')->sortByDesc('created_at')->first()?->montant_total ?? 0;
+                                                    $comptant = $venteParProduit->where('paiement.nom', 'Espèce')->sortByDesc('created_at')->first()?->montant_total ?? 0;
+
+                                                    $total = $tv + $jnp + $comptant;
+                                                @endphp
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
-                                                    <td>{{ $pb->produit->nom}}</td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
+                                                    <td>{{ $produit->nom}}</td>
+                                                    <td>{{ number_format($tv, 0, ',', ' ') }}</td>
+                                                    <td>{{ number_format($jnp, 0, ',', ' ') }}</td>
+                                                    <td>{{ number_format($comptant, 0, ',', ' ') }}</td>
+                                                    <td>{{ number_format($total, 0, ',', ' ') }}</td>
                                                     <td class="text-center">
-                                                        <a href="{{ route('vente.show', $pb->produit->id) }}"
+                                                        <a href="{{ route('vente.show', $produit->id) }}"
                                                             class="btn btn-sm btn-outline-primary view-details">
-                                                            <i class="fas fa-eye"></i>
+                                                            <i class="bi bi-eye"></i>
                                                         </a>
                                                     </td>
                                                 </tr>
@@ -109,24 +125,28 @@
                                 tabindex="0">
                                 <div class="p-6">
                                     <div class="row">
-                                        <div class="col-md-4 col-12">
-                                            <form method="GET" action="{{ route('vente.index') }}" class="d-flex mb-3">
-                                                <input class="form-control me-2" type="search" name="search"
-                                                    placeholder="Rechercher un approvisionnement"
-                                                    value="{{ request('search') }}" aria-label="Search">
-                                                <span class="input-group-append">
-                                                    <button
-                                                        class="btn bg-white border border-start-0 ms-n10 rounded-0 rounded-end"
-                                                        type="submit">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                            class="feather feather-search">
-                                                            <circle cx="11" cy="11" r="8"></circle>
-                                                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                                                        </svg>
-                                                    </button>
-                                                </span>
+                                        <div class="col-md- col-12">
+                                            <form method="GET" class="mb-4">
+                                                <div class="row g-6 align-items-center">
+                                                    <div class="col-auto">
+                                                        <label for="date_debut" class="col-form-label">Date de début
+                                                            :</label>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <input type="date" id="date_debut" name="date_debut"
+                                                            class="form-control" value="{{ request('date_debut') }}">
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <label for="date_fin" class="col-form-label">Date de fin :</label>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <input type="date" id="date_fin" name="date_fin"
+                                                            class="form-control" value="{{ request('date_fin') }}">
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <button type="submit" class="btn btn-primary">Filtrer</button>
+                                                    </div>
+                                                </div>
                                             </form>
                                         </div>
                                     </div>
@@ -174,24 +194,28 @@
                                 tabindex="0">
                                 <div class="p-6">
                                     <div class="row">
-                                        <div class="col-md-4 col-12">
-                                            <form method="GET" action="{{ route('vente.index') }}" class="d-flex mb-3">
-                                                <input class="form-control me-2" type="search" name="search"
-                                                    placeholder="Rechercher une categorie" value="{{ request('search') }}"
-                                                    aria-label="Search">
-                                                <span class="input-group-append">
-                                                    <button
-                                                        class="btn bg-white border border-start-0 ms-n10 rounded-0 rounded-end"
-                                                        type="submit">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                            viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                            class="feather feather-search">
-                                                            <circle cx="11" cy="11" r="8"></circle>
-                                                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                                                        </svg>
-                                                    </button>
-                                                </span>
+                                        <div class="col-md-12 col-12">
+                                            <form method="GET" class="mb-4">
+                                                <div class="row g-6 align-items-center">
+                                                    <div class="col-auto">
+                                                        <label for="date_debut" class="col-form-label">Date de début
+                                                            :</label>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <input type="date" id="date_debut" name="date_debut"
+                                                            class="form-control" value="{{ request('date_debut') }}">
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <label for="date_fin" class="col-form-label">Date de fin :</label>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <input type="date" id="date_fin" name="date_fin"
+                                                            class="form-control" value="{{ request('date_fin') }}">
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <button type="submit" class="btn btn-primary">Filtrer</button>
+                                                    </div>
+                                                </div>
                                             </form>
                                         </div>
                                     </div>

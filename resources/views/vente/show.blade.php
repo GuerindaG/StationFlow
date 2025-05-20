@@ -44,43 +44,40 @@
                                 class="table table-responsive-md table-centered table-borderless text-nowrap table-hover">
                                 <thead class="bg-light">
                                     <tr>
-                                        <th style="width:80px;">#</th>
-                                        <th>TV(XOF)</th>
-                                        <th>JNP PASS(XOF)</th>
-                                        <th>Comptant(XOF)</th>
-                                        <th>Total</th>
+                                        <th style="width:80px;">N°</th>
                                         <th>Date</th>
+                                        <th>Type de paiement</th>
+                                        <th>Quantité</th>
+                                        <th>Montant total (XOF)</th>
+                                        <th>Station</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>165,000 XOF</td>
-                                        <td>125,000 XOF</td>
-                                        <td>50,000 XOF</td>
-                                        <td>340,000 XOF</td>
-                                        <td>28/04/2025</td>
-                                    </tr>
+                                    @foreach ($ventes as $vente)
+                                        <tr>
+                                            <td></td>
+                                            <td>{{ $vente->created_at->format('d/m/Y H:i') }}</td>
+                                            <td>{{ $vente->paiement->nom }}</td>
+                                            <td>{{ $vente->quantite }}</td>
+                                            <td>{{ number_format($vente->montant_total, 0, ',', ' ') }}</td>
+                                            <td>{{ $vente->station->nom ?? 'N/A' }}</td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
 
 
                     </div>
-                    <div class="d-flex justify-content-between align-items-center mt-3">
-                        <div>
-
-                        </div>
-                        <nav aria-label="Pagination TV">
-                            <ul class="pagination pagination-sm" id="tv-pagination">
-                                <li class="page-item disabled">
-                                    <a class="page-link" href="#" tabindex="-1">Précédent</a>
-                                </li>
-                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">Suivant</a>
-                                </li>
+                    <div class="border-top d-md-flex justify-content-between align-items-center p-6">
+                        <span>Showing 1 to 8 of 12 entries</span>
+                        <nav class="mt-2 mt-md-0">
+                            <ul class="pagination mb-0">
+                                <li class="page-item disabled"><a class="page-link" href="#!">Previous</a></li>
+                                <li class="page-item"><a class="page-link active" href="#!">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#!">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#!">3</a></li>
+                                <li class="page-item"><a class="page-link" href="#!">Next</a></li>
                             </ul>
                         </nav>
                     </div>

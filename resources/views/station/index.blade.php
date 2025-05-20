@@ -60,7 +60,6 @@
                                         <th>Itinéraire</th>
                                         <th>Email</th>
                                         <th>Contact</th>
-                                        <th>Statut</th>
                                         <th>Date & Heure</th>
                                         <th>Actions</th>
                                     </tr>
@@ -81,12 +80,6 @@
                                                 </a></td>
                                             <td>{{ $station->gerant->email ?? 'Email non disponible' }}</td>
                                             <td>{{ $station->contact }}</td>
-                                            <td>
-                                                <span
-                                                    class="badge {{ $station->statut == 'active' ? 'bg-light-primary text-dark-primary' : 'bg-light-danger text-dark-danger' }}">
-                                                    {{ ucfirst($station->statut) }}
-                                                </span>
-                                            </td>
                                             <td>{{ $station->created_at->format('d/m/Y H:i') }}</td>
                                             <td>
                                                 <div class="d-flex text-end">
