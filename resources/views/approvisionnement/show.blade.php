@@ -1,12 +1,11 @@
 @extends('Gerant.LayoutGerant')
 @section('content-body')
-
     <div class="container">
         <div class="row mb-8">
             <div class="col-md-12">
                 <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-4">
                     <div>
-                        <h2>Historique des réceptions du produit : {{ $produit->nom }}</h2>
+                        <h5>Historique des réceptions du produit : {{ $produit->nom }}</h5>
                     </div>
                     <div>
                         <a href="{{route('approvisionnement.index')}}" class="btn btn-light">Retour</a>
@@ -60,27 +59,27 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @if ($approvisionnements->isEmpty())
+                                    @forelse ($approvisionnements as $appro)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $appro->qte_appro }}</td>
+                                            <td>{{ number_format($appro->montant_total, 0, ',', ' ') }} FCFA</td>
+                                            <td>{{ \Carbon\Carbon::parse($appro->date_approvisionnement)->format('d/m/Y') }}
+                                            </td>
+                                        </tr>
+                                    @empty
                                         <tr>
                                             <td colspan="4">Aucun historique de livraison trouvé.</td>
                                         </tr>
-                                    @else
-                                        @foreach($approvisionnements as $appro)
-                                            <tr>
-                                                <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $appro->qte_appro }}</td>
-                                                <td>{{ number_format($appro->montant_total, 0, ',', ' ') }} FCFA</td>
-                                                <td>{{ \Carbon\Carbon::parse($appro->date_approvisionnement)->format('d/m/Y') }}
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    @endif
+                                    @endforelse
                                 </tbody>
+
                             </table>
                         </div>
                     </div>
                     <div class="border-top d-md-flex justify-content-between align-items-center p-6">
-                        <span>Showing 1 to 8 of 12 entries</span>
+                        <span> Affichage de {{ $approvisionnements->firstItem() }} à {{ $approvisionnements->lastItem() }} sur
+                            {{ $approvisionnements->total() }} résultats</span>
                         <nav>
                             <ul class="pagination mb-0">
                                 <!-- Previous button -->
@@ -107,5 +106,4 @@
             </div>
         </div>
     </div>
-
 @endsection

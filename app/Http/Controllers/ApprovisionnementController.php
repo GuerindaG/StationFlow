@@ -6,9 +6,10 @@ use App\Models\Approvisionnement;
 use App\Models\Categorie;
 use App\Models\Paiement;
 use App\Models\Produit;
+use Carbon\Carbon;
+use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Schema;
 
 class ApprovisionnementController extends Controller
 {
@@ -24,36 +25,26 @@ class ApprovisionnementController extends Controller
         if (!$station) {
             return redirect()->route('gestionnaire.no-station');
         }
-        $searchTerm = $request->input('search');
 
-        $query = Approvisionnement::with('produit')
-            ->where('station_id', $station->id);
+        // Paramètres de filtrage
+        $date_filter = $request->input('date_filter', Carbon::today()->toDateString());
+        $perPage = $request->input('per_page', 5);
 
-        if ($searchTerm) {
-            $query->where(function ($q) use ($searchTerm) {
-                $q->orWhere('qte_appro', 'like', '%' . $searchTerm . '%')
-                    ->orWhere('montant_total', 'like', '%' . $searchTerm . '%')
-                    ->orWhere('date_approvisionnement', 'like', '%' . $searchTerm . '%')
-                    ->orWhereHas('produit', function ($q2) use ($searchTerm) {
-                        $q2->where('nom', 'like', '%' . $searchTerm . '%');
-                    });
-            });
-        }
-        // Derniers approvisionnements par produit, toujours pour la station connectée
-        $derniers_approvisionnements = Approvisionnement::with('produit')
-            ->select('produit_id', \DB::raw('MAX(date_approvisionnement) as date_appro'))
+        // D'abord, trouver les IDs des derniers approvisionnements par produit
+        $latestApproIds = Approvisionnement::select(DB::raw('MAX(id) as id'))
             ->where('station_id', $station->id)
+            ->when($date_filter, function ($q) use ($date_filter) {
+                $q->whereDate('date_approvisionnement', $date_filter);
+            })
             ->groupBy('produit_id')
-            ->get()
-            ->map(function ($item) use ($station) {
-                return Approvisionnement::with('produit')
-                    ->where('produit_id', $item->produit_id)
-                    ->where('date_approvisionnement', $item->date_appro)
-                    ->where('station_id', $station->id)
-                    ->latest('id')
-                    ->first();
-            });
-        $derniers_approvisionnements = $query->orderByDesc('date_approvisionnement')->paginate(5);
+            ->pluck('id');
+
+        // Ensuite, récupérer les approvisionnements complets avec pagination
+        $derniers_approvisionnements = Approvisionnement::with('produit')
+            ->whereIn('id', $latestApproIds)
+            ->orderByDesc('date_approvisionnement')
+            ->paginate($perPage)
+            ->appends($request->query());
 
         $produits = Produit::select('id', 'nom')->get();
         $categories = Categorie::all();
@@ -64,7 +55,8 @@ class ApprovisionnementController extends Controller
             'produits' => $produits,
             'categories' => $categories,
             'paiements' => $paiements,
-            'searchTerm' => $searchTerm
+            'date_filter' => $date_filter,
+            'per_page' => $perPage
         ]);
     }
 
@@ -77,7 +69,7 @@ class ApprovisionnementController extends Controller
         $categories = Categorie::all();
         $produits = Produit::all();
         $paiements = Paiement::all();
-        return view("approvisionnement.create", compact('categories', 'produits','paiements'));
+        return view("approvisionnement.create", compact('categories', 'produits', 'paiements'));
     }
 
     public function store(Request $request)
@@ -105,8 +97,10 @@ class ApprovisionnementController extends Controller
             'montant_total' => $montant_total,
             'date_approvisionnement' => $request->date_approvisionnement,
         ]);
+
         return redirect()->route('approvisionnement.index')->with('success', 'Approvisionnement créé avec succès !');
     }
+
     public function show(Request $request, $id)
     {
         $station = Auth::user()->station;
@@ -114,7 +108,6 @@ class ApprovisionnementController extends Controller
             return redirect()->route('gestionnaire.no-station');
         }
 
-        // Dates de filtrage (optionnelles)
         $date_debut = $request->input('date_debut');
         $date_fin = $request->input('date_fin');
 
@@ -122,28 +115,32 @@ class ApprovisionnementController extends Controller
             ->where('station_id', $station->id)
             ->where('produit_id', $id);
 
-        // Filtrage par dates si les deux sont présents
         if ($date_debut && $date_fin) {
             $query->whereBetween('date_approvisionnement', [$date_debut, $date_fin]);
         }
 
-        $approvisionnements = $query->orderByDesc('date_approvisionnement')->paginate(5);
+        $approvisionnements = $query->orderByDesc('date_approvisionnement')->paginate(10);
 
         $produit = Produit::findOrFail($id);
+        $categories = Categorie::all();
+        $paiements = Paiement::all();
 
         return view('approvisionnement.show', [
             'approvisionnements' => $approvisionnements,
             'produit' => $produit,
+            'categories' => $categories,
+            'paiements' => $paiements,
             'date_debut' => $date_debut,
             'date_fin' => $date_fin
         ]);
     }
+
     public function edit(string $id)
     {
         $station = Auth::user()->station;
 
         $approvisionnement = Approvisionnement::where('id', $id)
-            ->where('station_id', Auth::user()->$station->id)
+            ->where('station_id', $station->id)
             ->firstOrFail();
 
         $categories = Categorie::all();
@@ -151,6 +148,7 @@ class ApprovisionnementController extends Controller
 
         return view('approvisionnement.edit', compact('approvisionnement', 'categories', 'produits'));
     }
+
     public function update(Request $request, string $id)
     {
         $station = Auth::user()->station;
@@ -181,7 +179,7 @@ class ApprovisionnementController extends Controller
     {
         $station = Auth::user()->station;
         $approvisionnement = Approvisionnement::where('id', $id)
-            ->where('station_id', Auth::user()->$station->id)
+            ->where('station_id', $station->id)
             ->firstOrFail();
 
         $approvisionnement->delete();

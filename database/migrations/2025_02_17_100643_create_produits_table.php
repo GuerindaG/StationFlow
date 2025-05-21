@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('produits', function (Blueprint $table) {
             $table->id();
             $table->string('nom');
-            $table->text('description')->nullable();
             $table->unsignedBigInteger('categorie_id'); // Lien avec la table "categories"
-            $table->decimal('prix_unitaire', 10, 2);
+            $table->decimal('prix_achat', 10, 2);
+            $table->decimal('prix_vente', 10, 2);
+            $table->text('viscosite')->nullable();
             $table->timestamps();
 
             $table->foreign('categorie_id')->references('id')->on('categories')->onDelete('cascade');

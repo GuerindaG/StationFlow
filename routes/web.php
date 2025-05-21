@@ -66,5 +66,9 @@ Route::get('/redirect-by-role', function () {
             return redirect('/');
     }
 });
+Route::get('/produit-pdf', fn() => view('produit-pdf'))->name("produit-pdf");
+Route::get('/station-pdf', fn() => view('station-pdf'))->name("station-pdf");
+Route::get('/vente-pdf', fn() => view('vente-pdf'))->name("vente-pdf");
+Route::get('/voir-pdf', [PDFController::class, 'afficherPDF'])->name('voir.pdf');
 
 require __DIR__ . '/auth.php';

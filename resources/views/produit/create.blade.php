@@ -22,16 +22,19 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-sm-12 mb-2">
-                            <label for="recipient-name" class="col-form-label">Prix Unitaire</label>
-                            <input type="number" placeholder="" id="prix_unitaire" name="prix_unitaire"
+                        <div class="col-sm-6 mb-2">
+                            <label for="recipient-name" class="col-form-label">Prix d'achat</label>
+                            <input type="number" placeholder="" id="prix_achat" name="prix_achat"
                                 class="form-control pop">
                         </div>
-
+                        <div class="col-sm-6 mb-2">
+                            <label for="recipient-name" class="col-form-label">Prix de vente</label>
+                            <input type="number" placeholder="" id="prix_vente" name="prix_vente"
+                                class="form-control pop">
+                        </div>
                         <div class="col-sm-12">
-                            <label class="form-label">Description</label>
-                            <textarea class="form-control" rows="3" name="description"
-                                placeholder="Meta Description"></textarea>
+                            <label for="recipient-name" class="col-form-label">viscosité</label>
+                            <input type="text" name="viscosite" class="form-control pop">
                         </div>
                     </div>
                     <div class="d-flex flex-row gap-3">

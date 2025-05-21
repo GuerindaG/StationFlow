@@ -9,7 +9,7 @@
 						<h2>Liste des produits</h2>
 					</div>
 					<div>
-						<a href="{{ route('export.pdf', ['type' => 'produits']) }}" target="_blank"
+						<a href="{{ route('voir.pdf') }}" target="_blank"
 							class="btn btn-secondary">
 							📄 Télécharger PDF
 						</a>
@@ -65,8 +65,10 @@
 									<tr class="">
 										<th>N°</th>
 										<th>Désignation</th>
-										<th>Description</th>
-										<th>Prix unitaire (F/L)</th>
+										<th>Viscosité</th>
+										<th>Prix d'achat</th>
+										<th>Prix de vente</th>
+										<th>Marge</th>
 										<th>Date d'enregistrement</th>
 										<th>Actions</th>
 									</tr>
@@ -76,29 +78,10 @@
 										<tr class="">
 											<td>{{ $loop->iteration }}</td>
 											<td>{{ $produit->nom }}</td>
-											<td><span class="badge bg-warning" data-bs-toggle="modal"
-													data-bs-target="#description-{{ $produit->id }}">VOIR</span>
-											</td>
-											<!-- Modal -->
-											<div class="modal fade" id="description-{{ $produit->id }}" tabindex="-1"
-												role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-												<div class="modal-dialog modal-dialog-centered" role="document">
-													<div class="modal-content">
-														<div class="modal-header">
-															<h5 class="modal-title" id="exampleModalCenterTitle">
-																Description</h5>
-															<button type="button" class="btn-close" data-bs-dismiss="modal"
-																aria-label="Close">
-																<span aria-hidden="true">&times;</span>
-															</button>
-														</div>
-														<div class="modal-body">
-															<p>{{ $produit->description }}</p>
-														</div>
-													</div>
-												</div>
-											</div>
-											<td>{{ $produit->prix_unitaire }} </td>
+											<td>{{ $produit->viscosite }}</td>
+											<td>{{ $produit->prix_achat }} </td>
+											<td>{{ $produit->prix_vente }} </td>
+											<td>{{ $marge = ($produit->prix_vente - $produit->prix_achat ) }} </td>
 											<td>{{ $produit->created_at }}</td>
 											<td>
 												@include('produit.edit')

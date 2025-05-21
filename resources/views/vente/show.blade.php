@@ -7,34 +7,39 @@
                     <div>
                         <h2>Historique du produit: <span>{{ $ventes->first()->produit->nom ?? '' }}</span></h2>
                     </div>
+                    <div>
+                        <a href="{{route('approvisionnement.index')}}" class="btn btn-light">Retour</a>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-xl-12 col-12 mb-5">
-
                 <div class="card h-100 card-lg">
-
                     <div class="card-body p-0">
-
                         <div class="p-6">
                             <div class="row">
-                                <div class="col-md-4 col-12">
-                                    <form method="GET" action="{{ route('vente.index') }}" class="d-flex mb-3">
-                                        <input class="form-control me-2" type="search" name="search"
-                                            placeholder="Rechercher " value="{{ request('search') }}" aria-label="Search">
-                                        <span class="input-group-append">
-                                            <button class="btn bg-white border border-start-0 ms-n10 rounded-0 rounded-end"
-                                                type="submit">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                    stroke-linecap="round" stroke-linejoin="round"
-                                                    class="feather feather-search">
-                                                    <circle cx="11" cy="11" r="8"></circle>
-                                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                                                </svg>
-                                            </button>
-                                        </span>
+                                <div class="col-md-12 col-12">
+                                    <form method="GET" class="mb-4">
+                                        <div class="row g-6 align-items-center">
+                                            <div class="col-auto">
+                                                <label for="date_debut" class="col-form-label">Date de début :</label>
+                                            </div>
+                                            <div class="col-auto">
+                                                <input type="date" id="date_debut" name="date_debut" class="form-control"
+                                                    value="{{ request('date_debut') }}">
+                                            </div>
+                                            <div class="col-auto">
+                                                <label for="date_fin" class="col-form-label">Date de fin :</label>
+                                            </div>
+                                            <div class="col-auto">
+                                                <input type="date" id="date_fin" name="date_fin" class="form-control"
+                                                    value="{{ request('date_fin') }}">
+                                            </div>
+                                            <div class="col-auto">
+                                                <button type="submit" class="btn btn-primary">Filtrer</button>
+                                            </div>
+                                        </div>
                                     </form>
                                 </div>
                             </div>
@@ -46,45 +51,59 @@
                                     <tr>
                                         <th style="width:80px;">N°</th>
                                         <th>Date</th>
-                                        <th>Type de paiement</th>
-                                        <th>Quantité</th>
-                                        <th>Montant total (XOF)</th>
-                                        <th>Station</th>
+                                        <th>TV(XOF)</th>
+                                        <th>JNP PASS(XOF)</th>
+                                        <th>Comptant(XOF)</th>
+                                        <th>Total</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($ventes as $vente)
+                                    @foreach($ventesParJour as $date => $ventesJour)
+                                        @php
+                                            $tv = $ventesJour->where('paiement.nom', 'Ticket Valeur')->sum('montant_total');
+                                            $jnp = $ventesJour->where('paiement.nom', 'JNP Pass')->sum('montant_total');
+                                            $comptant = $ventesJour->where('paiement.nom', 'Espèce')->sum('montant_total');
+                                            $total = $tv + $jnp + $comptant;
+                                        @endphp
                                         <tr>
-                                            <td></td>
-                                            <td>{{ $vente->created_at->format('d/m/Y H:i') }}</td>
-                                            <td>{{ $vente->paiement->nom }}</td>
-                                            <td>{{ $vente->quantite }}</td>
-                                            <td>{{ number_format($vente->montant_total, 0, ',', ' ') }}</td>
-                                            <td>{{ $vente->station->nom ?? 'N/A' }}</td>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ Carbon\Carbon::parse($date)->format('d/m/Y') }}</td>
+                                            <td>{{ number_format($tv, 0, ',', ' ') }}</td>
+                                            <td>{{ number_format($jnp, 0, ',', ' ') }}</td>
+                                            <td>{{ number_format($comptant, 0, ',', ' ') }}</td>
+                                            <td>{{ number_format($total, 0, ',', ' ') }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
                             </table>
                         </div>
-
-
                     </div>
                     <div class="border-top d-md-flex justify-content-between align-items-center p-6">
-                        <span>Showing 1 to 8 of 12 entries</span>
-                        <nav class="mt-2 mt-md-0">
+                        <span> Affichage de {{ $ventes->firstItem() }} à {{ $ventes->lastItem() }} sur
+                            {{ $ventes->total() }} résultats</span>
+                        <nav>
                             <ul class="pagination mb-0">
-                                <li class="page-item disabled"><a class="page-link" href="#!">Previous</a></li>
-                                <li class="page-item"><a class="page-link active" href="#!">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#!">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#!">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#!">Next</a></li>
+                                <!-- Previous button -->
+                                <li class="page-item {{ $ventes->onFirstPage() ? 'disabled' : '' }}">
+                                    <a class="page-link" href="{{ $ventes->previousPageUrl() }}" tabindex="-1">Prec</a>
+                                </li>
+
+                                <!-- Display limited number of pages (3 pages max) -->
+                                @foreach ($ventes->getUrlRange(1, 3) as $page => $url)
+                                    <li class="page-item {{ $page == $ventes->currentPage() ? 'active' : '' }}">
+                                        <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                                    </li>
+                                @endforeach
+
+                                <!-- Next button -->
+                                <li class="page-item {{ $ventes->hasMorePages() ? '' : 'disabled' }}">
+                                    <a class="page-link" href="{{ $ventes->nextPageUrl() }}">Suiv</a>
+                                </li>
                             </ul>
                         </nav>
                     </div>
                 </div>
-
             </div>
-
         </div>
     </div>
 @endsection

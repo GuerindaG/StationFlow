@@ -5,22 +5,22 @@ namespace App\Http\Controllers;
 use App\Models\Categorie;
 use App\Models\Produit;
 use Illuminate\Http\Request;
-use Schema;
+use Illuminate\Support\Facades\Schema;
 
 class ProduitController extends Controller
 {
     public function index(Request $request)
     {
-        $produits = Produit::with('categorie')->get();
         $searchTerm = $request->input('search');
+        $query = Produit::with('categorie');
 
-        $query = Produit::query();
         // Filtrage par catégorie
         if ($request->filled('categorie_id')) {
             $query->where('categorie_id', $request->categorie_id);
         }
+
+        // Recherche globale
         if ($searchTerm) {
-            $columns = Schema::getColumnListing('produits');
             $columns = array_diff(Schema::getColumnListing('produits'), ['id', 'created_at', 'updated_at']);
             $query->where(function ($q) use ($columns, $searchTerm) {
                 foreach ($columns as $column) {
@@ -31,93 +31,69 @@ class ProduitController extends Controller
 
         $produits = $query->paginate(5);
         $categories = Categorie::all();
+
         return view('produit.index', compact('produits', 'categories', 'searchTerm'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $categories = Categorie::all();
         return view('produit.create', compact('categories'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        $produits = $request->input('produits');
-
         $request->validate([
             'nom' => 'required|string|max:255',
-            'description' => 'required|string',
             'categorie_id' => 'required|exists:categories,id',
-            'prix_unitaire' => 'required|numeric|min:0',
+            'prix_achat' => 'required|numeric|min:0',
+            'prix_vente' => 'required|numeric|min:0',
+            'viscosite' => 'nullable|string',
         ]);
 
-        // Création du produit
         Produit::create([
             'nom' => $request->nom,
-            'description' => $request->description,
             'categorie_id' => $request->categorie_id,
-            'prix_unitaire' => $request->prix_unitaire,
+            'prix_achat' => $request->prix_achat,
+            'prix_vente' => $request->prix_vente,
+            'viscosite' => $request->viscosite,
         ]);
 
         return redirect()->route('produit.index')->with('success', 'Produit ajouté avec succès');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
-        //
+        // Implémentez cette méthode si nécessaire
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
-        $produits = Produit::findOrFail($id);
+        $produit = Produit::findOrFail($id);
         $categories = Categorie::all();
-        return view('produit.edit', compact('produits', 'categories'));
+        return view('produit.edit', compact('produit', 'categories'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         $request->validate([
             'nom' => 'required|string|max:255',
-            'description' => 'required|string',
             'categorie_id' => 'required|exists:categories,id',
-            'prix_unitaire' => 'required|numeric|min:0',
+            'prix_achat' => 'required|numeric|min:0',
+            'prix_vente' => 'required|numeric|min:0',
+            'viscosite' => 'nullable|string',
         ]);
 
-        $produits = Produit::findOrFail($id);
-
-        $produits->update([
-            'nom' => $request->nom,
-            'description' => $request->description,
-            'categorie_id' => $request->categorie_id,
-            'prix_unitaire' => $request->prix_unitaire,
-        ]);
+        $produit = Produit::findOrFail($id);
+        $produit->update($request->all());
 
         return redirect()->route('produit.index')->with('success', 'Produit mis à jour avec succès');
-
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        $produits = Produit::findOrFail($id);
-        $produits->delete();
+        $produit = Produit::findOrFail($id);
+        $produit->delete();
 
         return redirect()->route('produit.index')->with('success', 'Produit supprimé avec succès');
     }
@@ -134,31 +110,24 @@ class ProduitController extends Controller
     {
         $query = Produit::query();
 
-        // Filtrer par catégorie si spécifié
         if ($request->has('categorie_id') && $request->categorie_id) {
             $query->where('categorie_id', $request->categorie_id);
         }
 
-        // Recherche par terme
         if ($request->has('search') && $request->search) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('nom', 'like', "%{$search}%")
-                    ->orWhere('prix_unitaire', 'like', "%{$search}%");
+                    ->orWhere('prix_achat', 'like', "%{$search}%")
+                    ->orWhere('prix_vente', 'like', "%{$search}%");
             });
         }
 
-        // Pagination
         $produits = $query->with('categorie')->paginate(10);
 
         return response()->json([
             'produits' => $produits,
-            'pagination' => [
-                'total' => $produits->total(),
-                'per_page' => $produits->perPage(),
-                'current_page' => $produits->currentPage(),
-                'last_page' => $produits->lastPage(),
-            ]
+            'pagination' => $produits->toArray()
         ]);
     }
 }

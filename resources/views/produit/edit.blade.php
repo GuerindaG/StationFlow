@@ -26,17 +26,23 @@
                         </div>
                     </div>
                     <div class="row mb-2">
-                        <div class="col-sm-12">
-                            <label for="recipient-name" class="col-form-label">Prix Unitaire</label>
-                            <input type="number" placeholder="" id="prix_unitaire" value="{{ $produit->prix_unitaire }}"
-                                name="prix_unitaire" class="form-control pop">
+                        <div class="col-sm-6">
+                            <label for="recipient-name" class="col-form-label">Prix d'achat</label>
+                            <input type="number" placeholder="" id="prix_achat" value="{{ $produit->prix_achat }}"
+                                name="prix_achat" class="form-control pop">
+                        </div>
+                          <div class="col-sm-6">
+                            <label for="recipient-name" class="col-form-label">Prix de vente</label>
+                            <input type="number" placeholder="" id="prix_vente" value="{{ $produit->prix_vente }}"
+                                name="prix_vente" class="form-control pop">
                         </div>
                     </div>
                     <div class="row mb-2">
                         <div class="col-sm-12">
-                            <label class="form-label">Description</label>
-                            <textarea class="form-control" rows="3" name="description"
-                                placeholder="Meta Description">{{ old('description', $produit->description) }}</textarea>
+                            <div class="col-sm-12">
+                                <label for="recipient-name" class="col-form-label">Viscosité</label>
+                                <input type="text" name="viscosite" value="{{ $produit->viscosite }}" class="form-control pop">
+                            </div>
                         </div>
                     </div>
                     <div class="d-flex flex-row gap-3">
