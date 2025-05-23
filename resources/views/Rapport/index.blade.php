@@ -42,10 +42,10 @@
                             </div>
                             <div class="col-md-3">
                                 <button type="submit" class="btn btn-primary">
-                                    <i class="fa-solid fa-filter"></i> Filtrer
+                                    <i class="fa-solid fa-filter"></i> 
                                 </button>
                                 <a href="{{ route('rapports.index') }}" class="btn btn-light">
-                                    <i class="fa-solid fa-power-off"></i> Réinitialiser
+                                    <i class="fa-solid fa-power-off"></i> 
                                 </a>
                             </div>
                         </form>

@@ -68,6 +68,6 @@ Route::get('/redirect-by-role', function () {
 Route::get('/voirC-pdf', [PDFController::class, 'afficherCPDF'])->name('voirC.pdf');
 Route::get('/voirS-pdf', [PDFController::class, 'afficherSPDF'])->name('voirS.pdf');
 Route::get('/voir-pdf', [PDFController::class, 'afficherPDF'])->name('voir.pdf');
-Route::get('/rapportpdf', fn() => view('rapportpdf'))->name("rapport-pdf");
+Route::get('/s', fn() => view('Rapport.rapportpdf'))->name("rapport.pdf");
 
 require __DIR__ . '/auth.php';
