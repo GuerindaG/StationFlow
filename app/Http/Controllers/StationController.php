@@ -35,9 +35,6 @@ class StationController extends Controller
         return view("Station.create");
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -71,7 +68,6 @@ class StationController extends Controller
         ]);
         return redirect()->route('station.index')->with('success', 'Votre station a été enregistré avec succès.');
     }
-
     public function show(string $id)
     {
         $station = Station::findOrFail($id);
@@ -80,6 +76,13 @@ class StationController extends Controller
         return view('station.show', compact('station', 'rapports'));
     }
 
+    public function show2(string $id)
+    {
+        $station = Station::findOrFail($id);
+        $rapports = $station->rapports()->latest()->get();
+
+        return view('station.show2', compact('station', 'rapports'));
+    }
 
     public function edit(Station $station)
     {
@@ -118,7 +121,6 @@ class StationController extends Controller
 
         return redirect()->route('station.index')->with('success', 'Station supprimée avec succès.');
     }
-
     public function archiver()
     {
         $station = Station::withoutGlobalScope('notArchived')

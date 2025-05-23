@@ -44,31 +44,13 @@
                                     <div class="col-md-12 g-3 col-12">
                                         <form method="GET" class="row g-3 align-items-center">
                                             <div class="col-auto">
-                                                <label for="date_filter" class="col-form-label">Date :</label>
-                                            </div>
-                                            <div class="col-auto">
                                                 <input type="date" id="date_filter" name="date_filter" class="form-control"
                                                     value="{{ $date_filter }}">
                                             </div>
+
                                             <div class="col-auto">
-                                                <label for="per_page" class="col-form-label">Par page :</label>
-                                            </div>
-                                            <div class="col-auto">
-                                                <select name="per_page" id="per_page" class="form-select">
-                                                    <option value="10" {{ request('per_page') == 10 ? 'selected' : '' }}>10
-                                                    </option>
-                                                    <option value="25" {{ request('per_page') == 25 ? 'selected' : '' }}>25
-                                                    </option>
-                                                    <option value="50" {{ request('per_page') == 50 ? 'selected' : '' }}>50
-                                                    </option>
-                                                    <option value="100" {{ request('per_page') == 100 ? 'selected' : '' }}>100
-                                                    </option>
-                                                </select>
-                                            </div>
-                                            <div class="col-auto">
-                                                <button type="submit" class="btn btn-primary">Filtrer</button>
-                                                <a href="{{ route('vente.index') }}"
-                                                    class="btn btn-secondary">Réinitialiser</a>
+                                                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-filter"></i></button>
+                                                <a href="{{ route('vente.index') }}" class="btn btn-secondary"><i class="fa-solid fa-power-off"></i></a>
                                             </div>
                                         </form>
                                     </div>

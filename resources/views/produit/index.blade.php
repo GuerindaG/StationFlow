@@ -9,7 +9,7 @@
 						<h2>Liste des produits</h2>
 					</div>
 					<div>
-						<a href="{{ route('voir.pdf') }}" target="_blank" class="btn btn-secondary">
+						<a href="{{ route('voir.pdf') }}" target="_blank" class="btn btn-gray-400">
 							📄 Télécharger PDF
 						</a>
 						<button type="button" class="btn btn-primary" data-bs-toggle="modal"
@@ -75,7 +75,7 @@
 								<tbody>
 									@foreach ($produits as $produit)
 										<tr class="">
-											<td>{{ $loop->iteration }}</td>
+											<td>{{ $produit->id }}</td>
 											<td>{{ $produit->nom }}</td>
 											<td>{{ $produit->viscosite ?? "Néant"}}</td>
 											<td>{{ $produit->prix_achat }} </td>

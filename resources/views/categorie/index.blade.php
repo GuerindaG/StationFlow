@@ -9,7 +9,7 @@
                         <h2>Liste des catégories</h2>
                     </div>
                     <div>
-                         <a href="{{ route('voirC.pdf') }}" target="_blank" class="btn btn-secondary">
+                         <a href="{{ route('voirC.pdf') }}" target="_blank" class="btn btn-gray-400">
                             📄 Télécharger PDF 
                         </a>
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal"

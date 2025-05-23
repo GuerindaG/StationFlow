@@ -15,7 +15,7 @@
             <div class="col-xxl-5 col-lg-6 d-none d-lg-block text-center">
                 <form action="#">
                     <div class="input-group">
-                        <input class="form-control" type="search" placeholder="Search for products"
+                        <input class="form-control" type="search" placeholder="Rechercher"
                             aria-label="Recipient's username" aria-describedby="button-addon2" />
                         <button class="btn btn-primary" type="button" id="button-addon2"><i
                                 class="fa-solid fa-magnifying-glass"></i></button>

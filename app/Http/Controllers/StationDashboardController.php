@@ -126,16 +126,24 @@ class StationDashboardController extends Controller
     {
         $year = $year ?? Carbon::now()->year;
 
-        // Récupération des ventes groupées par mois pour l'année sélectionnée
-        $monthlyRevenue = Vente::where('station_id', $station->id)
+        // Récupération des ventes groupées par mois et par moyen de paiement
+        $monthlyRevenueByPayment = Vente::where('station_id', $station->id)
             ->whereYear('created_at', $year)
             ->selectRaw('
             MONTH(created_at) as month,
+            paiement_id,
             SUM(montant_total) as total_amount
         ')
-            ->groupBy('month')
+            ->groupBy('month', 'paiement_id')
             ->orderBy('month')
             ->get();
+
+        // Récupération des libellés des moyens de paiement (à adapter selon votre modèle)
+        $paymentMethods = [
+            1 => 'T.V.',
+            2 => 'JNP',
+            3 => 'Comptant'
+        ];
 
         // Préparation des données pour ApexCharts
         $months = [
@@ -153,34 +161,67 @@ class StationDashboardController extends Controller
             'Déc'
         ];
 
-        $seriesData = array_fill(0, 12, 0);
+        // Initialisation des séries pour chaque moyen de paiement
+        $series = [];
+        $paymentSeriesData = [];
 
-        foreach ($monthlyRevenue as $revenue) {
-            $seriesData[$revenue->month - 1] = (float) $revenue->total_amount;
+        foreach ($paymentMethods as $id => $name) {
+            $paymentSeriesData[$id] = array_fill(0, 12, 0);
         }
 
-        // Calcul de l'évolution par rapport à l'année précédente
-        $previousYearTotal = Vente::where('station_id', $station->id)
-            ->whereYear('created_at', $year - 1)
-            ->sum('montant_total');
+        // Remplissage des données
+        foreach ($monthlyRevenueByPayment as $revenue) {
+            if (isset($paymentSeriesData[$revenue->paiement_id])) {
+                $paymentSeriesData[$revenue->paiement_id][$revenue->month - 1] = (float) $revenue->total_amount;
+            }
+        }
 
-        $currentYearTotal = array_sum($seriesData);
+        // Préparation des séries pour le graphique
+        foreach ($paymentMethods as $id => $name) {
+            $series[] = [
+                'name' => $name,
+                'data' => $paymentSeriesData[$id]
+            ];
+        }
 
-        $evolutionPercentage = $previousYearTotal > 0
-            ? round(($currentYearTotal - $previousYearTotal) / $previousYearTotal * 100, 2)
-            : 100;
+        // Couleurs pour chaque moyen de paiement
+        $paymentColors = [
+            1 => '#0aad0a', // T.V. - Vert
+            2 => '#016bf8', // JNP - Bleu
+            3 => '#ffc107'  // Comptant - Jaune
+        ];
+
+        // Calcul de l'évolution par moyen de paiement
+        $evolutionByPayment = [];
+
+        foreach ($paymentMethods as $id => $name) {
+            $currentYearTotal = array_sum($paymentSeriesData[$id]);
+
+            $previousYearTotal = Vente::where('station_id', $station->id)
+                ->where('paiement_id', $id)
+                ->whereYear('created_at', $year - 1)
+                ->sum('montant_total');
+
+            $evolutionPercentage = $previousYearTotal > 0
+                ? round(($currentYearTotal - $previousYearTotal) / $previousYearTotal * 100, 2)
+                : ($currentYearTotal > 0 ? 100 : 0);
+
+            $evolutionByPayment[$id] = [
+                'name' => $name,
+                'evolution' => $evolutionPercentage,
+                'currentYear' => $currentYearTotal,
+                'previousYear' => $previousYearTotal,
+                'color' => $paymentColors[$id] ?? '#cccccc'
+            ];
+        }
 
         return [
-            'series' => [
-                [
-                    'name' => "Chiffre d'affaires",
-                    'data' => $seriesData
-                ]
-            ],
+            'series' => $series,
             'labels' => $months,
-            'evolutionPercentage' => $evolutionPercentage,
+            'evolutionByPayment' => $evolutionByPayment,
             'currentYear' => $year,
-            'previousYear' => $year - 1
+            'previousYear' => $year - 1,
+            'colors' => array_values($paymentColors)
         ];
     }
 }

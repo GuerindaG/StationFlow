@@ -40,8 +40,8 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('rapport') ? 'active' : '' }}"
-                        href="{{ route('rapport') }}">
+                    <a class="nav-link {{ request()->routeIs('rapports.index') ? 'active' : '' }}"
+                        href="{{ route('rapports.index') }}">
                         <div class="d-flex align-items-center">
                             <span class="nav-link-icon"><i class="bi bi-newspaper"></i></span>
                             <span class="nav-link-text">Rapport</span>

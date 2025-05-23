@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 @php
-use Carbon\Carbon;
+    use Carbon\Carbon;
 @endphp
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -115,16 +116,29 @@ use Carbon\Carbon;
             <div class="container">
                 @include('Gerant.card')
                 <div class="row">
+
                     <div class="col-xl-8 col-lg-6 col-md-12 col-12 mb-6">
                         <div class="card h-100 card-lg">
                             <div class="card-body p-6">
                                 <div class="d-flex justify-content-between">
                                     <div>
                                         <h3 class="mb-1 fs-5">Chiffre d'affaire</h3>
-                                        <small>(+63%) than last year</small>
+                                        <small>
+                                            @php
+                                                $totalEvolution = 0;
+                                                foreach ($revenueChartData['evolutionByPayment'] as $payment) {
+                                                    $totalEvolution += $payment['evolution'];
+                                                }
+                                                $avgEvolution = count($revenueChartData['evolutionByPayment']) > 0
+                                                    ? $totalEvolution / count($revenueChartData['evolutionByPayment'])
+                                                    : 0;
+                                            @endphp
+                                            ({{ $avgEvolution >= 0 ? '+' : '' }}{{ number_format($avgEvolution, 2) }}%)
+                                            par rapport à {{ $revenueChartData['previousYear'] }}
+                                        </small>
                                     </div>
                                     <div>
-                                        <select class="form-select">
+                                        <select class="form-select" id="yearSelector">
                                             @for($i = Carbon::now()->year; $i >= 2021; $i--)
                                                 <option value="{{ $i }}" {{ $selectedYear == $i ? 'selected' : '' }}>{{ $i }}
                                                 </option>
@@ -133,9 +147,24 @@ use Carbon\Carbon;
                                     </div>
                                 </div>
                                 <div id="revenueChart" class="mt-6"></div>
+
+                                <div class="mt-4">
+                                    <h4 class="fs-6 mb-3">Évolution par moyen de paiement (vs
+                                        {{ $revenueChartData['previousYear'] }})
+                                    </h4>
+                                    <div class="row">
+                                        @foreach($revenueChartData['evolutionByPayment'] as $payment)
+                                            <div class="col-md-4 mb-3">
+                                                <div class="card border-0 shadow-sm">
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
+
                     <div class="col-xl-4 col-lg-6 col-12 mb-6">
                         <div class="card h-100 card-lg">
                             <div class="card-body p-6">
@@ -144,13 +173,11 @@ use Carbon\Carbon;
                             </div>
                         </div>
                     </div>
+
                 </div>
-                <!-- row -->
                 <div class="row">
                     <div class="col-xl-6 col-lg-6 col-md-12 col-12 mb-6">
-                        <!-- card -->
                         <div class="card h-100 card-lg">
-                            <!-- card body -->
                             <div class="card-body p-6">
                                 <h3 class="mb-0 fs-5">Sales Overview</h3>
                                 <div class="mt-6">
@@ -421,20 +448,16 @@ use Carbon\Carbon;
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Récupération des données passées par le contrôleur
             const revenueData = @json($revenueChartData);
 
-            // Configuration du graphique
             const options = {
                 chart: {
                     type: 'line',
                     height: 350,
-                    toolbar: {
-                        show: false
-                    }
+                    toolbar: { show: false }
                 },
                 series: revenueData.series,
-                colors: ['#0aad0a'],
+                colors: revenueData.colors,
                 stroke: {
                     width: 3,
                     curve: 'smooth'
@@ -442,17 +465,11 @@ use Carbon\Carbon;
                 markers: {
                     size: 6,
                     strokeWidth: 0,
-                    hover: {
-                        size: 8
-                    }
+                    hover: { size: 8 }
                 },
                 xaxis: {
                     categories: revenueData.labels,
-                    labels: {
-                        style: {
-                            colors: '#6c757d'
-                        }
-                    }
+                    labels: { style: { colors: '#6c757d' } }
                 },
                 yaxis: {
                     labels: {
@@ -462,9 +479,7 @@ use Carbon\Carbon;
                                 currency: 'XOF'
                             }).format(value);
                         },
-                        style: {
-                            colors: '#6c757d'
-                        }
+                        style: { colors: '#6c757d' }
                     }
                 },
                 tooltip: {
@@ -477,21 +492,129 @@ use Carbon\Carbon;
                         }
                     }
                 },
-                grid: {
-                    borderColor: '#f1f1f1'
+                grid: { borderColor: '#f1f1f1' },
+                legend: {
+                    position: 'top',
+                    horizontalAlign: 'right'
                 }
             };
 
             const chart = new ApexCharts(document.querySelector("#revenueChart"), options);
             chart.render();
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Initialisation du graphique
+            const revenueData = @json($revenueChartData);
+
+            const chartOptions = {
+                chart: {
+                    type: 'line',
+                    height: 350,
+                    toolbar: { show: false },
+                    animations: {
+                        enabled: true,
+                        easing: 'linear',
+                        dynamicAnimation: {
+                            speed: 1000
+                        }
+                    }
+                },
+                series: revenueData.series,
+                colors: revenueData.colors,
+                stroke: {
+                    width: 3,
+                    curve: 'smooth'
+                },
+                markers: {
+                    size: 6,
+                    strokeWidth: 0,
+                    hover: { size: 9 }
+                },
+                xaxis: {
+                    categories: revenueData.labels,
+                    labels: {
+                        style: {
+                            colors: '#6c757d',
+                            fontSize: '12px'
+                        }
+                    },
+                    axisBorder: {
+                        show: true,
+                        color: '#e9ecef'
+                    }
+                },
+                yaxis: {
+                    labels: {
+                        formatter: function (value) {
+                            return new Intl.NumberFormat('fr-FR', {
+                                style: 'currency',
+                                currency: 'XOF',
+                                minimumFractionDigits: 0
+                            }).format(value);
+                        },
+                        style: {
+                            colors: '#6c757d',
+                            fontSize: '12px'
+                        }
+                    },
+                    axisBorder: {
+                        show: true,
+                        color: '#e9ecef'
+                    }
+                },
+                tooltip: {
+                    y: {
+                        formatter: function (value) {
+                            return new Intl.NumberFormat('fr-FR', {
+                                style: 'currency',
+                                currency: 'XOF',
+                                minimumFractionDigits: 0
+                            }).format(value);
+                        }
+                    },
+                    shared: true,
+                    intersect: false
+                },
+                grid: {
+                    borderColor: '#f1f1f1',
+                    strokeDashArray: 4,
+                    yaxis: {
+                        lines: {
+                            show: true
+                        }
+                    }
+                },
+                legend: {
+                    position: 'top',
+                    horizontalAlign: 'right',
+                    markers: {
+                        radius: 12
+                    },
+                    itemMargin: {
+                        horizontal: 10,
+                        vertical: 5
+                    }
+                },
+                dataLabels: {
+                    enabled: false
+                }
+            };
+
+            const chart = new ApexCharts(document.querySelector("#revenueChart"), chartOptions);
+            chart.render();
 
             // Gestion du changement d'année
-            document.querySelector('.form-select').addEventListener('change', function () {
+            document.getElementById('yearSelector').addEventListener('change', function () {
                 const year = this.value;
-                window.location.href = window.location.pathname + '?year=' + year;
+                const url = new URL(window.location.href);
+                url.searchParams.set('year', year);
+                window.location.href = url.toString();
             });
         });
     </script>
+
     <!-- Libs JS -->
     <!-- <script src="../assets/libs/jquery/dist/jquery.min.js"></script> -->
     <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

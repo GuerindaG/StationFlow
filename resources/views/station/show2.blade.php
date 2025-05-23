@@ -6,7 +6,7 @@
             <div class="d-flex justify-content-between align-items-center">
                 <div class="col-lg-6">
                     <h2>Historique des raports : {{ $station->nom }} </h2>
-                </div>  
+                </div>
                 <div>
                     <form method="GET" class="row g-3 align-items-center">
                         <div class="col-auto">
@@ -47,11 +47,11 @@
             <div class="card card-product">
                 <div class="card-body">
                     <div class="text-center position-relative">
-                        <i class="fa-solid fa-file-lines fa-5x text-muted"></i>
+                        <i class="fa-solid fa-folder fa-5x text-muted"></i>
                     </div>
                     <div class="text-small mb-1 p-4">
                         <h2 class="fs-6 text-center"><a href="{{ route('rapport-pdf') }}"
-                                class="text-inherit text-decoration-none">R/N°#-01-05-2025</a></h2>
+                                class="text-inherit text-decoration-none">Janvier</a></h2>
                     </div>
                 </div>
             </div>
@@ -60,11 +60,11 @@
             <div class="card card-product">
                 <div class="card-body">
                     <div class="text-center position-relative">
-                        <i class="fa-solid fa-file-lines fa-5x text-muted"></i>
+                        <i class="fa-solid fa-folder fa-5x text-muted"></i>
                     </div>
                     <div class="text-small mb-1 p-4">
                         <h2 class="fs-6 text-center"><a href="{{ route('rapport-pdf') }}"
-                                class="text-inherit text-decoration-none">R/N°#-01-05-2025</a></h2>
+                                class="text-inherit text-decoration-none">Fevrier</a></h2>
                     </div>
                 </div>
             </div>
@@ -73,11 +73,11 @@
             <div class="card card-product">
                 <div class="card-body">
                     <div class="text-center position-relative">
-                        <i class="fa-solid fa-file-lines fa-5x text-muted"></i>
+                        <i class="fa-solid fa-folder fa-5x text-muted"></i>
                     </div>
                     <div class="text-small mb-1 p-4">
                         <h2 class="fs-6 text-center"><a href="{{ route('rapport-pdf') }}"
-                                class="text-inherit text-decoration-none">R/N°#-01-05-2025</a></h2>
+                                class="text-inherit text-decoration-none">R/Mois</a></h2>
                     </div>
                 </div>
             </div>
@@ -86,11 +86,11 @@
             <div class="card card-product">
                 <div class="card-body">
                     <div class="text-center position-relative">
-                        <i class="fa-solid fa-file-lines fa-5x text-muted"></i>
+                        <i class="fa-solid fa-folder fa-5x text-muted"></i>
                     </div>
                     <div class="text-small mb-1 p-4">
                         <h2 class="fs-6 text-center"><a href="{{ route('rapport-pdf') }}"
-                                class="text-inherit text-decoration-none">R/N°#-01-05-2025</a></h2>
+                                class="text-inherit text-decoration-none">R/Mois</a></h2>
                     </div>
                 </div>
             </div>
@@ -99,11 +99,11 @@
             <div class="card card-product">
                 <div class="card-body">
                     <div class="text-center position-relative">
-                        <i class="fa-solid fa-file-lines fa-5x text-muted"></i>
+                        <i class="fa-solid fa-folder fa-5x text-muted"></i>
                     </div>
                     <div class="text-small mb-1 p-4">
                         <h2 class="fs-6 text-center"><a href="{{ route('rapport-pdf') }}"
-                                class="text-inherit text-decoration-none">R/N°#-01-05-2025</a></h2>
+                                class="text-inherit text-decoration-none">R/Mois</a></h2>
                     </div>
                 </div>
             </div>
@@ -123,5 +123,4 @@
             </nav>
         </div>
     </div>
-
 @endsection

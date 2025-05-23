@@ -54,16 +54,17 @@
                                                 @endforeach
                                             </select>
                                         </td>
-                                        <td><button type="button" class="btn btn-danger removeRow">X</button></td>
+                                        <td><button type="button" class="btn btn-danger">X</button></td>
                                     </tr>
                                 </tbody>
                             </table>
-                            <div class="row">
-                                <button type="button" id="addRow" class="btn btn-primary col-6">+ Ajouter un
-                                    produit</button>
-                                <button type="submit" class="btn btn-success col-6">Enregistrer</button>
+                            <div class="col-auto">
+                                <button type="button" id="addRow" class="btn btn-success"><i
+                                        class="fa-solid fa-plus"></i></button>
+                                <button type="submit" class="btn btn-primary text-end">Enregistrer</button>
                             </div>
                         </div>
+
                     </form>
                 </div>
             </div>

@@ -25,26 +25,14 @@
                                     <form method="GET" class="mb-4">
                                         <div class="row g-3 align-items-center">
                                             <div class="col-auto">
-                                                <label for="date_filter" class="col-form-label">Date :</label>
-                                            </div>
-                                            <div class="col-auto">
                                                 <input type="date" id="date_filter" name="date_filter" class="form-control"
                                                     value="{{ $date_filter }}">
                                             </div>
                                             <div class="col-auto">
-                                                <label for="per_page" class="col-form-label">Par page :</label>
-                                            </div>
-                                            <div class="col-auto">
-                                                <select name="per_page" id="per_page" class="form-select">
-                                                    <option value="5" {{ $per_page == 5 ? 'selected' : '' }}>5</option>
-                                                    <option value="10" {{ $per_page == 10 ? 'selected' : '' }}>10</option>
-                                                    <option value="20" {{ $per_page == 20 ? 'selected' : '' }}>20</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-auto">
-                                                <button type="submit" class="btn btn-primary">Filtrer</button>
+                                                <button type="submit" class="btn btn-primary"><i
+                                                        class="fa-solid fa-filter"></i></button>
                                                 <a href="{{ route('approvisionnement.index') }}"
-                                                    class="btn btn-secondary">Réinitialiser</a>
+                                                    class="btn btn-secondary"><i class="fa-solid fa-power-off"></i></a>
                                             </div>
                                         </div>
                                     </form>
@@ -101,7 +89,8 @@
                             </table>
                         </div>
                         <div class="border-top d-md-flex justify-content-between align-items-center p-6">
-                            <span> Affichage de {{ $derniers_approvisionnements->firstItem() }} à {{ $derniers_approvisionnements->lastItem() }} sur
+                            <span> Affichage de {{ $derniers_approvisionnements->firstItem() }} à
+                                {{ $derniers_approvisionnements->lastItem() }} sur
                                 {{ $derniers_approvisionnements->total() }} résultats</span>
                             <nav>
                                 <ul class="pagination mb-0">

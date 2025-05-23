@@ -7,17 +7,16 @@ use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\ProduitController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RapportController;
 use App\Http\Controllers\StationController;
 use App\Http\Controllers\StationDashboardController;
 use App\Http\Controllers\VenteController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('generate-report', 'ReportController@generateReport');
+Route::get('/', fn() => view('connexion'))->name("connexion");
 Route::get('/api/produits', [ProduitController::class, 'getProduits'])->name('api.produits');
 Route::get('/get-produits/{id}', [ApprovisionnementController::class, 'getByCategorie']);
 Route::get('/acc', fn() => view('Gerant.exVente'))->name("acc");
-
-Route::get('/', fn() => view('connexion'))->name("connexion");
 
 Route::get('/gestionnaire/no-station', function () {
     return 'Aucune station assignée à votre compte.';
@@ -25,18 +24,23 @@ Route::get('/gestionnaire/no-station', function () {
 
 Route::prefix('/gerant')->middleware(['auth', 'CheckGerant'])->group(function () {
     Route::get('/dashboard', [StationDashboardController::class, 'index'])->name('gestionnaire.dashboard');
-    Route::get('/rapport', fn() => view('rapportpdf'))->name("rapport");
     Route::resource('/vente', VenteController::class);
     Route::resource('/approvisionnement', ApprovisionnementController::class);
-    Route::get('/rapport-pdf', fn() => view('Gerant.showRapport'))->name("rapport-pdf");
+    Route::get('/rapport', [RapportController::class, 'index'])->name('rapports.index');
+    Route::get('/mois/{monthYear}', [RapportController::class, 'byMonth'])->name('rapports.month');
+    Route::get('/{rapport}', [RapportController::class, 'show'])->name('rapports.show');
+    Route::post('/generer-quotidien', [RapportController::class, 'generateDailyReport'])->name('rapports.generate.daily');
 });
 
 Route::prefix('/admin')->middleware(['auth', 'CheckAdmin'])->group(function () {
     Route::get('/dashboard', function () {
-        return view('Admin.rapport');
+        return view('Admin.dashboard');
     })->name('admin.dashboard');
     Route::get('/parametre', fn() => view('Admin.parametre'))->name("parametre");
     Route::resource('/station', StationController::class);
+    //
+    Route::get('/rapport-/{id}', [StationController::class, 'show2'])->name('voirRapport');
+    //
     Route::resource('/categorie', CategorieController::class);
     Route::resource('/produit', ProduitController::class);
 
@@ -64,5 +68,6 @@ Route::get('/redirect-by-role', function () {
 Route::get('/voirC-pdf', [PDFController::class, 'afficherCPDF'])->name('voirC.pdf');
 Route::get('/voirS-pdf', [PDFController::class, 'afficherSPDF'])->name('voirS.pdf');
 Route::get('/voir-pdf', [PDFController::class, 'afficherPDF'])->name('voir.pdf');
+Route::get('/rapportpdf', fn() => view('rapportpdf'))->name("rapport-pdf");
 
 require __DIR__ . '/auth.php';

@@ -4,14 +4,11 @@
     <div class="row">
         <div class="col-lg-12 col-md-8 col-12">
             <div class="py-6 p-md-6 p-lg-10">
-
-                {{-- Message Flash --}}
                 @if(session('success'))
                     <div class="alert alert-success">{{ session('success') }}</div>
                 @elseif(session('error'))
                     <div class="alert alert-danger">{{ session('error') }}</div>
                 @endif
-
                 <div class="card card-lg border-0 mb-5">
                     <div class="card-header">
                         <h2 class="card-title"><i class="fa fa-user-edit"></i> Modifier mon profil</h2>
@@ -61,8 +58,8 @@
                             </div>
 
                             <div class="col-12 d-flex gap-3 mt-3">
-                                <button class="btn btn-primary" type="submit">Mettre à jour</button>
-                                <button class="btn btn-secondary" type="reset">Annuler</button>
+                                <button class="btn btn-primary w-50" type="submit">Mettre à jour</button>
+                                <button class="btn btn-gray-400 w-50" type="reset">Annuler</button>
                             </div>
                         </form>
                     </div>
