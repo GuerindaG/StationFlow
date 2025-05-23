@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liste catégories - StationFlow</title>
+    <title>Rapport Journalier - StationFlow</title>
     <style>
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
@@ -248,47 +248,177 @@
                 </svg>
             </div>
             <div class="report-info">
-                <h1>Liste des catégories</h1>
+                <h1>Rapport Journalier</h1>
                 <div class="date">20 mai 2025</div>
-                <div class="station-id">Non Station - Ville</div>
+                <div class="station-id">Station #542 - Paris Nord</div>
             </div>
         </div>
 
         <div class="content">
             <div class="watermark">STATIONFLOW</div>
             <div class="section">
-                <h2 class="section-title">Liste des catégories</h2>
+                <h2 class="section-title">Résumé de performance</h2>
+                <div class="stat-cards">
+                    <div class="stat-card">
+                        <div class="stat-value">8,650 €</div>
+                        <div class="stat-label">CA Ticket valeur</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">785</div>
+                        <div class="stat-label">CA JNP pass</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">11.02 €</div>
+                        <div class="stat-label">CA  moyen</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Ventes par type de carburant</h2>
                 <table>
                     <thead>
                         <tr>
-                            <th>N°</th>
-                            <th>Désignation</th>
-                            <th>Description</th>
+                            <th>Type</th>
+                            <th>Volume (L)</th>
+                            <th>Prix unitaire</th>
+                            <th>CA</th>
+                            <th>% du CA</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>1</td>
-                            <td>sdzfg</td>
-                            <td>dfrgth</td>
+                            <td>SP95-E10</td>
+                            <td>2,450</td>
+                            <td>1.85 €</td>
+                            <td>4,532.50 €</td>
+                            <td>52.4%</td>
                         </tr>
                         <tr>
-                            <td>1</td>
-                            <td>sdzfg</td>
-                            <td>dfrgth</td>
+                            <td>Gazole</td>
+                            <td>1,890</td>
+                            <td>1.75 €</td>
+                            <td>3,307.50 €</td>
+                            <td>38.2%</td>
                         </tr>
                         <tr>
-                            <td>1</td>
-                            <td>sdzfg</td>
-                            <td>0145236987</td>
+                            <td>SP98</td>
+                            <td>350</td>
+                            <td>1.95 €</td>
+                            <td>682.50 €</td>
+                            <td>7.9%</td>
                         </tr>
                         <tr>
-                            <td>1</td>
-                            <td>sdzfg</td>
-                            <td>dfrgth</td>
+                            <td>GPLc</td>
+                            <td>105</td>
+                            <td>0.98 €</td>
+                            <td>102.90 €</td>
+                            <td>1.2%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Total</strong></td>
+                            <td><strong>4,795</strong></td>
+                            <td>-</td>
+                            <td><strong>8,625.40 €</strong></td>
+                            <td><strong>100%</strong></td>
                         </tr>
                     </tbody>
                 </table>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Ventes boutique</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Catégorie</th>
+                            <th>Nombre d'articles</th>
+                            <th>CA</th>
+                            <th>% du CA boutique</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Boissons</td>
+                            <td>145</td>
+                            <td>362.50 €</td>
+                            <td>42.1%</td>
+                        </tr>
+                        <tr>
+                            <td>Snacks</td>
+                            <td>98</td>
+                            <td>245.00 €</td>
+                            <td>28.5%</td>
+                        </tr>
+                        <tr>
+                            <td>Produits auto</td>
+                            <td>12</td>
+                            <td>180.00 €</td>
+                            <td>20.9%</td>
+                        </tr>
+                        <tr>
+                            <td>Tabac</td>
+                            <td>15</td>
+                            <td>75.00 €</td>
+                            <td>8.7%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Total</strong></td>
+                            <td><strong>270</strong></td>
+                            <td><strong>862.50 €</strong></td>
+                            <td><strong>100%</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Moyens de paiement</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Nombre</th>
+                            <th>Montant</th>
+                            <th>% du CA</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Carte bancaire</td>
+                            <td>628</td>
+                            <td>7,345.75 €</td>
+                            <td>84.9%</td>
+                        </tr>
+                        <tr>
+                            <td>Espèces</td>
+                            <td>132</td>
+                            <td>982.65 €</td>
+                            <td>11.4%</td>
+                        </tr>
+                        <tr>
+                            <td>Carte carburant</td>
+                            <td>25</td>
+                            <td>321.50 €</td>
+                            <td>3.7%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Total</strong></td>
+                            <td><strong>785</strong></td>
+                            <td><strong>8,649.90 €</strong></td>
+                            <td><strong>100%</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="signature-section">
+                <div class="signature-block">
+                </div>
+                <div class="signature-block">
+                    <div class="signature-name">Marie Lefort</div>
+                    <div class="signature-title">Responsable régional</div>
+                </div>
             </div>
         </div>
 

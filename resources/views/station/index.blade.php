@@ -10,7 +10,7 @@
                     </div>
 
                     <div>
-                        <a href="{{ route('export.pdf', ['type' => 'stations']) }}" target="_blank" class="btn btn-secondary">
+                        <a href="{{ route('voirS.pdf') }}" target="_blank" class="btn btn-secondary">
                             📄 Télécharger PDF 
                         </a>
                         <a href="{{route('station.create')}}" class="btn btn-primary">Ajouter une station</a>

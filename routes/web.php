@@ -8,15 +8,15 @@ use App\Http\Controllers\PDFController;
 use App\Http\Controllers\ProduitController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StationController;
+use App\Http\Controllers\StationDashboardController;
 use App\Http\Controllers\VenteController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('generate-report', 'ReportController@generateReport');
 Route::get('/api/produits', [ProduitController::class, 'getProduits'])->name('api.produits');
-Route::get('/acc', fn() => view('Client.index'))->name("home");
-Route::get('/export/pdf/{type}', [PDFController::class, 'exportPDF'])->name('export.pdf');
 Route::get('/get-produits/{id}', [ApprovisionnementController::class, 'getByCategorie']);
 Route::get('/acc', fn() => view('Gerant.exVente'))->name("acc");
+
 Route::get('/', fn() => view('connexion'))->name("connexion");
 
 Route::get('/gestionnaire/no-station', function () {
@@ -24,17 +24,11 @@ Route::get('/gestionnaire/no-station', function () {
 })->name('gestionnaire.no-station');
 
 Route::prefix('/gerant')->middleware(['auth', 'CheckGerant'])->group(function () {
-    Route::get('/dashboard', function () {
-        $user = Auth::user();
-        $station = $user->station;
-        if (!$station) {
-            return redirect()->route('gestionnaire.no-station');
-        }
-        return view('Gerant.dashboard', compact('station'));
-    })->name('gestionnaire.dashboard');
+    Route::get('/dashboard', [StationDashboardController::class, 'index'])->name('gestionnaire.dashboard');
     Route::get('/rapport', fn() => view('rapportpdf'))->name("rapport");
     Route::resource('/vente', VenteController::class);
     Route::resource('/approvisionnement', ApprovisionnementController::class);
+    Route::get('/rapport-pdf', fn() => view('Gerant.showRapport'))->name("rapport-pdf");
 });
 
 Route::prefix('/admin')->middleware(['auth', 'CheckAdmin'])->group(function () {
@@ -66,9 +60,9 @@ Route::get('/redirect-by-role', function () {
             return redirect('/');
     }
 });
-Route::get('/produit-pdf', fn() => view('produit-pdf'))->name("produit-pdf");
-Route::get('/station-pdf', fn() => view('station-pdf'))->name("station-pdf");
-Route::get('/vente-pdf', fn() => view('vente-pdf'))->name("vente-pdf");
+
+Route::get('/voirC-pdf', [PDFController::class, 'afficherCPDF'])->name('voirC.pdf');
+Route::get('/voirS-pdf', [PDFController::class, 'afficherSPDF'])->name('voirS.pdf');
 Route::get('/voir-pdf', [PDFController::class, 'afficherPDF'])->name('voir.pdf');
 
 require __DIR__ . '/auth.php';

@@ -74,7 +74,7 @@ class VenteController extends Controller
         DB::transaction(function () use ($request, $station) {
             foreach ($request->ventes as $venteData) {
                 $produit = Produit::findOrFail($venteData['produit_id']);
-                $montant_total = $venteData['quantite'] * ($produit->prix_unitaire ?? 0);
+                $montant_total = $venteData['quantite'] * ($produit->prix_vente ?? 0);
 
                 Vente::create([
                     'station_id' => $station->id,
@@ -158,7 +158,7 @@ class VenteController extends Controller
         ]);
 
         $produit = Produit::findOrFail($request->produit_id);
-        $montant_total = $request->quantite * ($produit->prix_unitaire ?? 0);
+        $montant_total = $request->quantite * ($produit->prix_vente ?? 0);
 
         $vente->update([
             'produit_id' => $request->produit_id,

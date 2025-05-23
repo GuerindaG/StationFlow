@@ -12,8 +12,8 @@
 
                 </div>
                 <div>
-                    <h2 class="text-white invoice-num">0</h2>
-                    <span class="text-white fs-18">Total Ventes en TV</span>
+                    <h2 class="text-white">{{ number_format($totalTv, 0, ',', ' ') }} FCFA</h2>
+                    <span class="text-white fs-18"> Ventes en TV</span>
                 </div>
             </div>
         </div>
@@ -34,8 +34,8 @@
 
                 </div>
                 <div>
-                    <h2 class="text-white invoice-num">0</h2>
-                    <span class="text-white fs-18">Total Vente en JNP Pass</span>
+                    <h2 class="text-white">{{ number_format($totalJnp, 0, ',', ' ') }} FCFA</h2>
+                    <span class="text-white fs-18"> Ventes en JNP Pass</span>
                 </div>
             </div>
         </div>
@@ -56,8 +56,8 @@
 
                 </div>
                 <div>
-                    <h2 class="text-white invoice-num">0</h2>
-                    <span class="text-white fs-18">Total vente au Comptant</span>
+                    <h2 class="text-white">{{ number_format($totalComptant, 0, ',', ' ') }} FCFA</h2>
+                    <span class="text-white fs-18"> Ventes au Comptant</span>
                 </div>
             </div>
         </div>

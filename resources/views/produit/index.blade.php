@@ -9,8 +9,7 @@
 						<h2>Liste des produits</h2>
 					</div>
 					<div>
-						<a href="{{ route('voir.pdf') }}" target="_blank"
-							class="btn btn-secondary">
+						<a href="{{ route('voir.pdf') }}" target="_blank" class="btn btn-secondary">
 							📄 Télécharger PDF
 						</a>
 						<button type="button" class="btn btn-primary" data-bs-toggle="modal"
@@ -78,10 +77,10 @@
 										<tr class="">
 											<td>{{ $loop->iteration }}</td>
 											<td>{{ $produit->nom }}</td>
-											<td>{{ $produit->viscosite }}</td>
+											<td>{{ $produit->viscosite ?? "Néant"}}</td>
 											<td>{{ $produit->prix_achat }} </td>
 											<td>{{ $produit->prix_vente }} </td>
-											<td>{{ $marge = ($produit->prix_vente - $produit->prix_achat ) }} </td>
+											<td>{{ $marge = ($produit->prix_vente - $produit->prix_achat) }} </td>
 											<td>{{ $produit->created_at }}</td>
 											<td>
 												@include('produit.edit')

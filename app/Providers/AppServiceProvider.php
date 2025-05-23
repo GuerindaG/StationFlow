@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Categorie;
+use App\Models\Paiement;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
@@ -24,5 +26,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
         View::share('stations', Station::all());
+        View::share('paiements', Paiement::all());
+        View::share('categories', Categorie::all());
     }
 }

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liste stations-service - StationFlow</title>
+    <title>Liste catégories - StationFlow</title>
     <style>
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
@@ -248,7 +248,7 @@
                 </svg>
             </div>
             <div class="report-info">
-                <h1>Liste des stations</h1>
+                <h1>Liste des catégories</h1>
                 <div class="date">{{ $dateGeneration }}</div>
                 <div class="station-id"></div>
             </div>
@@ -257,29 +257,21 @@
         <div class="content">
             <div class="watermark">STATIONFLOW</div>
             <div class="section">
-                <h2 class="section-title">Liste des stations-service</h2>
+                <h2 class="section-title">Liste des catégories</h2>
                 <table>
                     <thead>
                         <tr>
                             <th>N°</th>
-                            <th>Nom</th>
-                            <th>RCCM</th>
-                            <th>IFU</th>
-                            <th>Adresse</th>
-                            <th>Email</th>
-                            <th>Contact</th>
+                            <th>Désignation</th>
+                            <th>Description</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($stationInfo as $station)
+                        @foreach($categorie as $categories)
                             <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $station->nom }}</td>
-                                <td>{{ $station->rccm }}</td>
-                                <td>{{ $station->ifu }}</td>
-                                <td>{{ $station->adresse }}</td>
-                                <td>{{ $station->gerant->email }}</td>
-                                <td>{{ $station->contact }}</td>
+                                <td> {{ $loop->iteration }}</td>
+                                <td>{{ $categories->nom }}</td>
+                                <td><small>{{ $categories->description }}</small></td>
                             </tr>
                         @endforeach
                     </tbody>

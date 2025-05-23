@@ -87,8 +87,8 @@ class ApprovisionnementController extends Controller
         ]);
 
         $produit = Produit::findOrFail($request->produit_id);
-        $prix_unitaire = $produit->prix_unitaire ?? 1;
-        $montant_total = $request->qte_appro * $prix_unitaire;
+        $prix_achat = $produit->prix_achat;
+        $montant_total = $request->qte_appro * $prix_achat;
 
         Approvisionnement::create([
             'station_id' => $station->id,
@@ -163,8 +163,8 @@ class ApprovisionnementController extends Controller
             ->firstOrFail();
 
         $produit = $approvisionnement->produit;
-        $prix_unitaire = $produit->prix_unitaire ?? 0;
-        $montant_total = $request->qte_appro * $prix_unitaire;
+        $prix_achat = $produit->prix_achat ?? 0;
+        $montant_total = $request->qte_appro * $prix_achat;
 
         $approvisionnement->update([
             'qte_appro' => $request->qte_appro,

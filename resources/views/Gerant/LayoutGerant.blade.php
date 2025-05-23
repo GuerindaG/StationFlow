@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta content="StationFlow - Gestion" name="author">
     <title></title>
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('./assets/images/favicon/stationflow-favicon.svg')}}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/favicon/stationflow-favicon.svg')}}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     @include('Gerant.css')
 </head>
 
@@ -49,7 +50,6 @@
         @endif
     </script>
 
-    <!-- Script Ajax pour charger les produits en fonction de la catégorie sélectionnée -->
     <script>
         $(document).ready(function () {
             let rowIndex = 1;
