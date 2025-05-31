@@ -50,7 +50,7 @@
                         <i class="fa-solid fa-file-lines fa-5x text-muted"></i>
                     </div>
                     <div class="text-small mb-1 p-4">
-                        <h2 class="fs-6 text-center"><a href="{{ route('rapport-pdf') }}"
+                        <h2 class="fs-6 text-center"><a href="{{ route('rapport.pdf') }}"
                                 class="text-inherit text-decoration-none">R/N°#-01-05-2025</a></h2>
                     </div>
                 </div>
@@ -63,7 +63,7 @@
                         <i class="fa-solid fa-file-lines fa-5x text-muted"></i>
                     </div>
                     <div class="text-small mb-1 p-4">
-                        <h2 class="fs-6 text-center"><a href="{{ route('rapport-pdf') }}"
+                        <h2 class="fs-6 text-center"><a href="{{ route('rapport.pdf') }}"
                                 class="text-inherit text-decoration-none">R/N°#-01-05-2025</a></h2>
                     </div>
                 </div>
@@ -76,7 +76,7 @@
                         <i class="fa-solid fa-file-lines fa-5x text-muted"></i>
                     </div>
                     <div class="text-small mb-1 p-4">
-                        <h2 class="fs-6 text-center"><a href="{{ route('rapport-pdf') }}"
+                        <h2 class="fs-6 text-center"><a href="{{ route('rapport.pdf') }}"
                                 class="text-inherit text-decoration-none">R/N°#-01-05-2025</a></h2>
                     </div>
                 </div>
@@ -89,7 +89,7 @@
                         <i class="fa-solid fa-file-lines fa-5x text-muted"></i>
                     </div>
                     <div class="text-small mb-1 p-4">
-                        <h2 class="fs-6 text-center"><a href="{{ route('rapport-pdf') }}"
+                        <h2 class="fs-6 text-center"><a href="{{ route('rapport.pdf') }}"
                                 class="text-inherit text-decoration-none">R/N°#-01-05-2025</a></h2>
                     </div>
                 </div>
@@ -102,7 +102,7 @@
                         <i class="fa-solid fa-file-lines fa-5x text-muted"></i>
                     </div>
                     <div class="text-small mb-1 p-4">
-                        <h2 class="fs-6 text-center"><a href="{{ route('rapport-pdf') }}"
+                        <h2 class="fs-6 text-center"><a href="{{ route('rapport.pdf') }}"
                                 class="text-inherit text-decoration-none">R/N°#-01-05-2025</a></h2>
                     </div>
                 </div>

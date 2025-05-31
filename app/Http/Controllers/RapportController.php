@@ -2,111 +2,202 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Rapport;
+use App\Models\Categorie;
+use App\Models\Paiement;
+use App\Models\Produit;
 use App\Models\Vente;
 use App\Models\Approvisionnement;
+use App\Models\Stock;
+use App\Models\Station;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class RapportController extends Controller
 {
-    public function index(Request $request)
+    public function showDailyReport(Request $request)
     {
         $user = Auth::user();
         $station = $user->station;
 
         if (!$station) {
-            return redirect()->route('gestionnaire.no-station');
+            abort(403, 'Vous n\'êtes pas associé à une station.');
         }
 
-        // Filtres
-        $year = $request->input('year', Carbon::now()->year);
-        $month = $request->input('month');
+        // Date du rapport (par défaut aujourd'hui)
+        $reportDate = $request->has('date')
+            ? Carbon::parse($request->date)
+            : Carbon::today();
 
-        // Requête de base
-        $query = Rapport::with(['vente', 'approvisionnement'])
-            ->where('station_id', $station->id);
+        // Récupération des données
+        $categories = Categorie::with([
+            'produits' => function ($query) use ($station) {
+                $query->where('station_id', $station->id);
+            }
+        ])->get();
 
-        // Filtrage par année/mois
-        if ($year) {
-            $query->whereYear('created_at', $year);
-        }
+        $stocks = $this->calculateStocks($station->id, $reportDate);
+        $ventesParMode = $this->getVentesParModePaiement($station->id, $reportDate);
+        $ventesParProduit = $this->getVentesParProduit($station->id, $reportDate);
+        $resumeFinancier = $this->calculateResumeFinancier($ventesParMode);
 
-        if ($month) {
-            $query->whereMonth('created_at', $month);
-        }
-
-        // Groupement par mois pour l'affichage initial
-        $groupedReports = $query->get()
-            ->groupBy(function ($item) {
-                return Carbon::parse($item->created_at)->format('F Y');
-            })
-            ->sortByDesc(function ($group, $key) {
-                return Carbon::parse($key);
-            });
-
-        return view('Rapport.index', [
-            'groupedReports' => $groupedReports,
-            'selectedYear' => $year,
-            'selectedMonth' => $month
+        return view('rapports.daily', [
+            'station' => $station,
+            'date' => $reportDate->format('d/m/Y'),
+            'categories' => $categories,
+            'stocks' => $stocks,
+            'modesPaiement' => Paiement::all(),
+            'ventesParMode' => $ventesParMode,
+            'ventesParProduit' => $ventesParProduit,
+            'resumeFinancier' => $resumeFinancier,
+            'generated_at' => Carbon::now()->format('d/m/Y à H:i')
         ]);
     }
 
-    public function byMonth(Request $request, $monthYear)
+    private function calculateStocks($stationId, $date)
     {
-        $user = Auth::user();
-        $station = $user->station;
+        $stocks = [];
+        $produits = Produit::where('station_id', $stationId)->get();
 
-        $date = Carbon::createFromFormat('F Y', $monthYear);
+        foreach ($produits as $produit) {
+            // Stock initial = quantité restante du jour précédent
+            $stockInitial = $this->getStockFinal($stationId, $produit->id, $date->copy()->subDay());
 
-        $rapports = Rapport::with(['vente', 'approvisionnement'])
-            ->where('station_id', $station->id)
-            ->whereYear('created_at', $date->year)
-            ->whereMonth('created_at', $date->month)
-            ->orderBy('created_at', 'desc')
-            ->get();
+            // Réceptions du jour
+            $receptions = Approvisionnement::where('station_id', $stationId)
+                ->where('produit_id', $produit->id)
+                ->whereDate('date_approvisionnement', $date)
+                ->sum('quantite');
 
-        return view('Rapport.month', [
-            'rapports' => $rapports,
-            'monthYear' => $monthYear
-        ]);
+            // Sorties du jour
+            $sorties = Vente::where('station_id', $stationId)
+                ->where('produit_id', $produit->id)
+                ->whereDate('created_at', $date)
+                ->sum('quantite');
+
+            // Calculs
+            $stockFinal = $stockInitial + $receptions;
+            $stockRestant = $stockFinal - $sorties;
+
+            $stocks[] = [
+                'produit_id' => $produit->id,
+                'nom' => $produit->nom,
+                'categorie' => $produit->categorie->nom,
+                'stock_initial' => $stockInitial,
+                'receptions' => $receptions,
+                'stock_final' => $stockFinal,
+                'sorties' => $sorties,
+                'stock_restant' => $stockRestant,
+            ];
+        }
+
+        return $stocks;
     }
 
-    public function show(Rapport $rapport)
+    private function getStockFinal($stationId, $produitId, $date)
     {
-        $this->authorize('view', $rapport);
+        // 1. Stock initial de référence (si disponible)
+        $stockReference = Vente::where('station_id', $stationId)
+            ->where('produit_id', $produitId)
+            ->value('quantite_initiale') ?? 0;
 
-        $rapport->load(['vente', 'approvisionnement', 'station']);
+        // 2. Réceptions jusqu'à cette date (inclusive)
+        $receptions = Approvisionnement::where('station_id', $stationId)
+            ->where('produit_id', $produitId)
+            ->whereDate('date_approvisionnement', '<=', $date)
+            ->sum('quantite');
 
-        return view('Rapport.show', compact('rapport'));
+        // 3. Sorties jusqu'à cette date (inclusive)
+        $sorties = Vente::where('station_id', $stationId)
+            ->where('produit_id', $produitId)
+            ->whereDate('created_at', '<=', $date)
+            ->sum('quantite');
+
+        // Stock final = stock initial + réceptions - sorties
+        return $stockReference + $receptions - $sorties;
     }
 
-    public function generateDailyReport()
+    private function getVentesParModePaiement($stationId, $date)
     {
-        $user = Auth::user();
-        $station = $user->station;
+        $ventes = [];
+        $modesPaiement = Paiement::all();
+        $produits = Produit::where('station_id', $stationId)->get();
 
-        // Logique de génération du rapport journalier
-        $ventes = Vente::where('station_id', $station->id)
-            ->whereDate('created_at', Carbon::today())
-            ->get();
+        foreach ($modesPaiement as $mode) {
+            $ventesParMode = [
+                'mode' => $mode->nom,
+                'produits' => [],
+                'total' => 0
+            ];
 
-        $approvisionnements = Approvisionnement::where('station_id', $station->id)
-            ->whereDate('created_at', Carbon::today())
-            ->get();
+            foreach ($produits as $produit) {
+                $montant = Vente::where('station_id', $stationId)
+                    ->where('produit_id', $produit->id)
+                    ->where('paiement_id', $mode->id)
+                    ->whereDate('created_at', $date)
+                    ->sum('montant_total');
 
-        $rapport = Rapport::create([
-            'station_id' => $station->id,
-            'date' => Carbon::today(),
-            'type' => 'quotidien'
-        ]);
+                $ventesParMode['produits'][] = [
+                    'produit' => $produit->nom,
+                    'montant' => $montant
+                ];
 
-        // Associer les ventes et approvisionnements au rapport
-        $rapport->vente()->saveMany($ventes);
-        $rapport->approvisionnement()->saveMany($approvisionnements);
+                $ventesParMode['total'] += $montant;
+            }
 
-        return redirect()->route('rapports.show', $rapport)
-            ->with('success', 'Rapport journalier généré avec succès');
+            $ventes[] = $ventesParMode;
+        }
+
+        return $ventes;
+    }
+
+    private function getVentesParProduit($stationId, $date)
+    {
+        $ventes = [];
+        $produits = Produit::with('categorie')->where('station_id', $stationId)->get();
+        $modesPaiement = Paiement::all();
+
+        foreach ($produits as $produit) {
+            $ventesParProduit = [
+                'produit' => $produit->nom,
+                'categorie' => $produit->categorie->nom,
+                'modes' => [],
+                'total' => 0
+            ];
+
+            foreach ($modesPaiement as $mode) {
+                $montant = Vente::where('station_id', $stationId)
+                    ->where('produit_id', $produit->id)
+                    ->where('paiement_id', $mode->id)
+                    ->whereDate('created_at', $date)
+                    ->sum('montant_total');
+
+                $ventesParProduit['modes'][$mode->nom] = $montant;
+                $ventesParProduit['total'] += $montant;
+            }
+
+            $ventes[] = $ventesParProduit;
+        }
+
+        return $ventes;
+    }
+
+    private function calculateResumeFinancier($ventesParMode)
+    {
+        $totalComptant = 0;
+        $ticketVente = 1000; // Montant fixe pour le ticket de vente
+
+        foreach ($ventesParMode as $venteMode) {
+            if ($venteMode['mode'] === 'COMPTANT') {
+                $totalComptant = $venteMode['total'];
+                break;
+            }
+        }
+
+        return [
+            'total_a_verser' => $totalComptant,
+            'ticket_vente' => $ticketVente,
+            'reste_a_verser' => $totalComptant - $ticketVente
+        ];
     }
 }

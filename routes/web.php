@@ -26,10 +26,8 @@ Route::prefix('/gerant')->middleware(['auth', 'CheckGerant'])->group(function ()
     Route::get('/dashboard', [StationDashboardController::class, 'index'])->name('gestionnaire.dashboard');
     Route::resource('/vente', VenteController::class);
     Route::resource('/approvisionnement', ApprovisionnementController::class);
-    Route::get('/rapport', [RapportController::class, 'index'])->name('rapports.index');
-    Route::get('/mois/{monthYear}', [RapportController::class, 'byMonth'])->name('rapports.month');
-    Route::get('/{rapport}', [RapportController::class, 'show'])->name('rapports.show');
-    Route::post('/generer-quotidien', [RapportController::class, 'generateDailyReport'])->name('rapports.generate.daily');
+
+    Route::get('/rapport', fn() => view('rapports.index'))->name("rapports.index");
 });
 
 Route::prefix('/admin')->middleware(['auth', 'CheckAdmin'])->group(function () {
@@ -68,6 +66,6 @@ Route::get('/redirect-by-role', function () {
 Route::get('/voirC-pdf', [PDFController::class, 'afficherCPDF'])->name('voirC.pdf');
 Route::get('/voirS-pdf', [PDFController::class, 'afficherSPDF'])->name('voirS.pdf');
 Route::get('/voir-pdf', [PDFController::class, 'afficherPDF'])->name('voir.pdf');
-Route::get('/s', fn() => view('Rapport.rapportpdf'))->name("rapport.pdf");
+Route::get('/s', fn() => view('Gerant.showRapport'))->name("rapport.pdf");
 
 require __DIR__ . '/auth.php';

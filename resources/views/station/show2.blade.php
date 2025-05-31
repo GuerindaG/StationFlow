@@ -14,7 +14,7 @@
                         </div>
                         <div class="col-auto">
                             <button type="submit" class="btn btn-primary"><i class="fa-solid fa-filter"></i></button>
-                            <a href="{{ route('vente.index') }}" class="btn btn-light"><i
+                            <a href="{{ route('voirRapport', $station->id) }}" class="btn btn-light"><i
                                     class="fa-solid fa-power-off"></i></a>
                         </div>
                     </form>
@@ -50,7 +50,7 @@
                         <i class="fa-solid fa-folder fa-5x text-muted"></i>
                     </div>
                     <div class="text-small mb-1 p-4">
-                        <h2 class="fs-6 text-center"><a href="{{ route('rapport-pdf') }}"
+                        <h2 class="fs-6 text-center"><a href="{{ route('rapport.pdf') }}"
                                 class="text-inherit text-decoration-none">Janvier</a></h2>
                     </div>
                 </div>
@@ -63,7 +63,7 @@
                         <i class="fa-solid fa-folder fa-5x text-muted"></i>
                     </div>
                     <div class="text-small mb-1 p-4">
-                        <h2 class="fs-6 text-center"><a href="{{ route('rapport-pdf') }}"
+                        <h2 class="fs-6 text-center"><a href="{{ route('rapport.pdf') }}"
                                 class="text-inherit text-decoration-none">Fevrier</a></h2>
                     </div>
                 </div>
@@ -76,7 +76,7 @@
                         <i class="fa-solid fa-folder fa-5x text-muted"></i>
                     </div>
                     <div class="text-small mb-1 p-4">
-                        <h2 class="fs-6 text-center"><a href="{{ route('rapport-pdf') }}"
+                        <h2 class="fs-6 text-center"><a href="{{ route('rapport.pdf') }}"
                                 class="text-inherit text-decoration-none">R/Mois</a></h2>
                     </div>
                 </div>
@@ -89,7 +89,7 @@
                         <i class="fa-solid fa-folder fa-5x text-muted"></i>
                     </div>
                     <div class="text-small mb-1 p-4">
-                        <h2 class="fs-6 text-center"><a href="{{ route('rapport-pdf') }}"
+                        <h2 class="fs-6 text-center"><a href="{{ route('rapport.pdf') }}"
                                 class="text-inherit text-decoration-none">R/Mois</a></h2>
                     </div>
                 </div>
@@ -102,7 +102,7 @@
                         <i class="fa-solid fa-folder fa-5x text-muted"></i>
                     </div>
                     <div class="text-small mb-1 p-4">
-                        <h2 class="fs-6 text-center"><a href="{{ route('rapport-pdf') }}"
+                        <h2 class="fs-6 text-center"><a href="{{ route('rapport.pdf') }}"
                                 class="text-inherit text-decoration-none">R/Mois</a></h2>
                     </div>
                 </div>
