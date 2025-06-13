@@ -49,14 +49,6 @@
                                 <div class="invalid-feedback">Veuillez entrer votre numéro</div>
                             </div>
 
-                            <div class="col-lg-12 col-12">
-                                <label for="date_naissance" class="form-label">Date de naissance <span
-                                        class="text-danger">*</span></label>
-                                <input type="date" class="form-control" id="date_naissance" name="date_naissance"
-                                    value="{{ old('date_naissance', Auth::user()->date_naissance) }}" required>
-                                <div class="invalid-feedback">Veuillez entrer votre date de naissance</div>
-                            </div>
-
                             <div class="col-12 d-flex gap-3 mt-3">
                                 <button class="btn btn-primary w-50" type="submit">Mettre à jour</button>
                                 <button class="btn btn-gray-400 w-50" type="reset">Annuler</button>
@@ -73,7 +65,7 @@
                     <div class="card-body p-6 d-flex flex-column gap-4">
                         <div class="alert alert-warning">
                             <strong>Attention !</strong> Cette action est irréversible.<br>
-                            Ce compte contient <strong>12 commandes</strong>. Leur suppression est définitive.
+                            Ce compte contient <strong>des données importantes</strong>. Leur suppression est définitive.
                         </div>
 
                         <div>

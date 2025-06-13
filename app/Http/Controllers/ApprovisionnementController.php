@@ -6,6 +6,7 @@ use App\Models\Approvisionnement;
 use App\Models\Categorie;
 use App\Models\Paiement;
 use App\Models\Produit;
+use App\Models\Stock;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
@@ -26,22 +27,14 @@ class ApprovisionnementController extends Controller
             return redirect()->route('gestionnaire.no-station');
         }
 
-        // Paramètres de filtrage
         $date_filter = $request->input('date_filter', Carbon::today()->toDateString());
         $perPage = $request->input('per_page', 5);
 
-        // D'abord, trouver les IDs des derniers approvisionnements par produit
-        $latestApproIds = Approvisionnement::select(DB::raw('MAX(id) as id'))
+        $derniers_approvisionnements = Approvisionnement::with('produit')
             ->where('station_id', $station->id)
             ->when($date_filter, function ($q) use ($date_filter) {
                 $q->whereDate('date_approvisionnement', $date_filter);
             })
-            ->groupBy('produit_id')
-            ->pluck('id');
-
-        // Ensuite, récupérer les approvisionnements complets avec pagination
-        $derniers_approvisionnements = Approvisionnement::with('produit')
-            ->whereIn('id', $latestApproIds)
             ->orderByDesc('date_approvisionnement')
             ->paginate($perPage)
             ->appends($request->query());
@@ -90,13 +83,27 @@ class ApprovisionnementController extends Controller
         $prix_achat = $produit->prix_achat;
         $montant_total = $request->qte_appro * $prix_achat;
 
-        Approvisionnement::create([
-            'station_id' => $station->id,
-            'produit_id' => $request->produit_id,
-            'qte_appro' => $request->qte_appro,
-            'montant_total' => $montant_total,
-            'date_approvisionnement' => $request->date_approvisionnement,
-        ]);
+        DB::transaction(function () use ($request, $station, $montant_total) {
+            // Créer l'approvisionnement
+            Approvisionnement::create([
+                'station_id' => $station->id,
+                'produit_id' => $request->produit_id,
+                'qte_appro' => $request->qte_appro,
+                'montant_total' => $montant_total,
+                'date_approvisionnement' => $request->date_approvisionnement,
+            ]);
+
+            // Mettre à jour le stock actuel
+            Stock::updateOrCreate(
+                [
+                    'station_id' => $station->id,
+                    'produit_id' => $request->produit_id,
+                ],
+                [
+                    'qte_actuelle' => DB::raw('qte_actuelle + ' . $request->qte_appro),
+                ]
+            );
+        });
 
         return redirect()->route('approvisionnement.index')->with('success', 'Approvisionnement créé avec succès !');
     }
@@ -134,7 +141,6 @@ class ApprovisionnementController extends Controller
             'date_fin' => $date_fin
         ]);
     }
-
     public function edit(string $id)
     {
         $station = Auth::user()->station;
@@ -148,7 +154,9 @@ class ApprovisionnementController extends Controller
 
         return view('approvisionnement.edit', compact('approvisionnement', 'categories', 'produits'));
     }
-
+    /*
+    a modifier pour reguler le stock     
+     */
     public function update(Request $request, string $id)
     {
         $station = Auth::user()->station;
@@ -186,4 +194,4 @@ class ApprovisionnementController extends Controller
 
         return redirect()->back()->with('success', 'Approvisionnement supprimé avec succès.');
     }
-}
+}  
