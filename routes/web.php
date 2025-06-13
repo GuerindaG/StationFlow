@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', fn() => view('connexion'))->name("connexion");
 Route::get('/api/produits', [ProduitController::class, 'getProduits'])->name('api.produits');
 Route::get('/get-produits/{id}', [ApprovisionnementController::class, 'getByCategorie']);
-Route::get('/acc', fn() => view('Gerant.exVente'))->name("acc");
+Route::get('/acc', fn() => view('essai'))->name("acc");
 
 Route::get('/gestionnaire/no-station', function () {
     return 'Aucune station assignée à votre compte.';

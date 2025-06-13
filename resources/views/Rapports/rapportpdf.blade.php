@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rapport Journalier - StationFlow</title>
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/images/favicon/stationflow-favicon.svg')}}">
     <style>
         body {
             font-family: DejaVu Sans, sans-serif;
@@ -13,7 +12,11 @@
             padding: 0;
             font-size: 12px;
             color: #21313c;
-            background-color: #f5f5f5;
+        }
+
+        .pdf-container {
+            width: 100%;
+            padding: 15mm;
         }
 
         .pdf-preview {
@@ -79,40 +82,34 @@
         }
 
         .watermark {
-            position: absolute;
+            position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) rotate(-45deg);
             font-size: 100px;
-            color: rgba(10, 173, 10, 0.05);
-            font-weight: bold;
-            pointer-events: none;
+            color: rgba(10, 173, 10, 0.1);
             z-index: 1;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 20px;
         }
 
         th {
             background-color: #0aad0a;
             color: white;
-            padding: 12px 8px;
+            padding: 8px;
             text-align: left;
-            font-size: 14px;
-            font-weight: bold;
         }
 
         td {
-            padding: 10px 8px;
-            border-bottom: 1px solid #e9ecef;
-            font-size: 14px;
+            padding: 8px;
+            border-bottom: 1px solid #e0e0e0;
         }
 
         tr:nth-child(even) {
-            background-color: #f8f9fa;
+            background-color: #f8f8f8;
         }
 
         tr:nth-child(odd) {
@@ -228,8 +225,9 @@
             </div>
             <div class="report-info">
                 <h1>Rapport Journalier</h1>
-                <div class="station-id"><strong>Station:</strong> JO54 PORTO-NOV0</div>
-                <div class="date"><strong>Date:</strong> 31 Mai 2025</div>
+                <div class="station-id"><strong>Station:</strong> {{ $station->nom }} - {{ $station->adresse }}
+                </div>
+                <div class="date"><strong>Date:</strong> {{ $reportDate->translatedFormat('d F Y') }}</div>
             </div>
         </div>
 
@@ -251,52 +249,36 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td rowspan="2"
-                                style="vertical-align: middle; background-color: #f1f5f9; font-weight: bold;">PRODUITS
-                                BLANCS</td>
-                            <td>Gasoil</td>
-                            <td class="amount">-</td>
-                            <td class="amount">-</td>
-                            <td class="amount">-</td>
-                            <td class="amount">-</td>
-                            <td class="amount">-</td>
-                        </tr>
-                        <tr>
-                            <td>Essence</td>
-                            <td class="amount">-</td>
-                            <td class="amount">-</td>
-                            <td class="amount">-</td>
-                            <td class="amount">-</td>
-                            <td class="amount">-</td>
-                        </tr>
-                        <tr>
-                            <td style="vertical-align: middle; background-color: #f1f5f9; font-weight: bold;">GAZ &
-                                ACCESSOIRES</td>
-                            <td>Recharges 3kg</td>
-                            <td class="amount">-</td>
-                            <td class="amount">-</td>
-                            <td class="amount">-</td>
-                            <td class="amount">-</td>
-                            <td class="amount">-</td>
-                        </tr>
-                        <tr>
-                            <td style="vertical-align: middle; background-color: #f1f5f9; font-weight: bold;">
-                                LUBRIFIANTS</td>
-                            <td>ALTD6 50 Cl</td>
-                            <td class="amount">-</td>
-                            <td class="amount">-</td>
-                            <td class="amount">-</td>
-                            <td class="amount">-</td>
-                            <td class="amount">-</td>
-                        </tr>
+                        @php $lastCategory = null; @endphp
+                        @foreach ($groupedStockData as $categorieNom => $productsInCat)
+                            <tr>
+                                <td rowspan="{{ count($productsInCat) }}"
+                                    style="vertical-align: middle; background-color: #f1f5f9; font-weight: bold;">
+                                    {{ $categorieNom }}
+                                </td>
+                                <td>{{ $productsInCat[0]['produit_nom'] }}</td>
+                                <td class="amount">{{ number_format($productsInCat[0]['si'], 2, ',', ' ') }}</td>
+                                <td class="amount">{{ number_format($productsInCat[0]['receptions'], 2, ',', ' ') }}</td>
+                                <td class="amount">{{ number_format($productsInCat[0]['sf'], 2, ',', ' ') }}</td>
+                                <td class="amount">{{ number_format($productsInCat[0]['sorties'], 2, ',', ' ') }}</td>
+                                <td class="amount">{{ number_format($productsInCat[0]['sr'], 2, ',', ' ') }}</td>
+                            </tr>
+                            @for ($i = 1; $i < count($productsInCat); $i++)
+                                <tr>
+                                    <td>{{ $productsInCat[$i]['produit_nom'] }}</td>
+                                    <td class="amount">{{ number_format($productsInCat[$i]['si'], 2, ',', ' ') }}</td>
+                                    <td class="amount">{{ number_format($productsInCat[$i]['receptions'], 2, ',', ' ') }}</td>
+                                    <td class="amount">{{ number_format($productsInCat[$i]['sf'], 2, ',', ' ') }}</td>
+                                    <td class="amount">{{ number_format($productsInCat[$i]['sorties'], 2, ',', ' ') }}</td>
+                                    <td class="amount">{{ number_format($productsInCat[$i]['sr'], 2, ',', ' ') }}</td>
+                                </tr>
+                            @endfor
+                        @endforeach
                     </tbody>
                 </table>
                 <div style="margin-top: 10px; font-size: 12px; color: #5c6c75; font-style: italic;">
                     <strong>Note :</strong> Stock Final <strong>(SF)</strong> = Stock Initial <strong>(SI)</strong> +
-                    Réceptions | Stock Restant
-                    <strong>(SR)</strong> = Stock Final <strong>(SF)</strong> -
-                    Sorties
+                    Réceptions | Stock Restant <strong>(SR)</strong> = Stock Final <strong>(SF)</strong> - Sorties
                 </div>
             </div>
 
@@ -311,81 +293,30 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td rowspan="5"
-                                style="vertical-align: middle; background-color: #f1f5f9; font-weight: bold;">TICKETS
-                                VALEURS</td>
-                            <td>Gasoil</td>
-                            <td class="amount">232 500</td>
-                        </tr>
-                        <tr>
-                            <td>Essence</td>
-                            <td class="amount">190 000</td>
-                        </tr>
-                        <tr>
-                            <td>Lubrifiants</td>
-                            <td class="amount">45 000</td>
-                        </tr>
-                        <tr>
-                            <td>Gaz</td>
-                            <td class="amount">0</td>
-                        </tr>
-                        <tr class="total-row">
-                            <td><strong>SOUS-TOTAL TICKETS VALEURS</strong></td>
-                            <td class="amount"><strong>467 500</strong></td>
-                        </tr>
-
-                        <tr>
-                            <td rowspan="5"
-                                style="vertical-align: middle; background-color: #f1f5f9; font-weight: bold;">JNP PASS
-                            </td>
-                            <td>Gasoil</td>
-                            <td class="amount">240 393</td>
-                        </tr>
-                        <tr>
-                            <td>Essence</td>
-                            <td class="amount">28 076</td>
-                        </tr>
-                        <tr>
-                            <td>Lubrifiants</td>
-                            <td class="amount">0</td>
-                        </tr>
-                        <tr>
-                            <td>Gaz</td>
-                            <td class="amount">0</td>
-                        </tr>
-                        <tr class="total-row">
-                            <td><strong>SOUS-TOTAL JNP PASS</strong></td>
-                            <td class="amount"><strong>268 469</strong></td>
-                        </tr>
-
-                        <tr>
-                            <td rowspan="6"
-                                style="vertical-align: middle; background-color: #f1f5f9; font-weight: bold;">COMPTANT
-                            </td>
-                            <td>Gasoil</td>
-                            <td class="amount">225 183</td>
-                        </tr>
-                        <tr>
-                            <td>Essence</td>
-                            <td class="amount">165 112,25</td>
-                        </tr>
-                        <tr>
-                            <td><strong><em>Total produits blancs</em></strong></td>
-                            <td class="amount"><strong><em>390 295,25</em></strong></td>
-                        </tr>
-                        <tr>
-                            <td>Lubrifiants</td>
-                            <td class="amount">254 500</td>
-                        </tr>
-                        <tr>
-                            <td>Gaz et accessoires</td>
-                            <td class="amount">43 790</td>
-                        </tr>
-                        <tr class="total-row">
-                            <td><strong>SOUS-TOTAL COMPTANT</strong></td>
-                            <td class="amount"><strong>688 585,25</strong></td>
-                        </tr>
+                        @foreach ($salesByPaymentAndProduct as $paiementNom => $products)
+                            @if (count($products) > 0)
+                                <tr>
+                                    <td rowspan="{{ count($products) + 1 }}"
+                                        style="vertical-align: middle; background-color: #f1f5f9; font-weight: bold;">
+                                        {{ strtoupper($paiementNom) }}
+                                    </td>
+                                    <td>{{ $products[0]['produit_nom'] }}</td>
+                                    <td class="amount">{{ number_format($products[0]['montant'], 2, ',', ' ') }}</td>
+                                </tr>
+                                @for ($i = 1; $i < count($products); $i++)
+                                    <tr>
+                                        <td>{{ $products[$i]['produit_nom'] }}</td>
+                                        <td class="amount">{{ number_format($products[$i]['montant'], 2, ',', ' ') }}</td>
+                                    </tr>
+                                @endfor
+                                <tr class="total-row">
+                                    <td><strong>SOUS-TOTAL {{ strtoupper($paiementNom) }}</strong></td>
+                                    <td class="amount">
+                                        <strong>{{ number_format($totalSalesByPayment[$paiementNom], 2, ',', ' ') }}</strong>
+                                    </td>
+                                </tr>
+                            @endif
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -396,47 +327,37 @@
                     <thead>
                         <tr>
                             <th>Produit</th>
-                            <th class="amount">Tickets Valeurs</th>
-                            <th class="amount">JNP Pass</th>
-                            <th class="amount">Comptant</th>
+                            @foreach ($paiement_names as $p_name)
+                                <th class="amount">{{ $p_name }}</th>
+                            @endforeach
                             <th class="amount">TOTAL</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td><strong>Gasoil</strong></td>
-                            <td class="amount">232 500</td>
-                            <td class="amount">240 393</td>
-                            <td class="amount">225 183</td>
-                            <td class="amount"><strong>698 076</strong></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Essence</strong></td>
-                            <td class="amount">190 000</td>
-                            <td class="amount">28 076</td>
-                            <td class="amount">165 112,25</td>
-                            <td class="amount"><strong>383 188,25</strong></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Lubrifiants</strong></td>
-                            <td class="amount">45 000</td>
-                            <td class="amount">0</td>
-                            <td class="amount">254 500</td>
-                            <td class="amount"><strong>299 500</strong></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Gaz et accessoires</strong></td>
-                            <td class="amount">0</td>
-                            <td class="amount">0</td>
-                            <td class="amount">43 790</td>
-                            <td class="amount"><strong>43 790</strong></td>
-                        </tr>
+                        @foreach ($salesByProductAndPayment as $product_sales)
+                            <tr>
+                                <td><strong>{{ $product_sales['produit_nom'] }}</strong></td>
+                                @foreach ($paiement_names as $p_name)
+                                    <td class="amount">
+                                        {{ number_format($product_sales[str_replace(' ', '_', $p_name)], 2, ',', ' ') }}
+                                    </td>
+                                @endforeach
+                                <td class="amount">
+                                    <strong>{{ number_format($product_sales['total_product_sales'], 2, ',', ' ') }}</strong>
+                                </td>
+                            </tr>
+                        @endforeach
                         <tr class="total-row">
                             <td><strong>TOTAL GÉNÉRAL</strong></td>
-                            <td class="amount"><strong>467 500</strong></td>
-                            <td class="amount"><strong>268 469</strong></td>
-                            <td class="amount"><strong>688 585,25</strong></td>
-                            <td class="amount"><strong>1 424 554,25</strong></td>
+                            @foreach ($paiement_names as $p_name)
+                                <td class="amount">
+                                    <strong>
+                                        {{ number_format($totalSalesByPayment[$p_name] ?? 0, 2, ',', ' ') }}
+                                    </strong>
+                                </td>
+                            @endforeach
+                            <td class="amount"><strong>{{ number_format($totalGeneralSales, 2, ',', ' ') }}</strong>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -446,31 +367,20 @@
                 <h3>RÉSUMÉ FINANCIER</h3>
                 <div class="summary-item">
                     <span>Total des ventes à verser à la banque:</span>
-                    <span>688 585,25 F</span>
+                    <span>{{ number_format($totalSalesToBank, 2, ',', ' ') }} F</span>
                 </div>
                 <div class="summary-item">
                     <span>Ticket de vente (TV):</span>
-                    <span>1 000 F</span>
+                    <span>{{ number_format($ticketDeVente, 2, ',', ' ') }} F</span>
                 </div>
                 <div class="summary-item final-amount">
                     <span>RESTE À VERSER:</span>
-                    <span>687 585,25 F</span>
+                    <span>{{ number_format($resteAVerser, 2, ',', ' ') }} F</span>
                 </div>
             </div>
 
         </div>
-
-        <div class="footer">
-            <div>
-                <div>© 2025 -
-                    <script>document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))</script>
-                    </span>StationFlow. Tous droits réservés. </span>
-                </div>
-            </div>
-            <div class="footer-right">
-                <div>Rapport généré le 20/05/2025 à 23:59</div>
-            </div>
-        </div>
+        {{-- Le footer a été retiré d'ici et est maintenant géré par l'option 'footer-html' de DomPDF --}}
     </div>
 </body>
 

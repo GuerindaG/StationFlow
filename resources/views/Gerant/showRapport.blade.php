@@ -12,7 +12,11 @@
             padding: 0;
             font-size: 12px;
             color: #21313c;
-            background-color: #f5f5f5;
+        }
+
+        .pdf-container {
+            width: 100%;
+            padding: 15mm;
         }
 
         .pdf-preview {
@@ -78,40 +82,34 @@
         }
 
         .watermark {
-            position: absolute;
+            position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) rotate(-45deg);
             font-size: 100px;
-            color: rgba(10, 173, 10, 0.05);
-            font-weight: bold;
-            pointer-events: none;
+            color: rgba(10, 173, 10, 0.1);
             z-index: 1;
         }
-
+        
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 20px;
         }
 
         th {
             background-color: #0aad0a;
             color: white;
-            padding: 12px 8px;
+            padding: 8px;
             text-align: left;
-            font-size: 14px;
-            font-weight: bold;
         }
 
         td {
-            padding: 10px 8px;
-            border-bottom: 1px solid #e9ecef;
-            font-size: 14px;
+            padding: 8px;
+            border-bottom: 1px solid #e0e0e0;
         }
 
         tr:nth-child(even) {
-            background-color: #f8f9fa;
+            background-color: #f8f8f8;
         }
 
         tr:nth-child(odd) {
@@ -468,7 +466,7 @@
             </div>
             <div class="footer-right">
                 <div>Rapport généré le 20/05/2025 à 23:59</div>
-                <div>N° de page</div>
+                
             </div>
         </div>
     </div>

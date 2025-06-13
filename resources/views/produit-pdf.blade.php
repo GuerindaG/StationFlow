@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -47,22 +48,20 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) rotate(-45deg);
-            font-size: 80px;
+            font-size: 100px;
             color: rgba(10, 173, 10, 0.1);
-            z-index: -1;
+            z-index: 1;
         }
     </style>
 </head>
+
 <body>
     <div class="pdf-preview">
         <div class="header">
-            <div class="logo-container">
-                <img src="{{ storage_path('StationFlow/public/assets/images/logo/stationflow-logo.svg ') }}" width="150">
-            </div>
             <div class="report-info">
-                <h1>Liste des produits</h1>
-                <div class="date">{{ $dateGeneration }}</div>
-                <div class="station-id"></div>
+                <h1><strong>
+                        <center>LISTE DES PRODUITS</center>
+                    </strong></h1>
             </div>
         </div>
         <div class="content">
@@ -179,9 +178,9 @@
             <div>&copy; {{ date('Y') }} StationFlow - Tous droits réservés</div>
             <div class="footer-right">
                 <div class="footer-right">Rapport généré le : <strong>{{ date('d/m/Y à H:i') }}</strong></div>
-                <div>Page 1/1</div>
             </div>
         </div>
     </div>
 </body>
+
 </html>

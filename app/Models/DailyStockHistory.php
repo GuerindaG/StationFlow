@@ -15,7 +15,10 @@ class DailyStockHistory extends Model
         'date',
         'stock_finale',
     ];
-
+    protected $casts = [
+        'date' => 'date',
+        'stock_finale' => 'decimal:2',
+    ];
     public function station()
     {
         return $this->belongsTo(Station::class);
