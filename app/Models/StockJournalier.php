@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class DailyStockHistory extends Model
+class StockJournalier extends Model
 {
     use HasFactory;
 
@@ -15,10 +15,7 @@ class DailyStockHistory extends Model
         'date',
         'stock_finale',
     ];
-    protected $casts = [
-        'date' => 'date',
-        'stock_finale' => 'decimal:2',
-    ];
+
     public function station()
     {
         return $this->belongsTo(Station::class);
@@ -29,3 +26,5 @@ class DailyStockHistory extends Model
         return $this->belongsTo(Produit::class);
     }
 }
+
+

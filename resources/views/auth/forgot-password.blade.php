@@ -46,9 +46,8 @@
             padding: 32px;
             width: 400px;
             max-width: 90%;
-            opacity: 0;
-            transform: scale(0.95);
-            animation: showforgot 0.5s ease 0.8s forwards;
+            opacity: 1;
+            transform: scale(1);
         }
 
         .forgot-header {
@@ -102,15 +101,6 @@
             position: relative;
         }
 
-        .password-toggle {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            color: #6c757d;
-        }
-
         .remember-reset {
             display: flex;
             justify-content: space-between;
@@ -150,104 +140,6 @@
         .forgot-button:hover {
             background-color: #0ea00e;
         }
-
-        @keyframes fadeOut {
-            from {
-                opacity: 1;
-                visibility: visible;
-            }
-
-            to {
-                opacity: 0;
-                visibility: hidden;
-            }
-        }
-
-        @keyframes scaleIn {
-            from {
-                transform: scale(0);
-            }
-
-            to {
-                transform: scale(1);
-            }
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes fadeInTion {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes slideInFlow {
-            from {
-                opacity: 0;
-                transform: translateX(50%);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateX(-14%);
-            }
-        }
-
-        @keyframes moveFlow {
-            from {
-                transform: translateX(-14%);
-            }
-
-            to {
-                transform: translateX(40%);
-            }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes progress {
-            from {
-                width: 0;
-            }
-
-            to {
-                width: 100%;
-            }
-        }
-
-        @keyframes showforgot {
-            from {
-                opacity: 0;
-                transform: scale(0.95);
-            }
-
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
     </style>
 </head>
 
@@ -272,8 +164,8 @@
                         fill="#5c6c75">Gestion de stations-service</text>
                 </svg>
                 <h1>Mot de passe oublié ?</h1>
-                <p><small>Veuillez entrer l'adresse e-mail associée à votre compte et nous vous enverrons un lien pour
-                        réinitialiser votre mot de passe par e-mail.</small></p>
+                <p><small>Entrez votre adresse email et nous vous enverrons un lien pour réinitialiser votre mot de
+                        passe.</small></p>
             </div>
             @if (session('status'))
                 <div class="alert alert-success">
@@ -296,7 +188,14 @@
                     <div class="col-12 d-grid">
                         <button type="submit" class="btn btn-primary">Envoyer</button>
                     </div>
-                    <div class="col-12 d-grid"> <a href={{route('login')}} class="btn btn-light">Retour</a>
+                    <div class="divider">
+
+                    </div>
+
+                    <div class=" text-center">
+                        <a href="{{route('login')}}">
+                            Retour à la connexion
+                        </a>
                     </div>
             </form>
         </div>

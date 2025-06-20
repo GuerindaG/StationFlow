@@ -39,50 +39,57 @@
                                     <label class="form-label">
                                         <h4 class=" h5">Nom de la station</h4>
                                     </label>
-                                    <input type="text" class="form-control" name="nom_station" value="{{ old('nom_station', $station->nom) }}" placeholder="" required />
+                                    <input type="text" class="form-control" name="nom_station"
+                                        value="{{ old('nom_station', $station->nom) }}" placeholder="" required />
                                 </div>
                                 <!-- input -->
                                 <div class="mb-3 col-lg-6">
                                     <label class="form-label">
                                         <h4 class="h5">RCCM</h4>
                                     </label>
-                                    <input type="text" name="rccm" class="form-control" value="{{ old('rccm', $station->rccm) }}" placeholder="" required />
+                                    <input type="text" name="rccm" class="form-control"
+                                        value="{{ old('rccm', $station->rccm) }}" placeholder="" required />
                                 </div>
                                 <!-- input -->
                                 <div class="mb-3 col-lg-6">
                                     <label class="form-label">
                                         <h4 class="h5">IFU</h4>
                                     </label>
-                                    <input type="text" name="ifu"  value="{{ old('ifu', $station->ifu) }}" class="form-control" placeholder="" required />
+                                    <input type="text" name="ifu" value="{{ old('ifu', $station->ifu) }}"
+                                        class="form-control" placeholder="" required />
                                 </div>
                                 <!-- input -->
                                 <div class="mb-3 col-lg-6">
                                     <label class="form-label">
                                         <h4 class="h5">Adresse</h4>
                                     </label>
-                                    <input type="text" class="form-control"  name="adresse" value="{{ old('adresse', $station->adresse) }}" placeholder="" required />
+                                    <input type="text" class="form-control" name="adresse"
+                                        value="{{ old('adresse', $station->adresse) }}" placeholder="" required />
+                                </div>
+                                <div class="mb-3 col-lg-6">
+                                    <label class="form-label">
+                                        <h4 class="h5">Contact</h4>
+                                    </label>
+                                    <input type="text" name="contact" class="form-control"
+                                        value="{{ old('contact', $station->contact) }}" placeholder="" required />
                                 </div>
                                 <!-- input -->
                                 <div class="mb-3 col-lg-6">
                                     <label class="form-label">
                                         <h4 class="h5">Longitude</h4>
                                     </label>
-                                    <input type="text" class="form-control"  name="longitude" value="{{ old('longitude', $station->longitude) }}" placeholder="" required />
+                                    <input type="text" class="form-control" name="longitude"
+                                        value="{{ old('longitude', $station->longitude) }}" placeholder="" required />
                                 </div>
                                 <!-- input -->
                                 <div class="mb-3 col-lg-6">
                                     <label class="form-label">
                                         <h4 class="h5">Latitude</h4>
                                     </label>
-                                    <input type="text" class="form-control"  name="latitude" value="{{ old('latitude', $station->latitude) }}" placeholder="" required />
+                                    <input type="text" class="form-control" name="latitude"
+                                        value="{{ old('latitude', $station->latitude) }}" placeholder="" required />
                                 </div>
                                 <!-- input -->
-                                <div class="mb-3 col-lg-6">
-                                    <label class="form-label">
-                                        <h4 class="h5">Contact</h4>
-                                    </label>
-                                    <input type="text" name="contact" class="form-control" value="{{ old('contact', $station->contact) }}" placeholder="" required />
-                                </div>
                                 <div class="col-lg-12 text-end">
                                     <button class="btn btn-primary w-100" type="submit">Mettre à jour</button>
                                 </div>

@@ -13,10 +13,11 @@ use App\Http\Controllers\StationDashboardController;
 use App\Http\Controllers\VenteController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', fn() => view('connexion'))->name("connexion");
+
+Route::get('/', fn() => view('accueil'))->name("accueil");
 Route::get('/api/produits', [ProduitController::class, 'getProduits'])->name('api.produits');
 Route::get('/get-produits/{id}', [ApprovisionnementController::class, 'getByCategorie']);
-Route::get('/acc', fn() => view('essai'))->name("acc");
+
 
 Route::get('/gestionnaire/no-station', function () {
     return 'Aucune station assignée à votre compte.';
@@ -26,8 +27,9 @@ Route::prefix('/gerant')->middleware(['auth', 'CheckGerant'])->group(function ()
     Route::get('/dashboard', [StationDashboardController::class, 'index'])->name('gestionnaire.dashboard');
     Route::resource('/vente', VenteController::class);
     Route::resource('/approvisionnement', ApprovisionnementController::class);
-
     Route::get('/rapport', fn() => view('rapports.index'))->name("rapports.index");
+    Route::get('/rapport-journalier/pdf', [RapportController::class, 'genererPDF'])->name('generer.pdf');
+
 });
 
 Route::prefix('/admin')->middleware(['auth', 'CheckAdmin'])->group(function () {

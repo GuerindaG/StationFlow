@@ -36,102 +36,7 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            overflow: hidden;
-        }
-
-        .splash-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #ffffff;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            animation: fadeOut 0.5s ease 3.5s forwards;
-        }
-
-        .logo-animation-container {
-            position: relative;
-            width: 300px;
-            height: 120px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transform: scale(0);
-            animation: scaleIn 1.5s ease forwards;
-        }
-
-        .sta-text {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-100%);
-            font-size: 38px;
-            font-weight: 600;
-            color: #21313c;
-            opacity: 0;
-            animation: fadeIn 0.8s ease 0.5s forwards;
-        }
-
-        .tion-text {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-14%);
-            font-size: 38px;
-            font-weight: 600;
-            color: #21313c;
-            opacity: 0;
-            animation: fadeInTion 0.8s ease 1.6s forwards;
-        }
-
-        .flow-text {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-14%);
-            font-size: 38px;
-            font-weight: 600;
-            color: #10B810;
-            opacity: 0;
-            z-index: 5;
-            animation: slideInFlow 1s ease 0.8s forwards, moveFlow 0.8s ease 1.6s forwards;
-        }
-
-        .pump-icon {
-            position: absolute;
-            left: 25%;
-            transform: translateX(-50%);
-            opacity: 0;
-            animation: fadeIn 0.8s ease 0.2s forwards;
-        }
-
-        .welcome-text {
-            margin-top: 40px;
-            font-size: 28px;
-            color: #21313c;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 1s ease 2s forwards;
-        }
-
-        .loading-bar {
-            width: 240px;
-            height: 4px;
-            background-color: #e9ecef;
-            border-radius: 2px;
-            margin-top: 30px;
-            overflow: hidden;
-            opacity: 0;
-            animation: fadeIn 0.5s ease 2.2s forwards;
-        }
-
-        .loading-progress {
-            height: 100%;
-            width: 0;
-            background-color: #10B810;
-            animation: progress 1.2s ease 2.3s forwards;
+            padding: 20px;
         }
 
         .login-container {
@@ -140,10 +45,7 @@
             box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
             padding: 32px;
             width: 400px;
-            max-width: 90%;
-            opacity: 0;
-            transform: scale(0.95);
-            animation: showLogin 0.5s ease 3.8s forwards;
+            max-width: 100%;
         }
 
         .login-header {
@@ -177,8 +79,7 @@
             margin-bottom: 8px;
         }
 
-        .form-group input,
-        .form-group select {
+        .form-group input {
             width: 100%;
             padding: 12px 16px;
             border: 1px solid #ced4da;
@@ -187,10 +88,10 @@
             transition: border-color 0.15s ease;
         }
 
-        .form-group input:focus,
-        .form-group select:focus {
+        .form-group input:focus {
             border-color: #10B810;
             outline: none;
+            box-shadow: 0 0 0 2px rgba(16, 184, 16, 0.1);
         }
 
         .password-field {
@@ -204,6 +105,11 @@
             transform: translateY(-50%);
             cursor: pointer;
             color: #6c757d;
+            transition: color 0.15s ease;
+        }
+
+        .password-toggle:hover {
+            color: #10B810;
         }
 
         .remember-reset {
@@ -220,12 +126,23 @@
 
         .remember-me input {
             margin-right: 8px;
+            width: auto;
+        }
+
+        .remember-me label {
+            margin-bottom: 0;
+            font-size: 14px;
         }
 
         .reset-link {
             color: #10B810;
             text-decoration: none;
             font-weight: 500;
+            font-size: 14px;
+        }
+
+        .reset-link:hover {
+            text-decoration: underline;
         }
 
         .login-button {
@@ -246,137 +163,77 @@
             background-color: #0ea00e;
         }
 
-        @keyframes fadeOut {
-            from {
-                opacity: 1;
-                visibility: visible;
-            }
-
-            to {
-                opacity: 0;
-                visibility: hidden;
-            }
+        .login-button:active {
+            transform: translateY(1px);
         }
 
-        @keyframes scaleIn {
-            from {
-                transform: scale(0);
-            }
-
-            to {
-                transform: scale(1);
-            }
+        .signup-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #6c757d;
+            font-size: 14px;
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
+        .signup-link a {
+            color: #10B810;
+            text-decoration: none;
+            font-weight: 500;
         }
 
-        @keyframes fadeInTion {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
+        .signup-link a:hover {
+            text-decoration: underline;
         }
 
-        @keyframes slideInFlow {
-            from {
-                opacity: 0;
-                transform: translateX(50%);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateX(-14%);
-            }
+        .divider {
+            text-align: center;
+            margin: 20px 0;
+            position: relative;
         }
 
-        @keyframes moveFlow {
-            from {
-                transform: translateX(-14%);
-            }
-
-            to {
-                transform: translateX(40%);
-            }
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: #e9ecef;
         }
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .divider span {
+            background-color: white;
+            padding: 0 15px;
+            color: #6c757d;
+            font-size: 14px;
         }
 
-        @keyframes progress {
-            from {
-                width: 0;
-            }
-
-            to {
-                width: 100%;
-            }
+        .error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
         }
 
-        @keyframes showLogin {
-            from {
-                opacity: 0;
-                transform: scale(0.95);
-            }
-
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
+        .success-message {
+            background-color: #d1edff;
+            color: #084298;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
         }
     </style>
 </head>
 
 <body>
-    <!-- Écran de bienvenue animé -->
-    <div class="splash-container">
-        <div class="logo-animation-container">
-            <div class="pump-icon">
-                <svg width="70" height="70" viewBox="0 0 70 70" xmlns="http://www.w3.org/2000/svg">
-                    <g transform="translate(10, 0)">
-                        <rect x="10" y="12" width="30" height="40" rx="3" fill="#10B810" />
-                        <rect x="15" y="18" width="20" height="14" rx="2" fill="#ffffff" />
-                        <path d="M40,25 L45,25 Q50,25 50,30 L50,45 Q50,52 45,52 L45,52" stroke="#10B810"
-                            stroke-width="4" fill="none" />
-                        <circle cx="45" cy="52" r="4" fill="#10B810" />
-                        <rect x="16" y="38" width="18" height="8" rx="1" fill="#ffffff" />
-                    </g>
-                </svg>
-            </div>
-            <div class="sta-text">Sta</div>
-            <div class="tion-text">tion</div>
-            <div class="flow-text">Flow</div>
-        </div>
-        <div class="welcome-text">Bienvenue dans votre espace</div>
-        <div class="loading-bar">
-            <div class="loading-progress"></div>
-        </div>
-    </div>
-
-    <!-- Page de connexion -->
     <div class="login-container">
         <div class="login-card">
             <div class="login-header">
-                <svg width="200" height="60" viewBox="0 0 300 80" xmlns="http://www.w3.org/2000/svg">
+                <svg width="300" height="60" viewBox="0 0 300 80" xmlns="http://www.w3.org/2000/svg">
                     <g transform="translate(20, 16) scale(0.9)">
                         <rect x="10" y="12" width="30" height="40" rx="3" fill="#10B810" />
                         <rect x="15" y="18" width="20" height="14" rx="2" fill="#ffffff" />
@@ -393,27 +250,32 @@
                         fill="#5c6c75">Gestion de stations-service</text>
                 </svg>
                 <h1>Connexion</h1>
-                <p><small>Entrez vos identifiants pour accéder à votre espace</small></p>
+                <p>Connectez-vous à votre compte</p>
             </div>
+            
             <form class="needs-validation" novalidate method="POST" action="{{ route('login') }}">
                 @csrf
                 <div class="row g-3">
 
-                    <!-- Email Address -->
                     <div class="col-12">
-                        <label for="formSignupEmail" class="form-label ">Adresse email</label>
-                        <input type="email" id="email" class="form-control" name="email"
-                            placeholder="Entrez votre email" required />
+                        <label for="formSignupEmail" class="form-label ">Email</label>
+                        <input type="email" id="email" class="form-control" name="email" placeholder="votre@email.com"
+                            required />
                         <div class="invalid-feedback">Votre E-mail !</div>
                     </div>
-                    <!-- Password -->
+
                     <div class="col-12">
                         <div class="password-field position-relative">
                             <label for="formSignupPassword" class="form-label ">Mot de passe</label>
                             <div class="password-field position-relative">
                                 <input type="password" class="form-control fakePassword" id="password" name="password"
                                     required placeholder="Entrez votre mot de passe" />
-                                <span><i class="bi bi-eye-slash passwordToggler"></i></span>
+                                <span class="password-toggle" onclick="togglePassword()">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                        <path
+                                            d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
+                                    </svg>
+                                </span>
                                 <div class="invalid-feedback">Votre mot de passe !</div>
                             </div>
                         </div>
@@ -434,8 +296,30 @@
                     </div>
                 </div>
             </form>
+            <div class="divider">
+                <span>ou</span>
+            </div>
+
+            <div class="signup-link">
+                Pas encore de compte ? <a href="register.html">Créer un compte</a>
+            </div>
         </div>
     </div>
+
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleIcon = document.querySelector('.password-toggle svg');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.innerHTML = '<path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/>';
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.innerHTML = '<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>';
+            }
+        }   
+    </script>
 </body>
 
 </html>

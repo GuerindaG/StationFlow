@@ -9,7 +9,7 @@
                         <h2>Historique des rapports</h2>
                     </div>
                     <div>
-                        <a href="{{ route('rapport.pdf') }}" class="btn btn-primary">
+                        <a href="{{ route('generer.pdf') }}" class="btn btn-primary">
                             <i class="fa-solid fa-file-circle-plus"></i> Générer rapport
                         </a>
                     </div>

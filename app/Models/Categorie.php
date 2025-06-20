@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Categorie extends Model
 {
@@ -10,6 +11,10 @@ class Categorie extends Model
         'nom',
         'description',
     ];
+    public function produits(): HasMany
+    {
+        return $this->hasMany(Produit::class);
+    }
 
     protected static function booted()
     {

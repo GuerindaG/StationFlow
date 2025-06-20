@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="d-flex justify-content-between align-items-center w-100">
             <div class="d-flex align-items-center">
-                <h2>{{ Auth::user()->name }}</h2>
+                <h2>Gestionnaire de la station : {{ Auth::user()->name }}</h2>
             </div>
             <div>
                 <ul class="list-unstyled d-flex align-items-center mb-0 ms-5 ms-lg-0">
