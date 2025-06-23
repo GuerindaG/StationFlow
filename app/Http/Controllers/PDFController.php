@@ -24,30 +24,25 @@ class PDFController extends Controller
     {
         $produits = Produit::with('categorie')->get();
 
-        $pdf = Pdf::loadView('produit-pdf', compact('produits')); 
-        $this->setCommonPdfOptions($pdf);
-        return $pdf->download('liste_produits.pdf'); 
+        $pdf = Pdf::loadView('Rapports.produit-pdf', compact('produits')); 
+        return $pdf->stream('liste_produits.pdf'); 
     }
 
     public function afficherSPDF()
     {
         $stationInfo = Station::all();
 
-        $pdf = Pdf::loadView('station-pdf', compact('stationInfo')); 
-
-        $this->setCommonPdfOptions($pdf); 
-
-        return $pdf->download('liste_stations.pdf');
+        $pdf = Pdf::loadView('Rapports.station-pdf', compact('stationInfo')); 
+ 
+        return $pdf->stream('liste_stations.pdf');
     }
 
     public function afficherCPDF()
     {
         $categories = Categorie::all();
 
-        $pdf = Pdf::loadView('categorie-pdf', compact('categories')); 
+        $pdf = Pdf::loadView('Rapports.categorie-pdf', compact('categories')); 
 
-        $this->setCommonPdfOptions($pdf); 
-
-        return $pdf->download('liste_categories.pdf');
+        return $pdf->stream('liste_categories.pdf');
     }
 }

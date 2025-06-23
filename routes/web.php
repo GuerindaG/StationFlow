@@ -27,9 +27,13 @@ Route::prefix('/gerant')->middleware(['auth', 'CheckGerant'])->group(function ()
     Route::get('/dashboard', [StationDashboardController::class, 'index'])->name('gestionnaire.dashboard');
     Route::resource('/vente', VenteController::class);
     Route::resource('/approvisionnement', ApprovisionnementController::class);
-    Route::get('/rapport', fn() => view('rapports.index'))->name("rapports.index");
+    Route::get('/rapports', [RapportController::class, 'index'])->name('rapports.index');
     Route::get('/rapport-journalier/pdf', [RapportController::class, 'genererPDF'])->name('generer.pdf');
-
+    Route::post('/rapport-journalier/{station}/sauvegarder', [RapportController::class, 'enregistrerRapportJournalier'])
+        ->name('rapport.journalier.sauvegarder');
+    Route::get('/rapports/mensuel/zip/{stationId}/{mois}', [RapportController::class, 'telechargerRapportsMensuels'])
+        ->name('rapports.mensuel.zip');
+    Route::get('/rapport-journalier/fichier', fn() => view('Rapports.show'))->name('fichier.pdf');
 });
 
 Route::prefix('/admin')->middleware(['auth', 'CheckAdmin'])->group(function () {
@@ -69,5 +73,6 @@ Route::get('/voirC-pdf', [PDFController::class, 'afficherCPDF'])->name('voirC.pd
 Route::get('/voirS-pdf', [PDFController::class, 'afficherSPDF'])->name('voirS.pdf');
 Route::get('/voir-pdf', [PDFController::class, 'afficherPDF'])->name('voir.pdf');
 Route::get('/s', fn() => view('Gerant.showRapport'))->name("rapport.pdf");
+Route::get('/rapports/{station}/{filename}', [RapportController::class, 'telecharger'])->name('rapport.telecharger');
 
 require __DIR__ . '/auth.php';

@@ -227,7 +227,7 @@
                             <ul class="pagination mb-0">
                                 <!-- Previous button -->
                                 <li class="page-item {{ $ventes->onFirstPage() ? 'disabled' : '' }}">
-                                    <a class="page-link" href="{{ $ventes->previousPageUrl() }}" tabindex="-1">Prec</a>
+                                    <a class="page-link" href="{{ $ventes->previousPageUrl() }}" tabindex="-1">Préc</a>
                                 </li>
 
                                 <!-- Display limited number of pages (3 pages max) -->

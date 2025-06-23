@@ -204,6 +204,9 @@
 
     <div class="header">
         <div>
+            <img src="{{ asset('./assets/images/logo/stationflow-logo.png')}}" alt="" />
+        </div>
+        <div>
             <h1>Rapport Journalier</h1>
             <p><strong>Station :</strong> {{ $station->nom ?? 'Nom de la station inconnu' }}</p>
         </div>
@@ -211,7 +214,7 @@
             <p><strong>Date :</strong> {{ \Carbon\Carbon::parse($date)->format('d/m/Y') }}</p>
         </div>
     </div>
-
+    <div class="watermark">STATIONFLOW</div>
     <div class="section">
         <h2 class="section-title">État des stocks</h2>
         <table>
@@ -350,7 +353,9 @@
 
                         $totaux = [];
                         foreach ($paiements as $mode) {
-                            $totaux[$mode] = $parMode[$mode]->sum('montant_total') ?? 0;
+                            $totaux[$mode] = isset($parMode[$mode])
+                                ? $parMode[$mode]->sum('montant_total')
+                                : 0;
                             $totauxGeneraux[$mode] += $totaux[$mode];
                         }
                         $totalGeneral = array_sum($totaux);
@@ -419,8 +424,8 @@
     </div>
 
     <div class="footer">
-        <div>© StationFlow - Rapport généré le {{ now()->format('d/m/Y à H:i') }}</div>
-        <div>Utilisateur : {{ Auth::user()->name }}</div>
+        <div>© StationFlow - Tous droits réservés.</div>
+        <div>Rapport généré le {{ now()->format('d/m/Y à H:i') }}</div>
     </div>
 
 </body>

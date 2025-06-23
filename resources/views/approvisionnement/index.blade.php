@@ -5,7 +5,7 @@
             <div class="col-md-12">
                 <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-4">
                     <div>
-                        <h5>Gestion des stocks</h5>
+                        <h2>Gestion des stocks</h2>
                     </div>
                     <div>
                         <a href="{{route('approvisionnement.create')}}" class="btn btn-primary">Nouvelle réception</a>
@@ -29,10 +29,17 @@
                                                     value="{{ $date_filter }}">
                                             </div>
                                             <div class="col-auto">
-                                                <button type="submit" class="btn btn-primary"><i
-                                                        class="fa-solid fa-filter"></i></button>
+                                                <button type="submit" class="btn btn-outline-gray-400 text-muted">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                        class="feather feather-filter me-2">
+                                                        <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3">
+                                                        </polygon>
+                                                    </svg>
+                                                </button>
                                                 <a href="{{ route('approvisionnement.index') }}"
-                                                    class="btn btn-secondary"><i class="fa-solid fa-power-off"></i></a>
+                                                    class="btn btn-btn btn-outline-gray-400 text-muted"><i class="fa-solid fa-power-off"></i></a>
                                             </div>
                                         </div>
                                     </form>
@@ -66,7 +73,7 @@
                                                     <a href="#" data-bs-toggle="modal"
                                                         data-bs-target="#editModal{{ $approvisionnement->id }}"
                                                         class="btn btn-primary shadow btn-xs sharp me-1"><i
-                                                            class="bi bi-pencil-square me-3"></i></a>
+                                                            class="bi bi-pencil-square "></i></a>
                                                     <form
                                                         action="{{ route('approvisionnement.destroy', $approvisionnement->id) }}"
                                                         method="POST" class="d-inline"
@@ -74,7 +81,7 @@
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="btn btn-danger shadow btn-xs sharp"><i
-                                                                class="bi bi-trash me-3"></i></button>
+                                                                class="bi bi-trash "></i></button>
                                                     </form>
                                                 </div>
                                             </td>

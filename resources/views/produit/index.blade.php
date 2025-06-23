@@ -9,11 +9,11 @@
 						<h2>Liste des produits</h2>
 					</div>
 					<div>
-						<a href="{{ route('voir.pdf') }}" target="_blank" class="btn btn-gray-400">
-							📄 Télécharger PDF
-						</a>
 						<button type="button" class="btn btn-primary" data-bs-toggle="modal"
-							data-bs-target="#produit">Ajouter un produit</button>
+							data-bs-target="#produit">+</button>
+						<a href="{{ route('voir.pdf') }}" target="_blank" class="btn btn-dark">
+							<i class="bi bi-download"></i>
+						</a>
 					</div>
 				</div>
 			</div>
@@ -114,7 +114,7 @@
 								<!-- Previous button -->
 								<li class="page-item {{ $produits->onFirstPage() ? 'disabled' : '' }}">
 									<a class="page-link" href="{{ $produits->previousPageUrl() }}"
-										tabindex="-1">Previous</a>
+										tabindex="-1">Préc</a>
 								</li>
 
 								<!-- Display limited number of pages (3 pages max) -->
@@ -126,7 +126,7 @@
 
 								<!-- Next button -->
 								<li class="page-item {{ $produits->hasMorePages() ? '' : 'disabled' }}">
-									<a class="page-link" href="{{ $produits->nextPageUrl() }}">Next</a>
+									<a class="page-link" href="{{ $produits->nextPageUrl() }}">Suiv</a>
 								</li>
 							</ul>
 						</nav>

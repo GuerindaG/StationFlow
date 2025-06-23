@@ -9,11 +9,11 @@
                         <h2>Liste des catégories</h2>
                     </div>
                     <div>
-                         <a href="{{ route('voirC.pdf') }}" target="_blank" class="btn btn-gray-400">
-                            📄 Télécharger PDF 
-                        </a>
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#categorie">Nouvelle catégorie</button>
+                            data-bs-target="#categorie">+</button>
+                        <a href="{{ route('voirC.pdf') }}" target="_blank" class="btn btn-dark">
+                            <i class="bi bi-download"></i>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -118,12 +118,11 @@
                             <ul class="pagination mb-0">
                                 <!-- Previous button -->
                                 <li class="page-item {{ $categories->onFirstPage() ? 'disabled' : '' }}">
-                                    <a class="page-link" href="{{ $categories->previousPageUrl() }}"
-                                        tabindex="-1">Previous</a>
+                                    <a class="page-link" href="{{ $categories->previousPageUrl() }}" tabindex="-1">Préc</a>
                                 </li>
 
-                                <!-- Display limited number of pages (2 pages max) -->
-                                @foreach ($categories->getUrlRange(1, 2) as $page => $url)
+                                <!-- Display limited number of pages (3 pages max) -->
+                                @foreach ($categories->getUrlRange(1, 3) as $page => $url)
                                     <li class="page-item {{ $page == $categories->currentPage() ? 'active' : '' }}">
                                         <a class="page-link" href="{{ $url }}">{{ $page }}</a>
                                     </li>
@@ -131,7 +130,7 @@
 
                                 <!-- Next button -->
                                 <li class="page-item {{ $categories->hasMorePages() ? '' : 'disabled' }}">
-                                    <a class="page-link" href="{{ $categories->nextPageUrl() }}">Next</a>
+                                    <a class="page-link" href="{{ $categories->nextPageUrl() }}">Suiv</a>
                                 </li>
                             </ul>
                         </nav>

@@ -10,10 +10,10 @@
                     </div>
 
                     <div>
-                        <a href="{{ route('voirS.pdf') }}" target="_blank" class="btn btn-gray-400">
-                            📄 Télécharger PDF 
+                        <a href="{{route('station.create')}}" class="btn btn-primary">+</a>
+                        <a href="{{ route('voirS.pdf') }}" target="_blank" class="btn btn-dark">
+                            <i class="bi bi-download"></i>
                         </a>
-                        <a href="{{route('station.create')}}" class="btn btn-primary">Ajouter une station</a>
                     </div>
                 </div>
             </div>
@@ -111,7 +111,7 @@
                                 <!-- Previous button -->
                                 <li class="page-item {{ $stations->onFirstPage() ? 'disabled' : '' }}">
                                     <a class="page-link" href="{{ $stations->previousPageUrl() }}"
-                                        tabindex="-1">Previous</a>
+                                        tabindex="-1">Préc</a>
                                 </li>
 
                                 <!-- Display limited number of pages (3 pages max) -->
@@ -123,7 +123,7 @@
 
                                 <!-- Next button -->
                                 <li class="page-item {{ $stations->hasMorePages() ? '' : 'disabled' }}">
-                                    <a class="page-link" href="{{ $stations->nextPageUrl() }}">Next</a>
+                                    <a class="page-link" href="{{ $stations->nextPageUrl() }}">Suiv</a>
                                 </li>
                             </ul>
                         </nav>

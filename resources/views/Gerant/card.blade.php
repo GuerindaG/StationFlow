@@ -12,7 +12,7 @@
 
                 </div>
                 <div>
-                    <h2 class="text-white">{{ number_format($totalTv, 0, ',', ' ') }} FCFA</h2>
+                    <h2 class="text-white"><small>{{ number_format($totalTv, 0, ',', ' ') }} FCFA</small></h2>
                     <span class="text-white fs-18"> Ventes en TV</span>
                 </div>
             </div>
@@ -34,7 +34,7 @@
 
                 </div>
                 <div>
-                    <h2 class="text-white">{{ number_format($totalJnp, 0, ',', ' ') }} FCFA</h2>
+                    <h2 class="text-white"><small>{{ number_format($totalJnp, 0, ',', ' ') }} FCFA</small></h2>
                     <span class="text-white fs-18"> Ventes en JNP Pass</span>
                 </div>
             </div>
@@ -56,7 +56,7 @@
 
                 </div>
                 <div>
-                    <h2 class="text-white">{{ number_format($totalComptant, 0, ',', ' ') }} FCFA</h2>
+                    <h2 class="text-white"><small>{{ number_format($totalComptant, 0, ',', ' ') }} FCFA</small></h2>
                     <span class="text-white fs-18"> Ventes au Comptant</span>
                 </div>
             </div>

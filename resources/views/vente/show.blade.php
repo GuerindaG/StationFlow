@@ -8,7 +8,7 @@
                         <h2>Historique du produit: <span>{{ $ventes->first()->produit->nom ?? '' }}</span></h2>
                     </div>
                     <div>
-                        <a href="{{route('approvisionnement.index')}}" class="btn btn-light">Retour</a>
+                        <a href="{{route('vente.index')}}" class="btn btn-light">Retour</a>
                     </div>
                 </div>
             </div>
@@ -37,7 +37,7 @@
                                                     value="{{ request('date_fin') }}">
                                             </div>
                                             <div class="col-auto">
-                                                <button type="submit" class="btn btn-primary">Filtrer</button>
+                                                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-filter"></i></button>
                                             </div>
                                         </div>
                                     </form>
