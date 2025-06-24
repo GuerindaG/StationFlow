@@ -64,43 +64,40 @@
     <div class="offcanvas-header border-bottom">
         <div class="text-start">
             <h5 id="offcanvasRightLabel" class="mb-0 fs-4">Notifications</h5>
-            <small>Vous avez {{ $notifications->count() }} notifications non lues</small>
+            <small>Vous avez {{ auth()->user()->unreadNotifications->count() }} notifications non lues</small>
             <form method="POST" action="{{ route('notifications.readall') }}">
                 @csrf
                 <button class="btn btn-ghost-info btn-icon rounded-circle" type="submit" title="Tout marquer comme lu">
                     <i class="bi bi-check2-all text-success"></i>
                 </button>
             </form>
-            <form method="POST" action="" class="d-inline">
-                @csrf
-                @method('DELETE')
-                <button class="btn btn-sm btn-link text-danger" title="Supprimer">
-                    <i class="bi bi-trash"></i>
-                </button>
-            </form>
-
         </div>
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
+
     <div class="offcanvas-body">
-        <div>
+        <form method="POST" action="{{ route('notifications.bulkDelete') }}">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-sm btn-danger mb-3">Supprimer la sélection</button>
+
             <ul class="list-group list-group-flush notification-list-scroll fs-6">
-                <form method="POST" action="{{ route('notifications.bulkDelete') }}">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-sm btn-danger mb-2">Supprimer la sélection</button>
-                    @forelse($notifications as $notif)
-                        <li class="list-group-item px-5 py-4 list-group-item-action">
+                @forelse($notifications as $notif)
+                    <li
+                        class="list-group-item px-4 py-3 list-group-item-action {{ is_null($notif->read_at) ? 'bg-light' : '' }}">
+                        <div class="d-flex justify-content-between align-items-center">
                             <div class="form-check">
-                                <input type="checkbox" class="form-check-input" name="notifications[]"
+                                <input type="checkbox" class="form-check-input me-2" name="notifications[]"
                                     value="{{ $notif->id }}">
-                                <a href="{{ route('notifications.read', $notif->id) }}" class="text-muted">
+                                <a href="{{ route('notifications.read', $notif->id) }}"
+                                    class="text-muted text-decoration-none">
                                     <div class="d-flex">
                                         <img src="{{ asset('assets/images/avatar/profil.png') }}" alt=""
                                             class="avatar avatar-md rounded-circle" />
-                                        <div class="ms-4">
+                                        <div class="ms-3">
                                             <p class="mb-1">
-                                                <span class="text-dark">{{ $notif->data['station'] }}</span>
+                                                <span
+                                                    class="text-dark">{{ $notif->data['station'] ?? 'Station inconnue' }}</span>
                                                 vous a envoyé un rapport.
                                             </p>
                                             <span>
@@ -111,14 +108,22 @@
                                     </div>
                                 </a>
                             </div>
-                        </li>
-                    @empty
-                        <li class="list-group-item px-5 py-4 text-center">
-                            Aucune notification
-                        </li>
-                    @endforelse
-                </form>
+                            <form method="POST" action="{{ route('notifications.destroy', $notif->id) }}"
+                                onsubmit="return confirm('Supprimer cette notification ?')">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn btn-sm btn-link text-danger p-0 ms-2" title="Supprimer">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </li>
+                @empty
+                    <li class="list-group-item px-5 py-4 text-center">
+                        Aucune notification
+                    </li>
+                @endforelse
             </ul>
-        </div>
+        </form>
     </div>
 </div>

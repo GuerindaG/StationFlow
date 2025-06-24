@@ -186,19 +186,21 @@
 </head>
 
 <body>
-
-    <div class="header">
-        <div>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <!-- Infos à gauche -->
+        <div style="flex: 1;">
             <img src="{{ public_path('assets/images/logo/stationflow-logo.png') }}" alt="Logo" style="height: 60px;">
+
         </div>
-        <div>
-            <h1>Rapport Journalier</h1>
-            <p><strong>Station :</strong> {{ $station->nom ?? 'Nom de la station inconnu' }}</p>
-        </div>
-        <div>
-            <p><strong>Date :</strong> {{ \Carbon\Carbon::parse($date)->format('d/m/Y') }}</p>
+
+        <!-- Logo à droite -->
+        <div style="flex-shrink: 0;">
+            <h1 style="margin: 0; font-size: 20px;">Rapport Journalier</h1>
+            <p style="margin: 2px 0;"><strong>Station :</strong> {{ $station->nom ?? 'Nom de la station inconnu' }}</p>
+            <p style="margin: 2px 0;"><strong>Date :</strong> {{ \Carbon\Carbon::parse($date)->format('d/m/Y') }}</p>
         </div>
     </div>
+
     <div class="watermark">STATIONFLOW</div>
     <div class="section">
         <h2 class="section-title">État des stocks</h2>
@@ -215,6 +217,13 @@
                 </tr>
             </thead>
             <tbody>
+                @php
+                    function afficherMontant($valeur)
+                    {
+                        return $valeur ? number_format($valeur, 2, ',', ' ') : 'Néant';
+                    }
+                @endphp
+
                 @foreach($categories as $categorie)
                     @php
                         $produitsCategorie = $categorie->produits;
@@ -244,11 +253,11 @@
                             @endif
 
                             <td>{{ $produit->nom }}</td>
-                            <td class="amount">{{ number_format($SI, 2, ',', ' ') }}</td>
-                            <td class="amount">{{ number_format($appro, 2, ',', ' ') }}</td>
-                            <td class="amount">{{ number_format($vente, 2, ',', ' ') }}</td>
-                            <td class="amount">{{ number_format($SF, 2, ',', ' ') }}</td>
-                            <td class="amount">{{ number_format($SR, 2, ',', ' ') }}</td>
+                            <td class="amount">{{ afficherMontant($SI) }}</td>
+                            <td class="amount">{{ afficherMontant($appro) }}</td>
+                            <td class="amount">{{ afficherMontant($vente) }}</td>
+                            <td class="amount">{{ afficherMontant($SF) }}</td>
+                            <td class="amount">{{ afficherMontant($SR) }}</td>
                         </tr>
                     @endforeach
                 @endforeach
@@ -402,10 +411,10 @@
             $totalComptant = $ventes->where('paiement.nom', 'Espèce')->sum('montant_total');
             $ticket = 1000; // à personnaliser si besoin
         @endphp
-        <p><strong>Total des ventes à verser à la banque :</strong> {{ number_format($totalComptant, 2, ',', ' ') }} F
+        <p><strong>Total des ventes à verser à la banque :</strong> {{ afficherMontant($totalComptant) }} F
         </p>
-        <p><strong>Ticket de vente :</strong> {{ number_format($ticket, 2, ',', ' ') }} F</p>
-        <p><strong>Reste à verser :</strong> {{ number_format($totalComptant - $ticket, 2, ',', ' ') }} F</p>
+        <p><strong>Ticket de vente :</strong> {{ afficherMontant($ticket) }} F</p>
+        <p><strong>Reste à verser :</strong> {{ afficherMontant($totalComptant - $ticket) }} F</p>
     </div>
 
     <div class="footer">

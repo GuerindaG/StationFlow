@@ -58,7 +58,6 @@ Route::prefix('/admin')->middleware(['auth', 'CheckAdmin'])->group(function () {
 
 
 
-
     Route::get('/parametre', fn() => view('Admin.parametre'))->name("parametre");
     Route::resource('/station', StationController::class);
     Route::resource('/categorie', CategorieController::class);
