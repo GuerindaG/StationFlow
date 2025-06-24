@@ -24,7 +24,8 @@
 
             <div class="col-xxl-5 col-lg-1 d-none d-lg-block text-center">
                 <a class="text-reset position-relative btn-icon btn-ghost-secondary btn rounded-circle lh-1" href="#"
-                    role="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                    role="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+                    aria-controls="offcanvasRight">
                     <i class="bi bi-bell fs-2 "></i>
                     @if($notifications->count() > 0)
                         <span
@@ -66,41 +67,57 @@
             <small>Vous avez {{ $notifications->count() }} notifications non lues</small>
             <form method="POST" action="{{ route('notifications.readall') }}">
                 @csrf
-                <button class="btn btn-ghost-info btn-icon rounded-circle" type="submit"
-                    title="Tout marquer comme lu">
+                <button class="btn btn-ghost-info btn-icon rounded-circle" type="submit" title="Tout marquer comme lu">
                     <i class="bi bi-check2-all text-success"></i>
                 </button>
             </form>
+            <form method="POST" action="" class="d-inline">
+                @csrf
+                @method('DELETE')
+                <button class="btn btn-sm btn-link text-danger" title="Supprimer">
+                    <i class="bi bi-trash"></i>
+                </button>
+            </form>
+
         </div>
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
         <div>
             <ul class="list-group list-group-flush notification-list-scroll fs-6">
-                @forelse($notifications as $notif)
-                    <li class="list-group-item px-5 py-4 list-group-item-action">
-                        <a href="{{ $notif->data['lien'] }}" class="text-muted">
-                            <div class="d-flex">
-                                <img src="{{ asset('assets/images/avatar/profil.png') }}" alt=""
-                                    class="avatar avatar-md rounded-circle" />
-                                <div class="ms-4">
-                                    <p class="mb-1">
-                                        <span class="text-dark">{{ $notif->data['station'] }}</span>
-                                        vous a envoyé un rapport.
-                                    </p>
-                                    <span>
-                                        <i class="bi bi-clock text-muted"></i>
-                                        <small class="ms-2">{{ $notif->created_at->diffForHumans() }}</small>
-                                    </span>
-                                </div>
+                <form method="POST" action="{{ route('notifications.bulkDelete') }}">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-sm btn-danger mb-2">Supprimer la sélection</button>
+                    @forelse($notifications as $notif)
+                        <li class="list-group-item px-5 py-4 list-group-item-action">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" name="notifications[]"
+                                    value="{{ $notif->id }}">
+                                <a href="{{ route('notifications.read', $notif->id) }}" class="text-muted">
+                                    <div class="d-flex">
+                                        <img src="{{ asset('assets/images/avatar/profil.png') }}" alt=""
+                                            class="avatar avatar-md rounded-circle" />
+                                        <div class="ms-4">
+                                            <p class="mb-1">
+                                                <span class="text-dark">{{ $notif->data['station'] }}</span>
+                                                vous a envoyé un rapport.
+                                            </p>
+                                            <span>
+                                                <i class="bi bi-clock text-muted"></i>
+                                                <small class="ms-2">{{ $notif->created_at->diffForHumans() }}</small>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </a>
                             </div>
-                        </a>
-                    </li>
-                @empty
-                    <li class="list-group-item px-5 py-4 text-center">
-                        Aucune notification
-                    </li>
-                @endforelse
+                        </li>
+                    @empty
+                        <li class="list-group-item px-5 py-4 text-center">
+                            Aucune notification
+                        </li>
+                    @endforelse
+                </form>
             </ul>
         </div>
     </div>

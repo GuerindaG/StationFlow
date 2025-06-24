@@ -106,6 +106,7 @@
                                     </label>
                                     <input type="text" class="form-control" name="latitude" placeholder="ex: 6.370292" />
                                 </div>
+                                
                                 <div class="col-lg-12 text-end">
                                     <button class="btn btn-primary w-100" type="submit">Créer la station</button>
                                 </div>

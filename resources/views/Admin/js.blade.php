@@ -23,7 +23,7 @@
     })(window, document, "clarity", "script", "kuc8w5o9nt");
 </script>
 
-<script src="{{ asset('../assets/js/vendors/validation.js')}}"></script>
+
 <!-- Javascript-->
 <script src="{{ asset('../assets/libs/nouislider/dist/nouislider.min.js')}}"></script>
 <script src="{{ asset('../assets/libs/wnumb/wNumb.min.js')}}"></script>
@@ -38,4 +38,3 @@
 <script src="{{ asset('../assets/libs/tiny-slider/dist/min/tiny-slider.js')}}"></script>
 <script src="{{ asset('../assets/js/vendors/tns-slider.js')}}"></script>
 <script src="{{ asset('../assets/js/vendors/zoom.js')}}"></script>
-<script src="../assets/libs/flatpickr/dist/flatpickr.min.js"></script>

@@ -30,7 +30,12 @@
                             </button>
                             <a href="{{ route('admin.station.rapports', $station->id) }}"
                                 class="btn btn-btn btn-outline-gray-400 text-muted">
-                                <i class="fa-solid fa-rotate-right"></i>
+                                <i class="fa-solid fa-refresh"></i>
+                            </a>
+                        </div>
+                        <div class="col-auto">
+                            <a href="{{ route('admin.dashboard', $station->id) }}" class="btn btn-secondary ">
+                                <i class="bi bi-arrow-left"></i>
                             </a>
                         </div>
                     </form>

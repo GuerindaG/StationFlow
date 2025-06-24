@@ -24,7 +24,7 @@
                         href="{{ route('approvisionnement.index') }}">
                         <div class="d-flex align-items-center">
                             <span class="nav-link-icon"><i class="bi bi bi-arrow-90deg-down"></i></span>
-                            <span class="nav-link-text">Réceptions</span>
+                            <span class="nav-link-text">Réception</span>
                         </div>
                     </a>
                 </li>
@@ -52,7 +52,7 @@
                     <a class="nav-link  collapsed " href="#" data-bs-toggle="collapse"
                         data-bs-target="#navMenuLevelFirst" aria-expanded="false" aria-controls="navMenuLevelFirst">
                         <span class="nav-link-icon"><i class="bi bi-folder"></i></span>
-                        <span class="nav-link-text">Historiques</span>
+                        <span class="nav-link-text">Historique</span>
                     </a>
                     <div id="navMenuLevelFirst" class="collapse " data-bs-parent="#sideNavbar">
                         <ul class="nav flex-column">

@@ -182,21 +182,6 @@
             font-size: 12px;
             color: #5c6c75;
         }
-
-        .footer {
-            margin-top: 40px;
-            padding-top: 15px;
-            border-top: 1px solid #e9ecef;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: #5c6c75;
-            font-size: 12px;
-        }
-
-        .footer-right {
-            text-align: right;
-        }
     </style>
 </head>
 
@@ -204,7 +189,7 @@
 
     <div class="header">
         <div>
-            <img src="{{ asset('./assets/images/logo/stationflow-logo.png')}}" alt="" />
+            <img src="{{ public_path('assets/images/logo/stationflow-logo.png') }}" alt="Logo" style="height: 60px;">
         </div>
         <div>
             <h1>Rapport Journalier</h1>

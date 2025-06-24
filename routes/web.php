@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminDashboardControlleur;
 use App\Http\Controllers\ApprovisionnementController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
@@ -50,11 +51,13 @@ Route::prefix('/admin')->middleware(['auth', 'CheckAdmin'])->group(function () {
         ->name('admin.station.rapports.mois');
 
 
-    Route::post('/notifications/lire', function () {
-        auth()->user()->unreadNotifications->markAsRead();
-        return back();
-    })->name('notifications.readall');
-    
+    Route::post('/notifications/read-all', [AdminDashboardControlleur::class, 'readAll'])->name('notifications.readall');
+    Route::get('/notifications/{id}/read', [AdminDashboardControlleur::class, 'read'])->name('notifications.read');
+    Route::delete('/notifications/{id}', [AdminDashboardControlleur::class, 'destroy'])->name('notifications.destroy');
+    Route::delete('/notifications/bulk-delete', [AdminDashboardControlleur::class, 'bulkDelete'])->name('notifications.bulkDelete');
+
+
+
 
     Route::get('/parametre', fn() => view('Admin.parametre'))->name("parametre");
     Route::resource('/station', StationController::class);
@@ -85,7 +88,7 @@ Route::get('/redirect-by-role', function () {
 Route::get('/voirC-pdf', [PDFController::class, 'afficherCPDF'])->name('voirC.pdf');
 Route::get('/voirS-pdf', [PDFController::class, 'afficherSPDF'])->name('voirS.pdf');
 Route::get('/voir-pdf', [PDFController::class, 'afficherPDF'])->name('voir.pdf');
-Route::get('/s', fn() => view('Gerant.showRapport'))->name("rapport.pdf");
+Route::get('/s', fn() => view('Admin.notification'))->name("rapport.pdf");
 Route::get('/rapports/{station}/{filename}', [RapportController::class, 'telecharger'])->name('rapport.telecharger');
 
 require __DIR__ . '/auth.php';

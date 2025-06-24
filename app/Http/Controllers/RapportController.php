@@ -109,11 +109,11 @@ class RapportController extends Controller
         $nomFichier = "{$dateFormat}.pdf";
         $chemin = "rapports/station_{$station->id}/";
 
-        /*$admin = User::where('role', 'admin')->first();
+        $admin = User::where('role', 'admin')->first();
 
         if ($admin) {
             $admin->notify(new RapportSoumisNotification('Rapport du ' . now()->format('d/m/Y'), $station));
-        }*/
+        }
 
         Storage::disk('public')->put($chemin . $nomFichier, $pdf->output());
 
