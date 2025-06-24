@@ -42,30 +42,33 @@
         background-color: white;
     }
 
-.invoice-card-row .custom-card {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    padding: 20px;
-    border-radius: 10px;
-    background-color: #ffffff;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease-in-out;
-}
+    .invoice-card-row .custom-card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        padding: 20px;
+        border-radius: 10px;
+        background-color: #ffffff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease-in-out;
+    }
 
-.invoice-card-row .custom-card:hover {
-    transform: scale(1.05); 
-    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); 
-    background-color: #f5f5f5; 
-}
+    .invoice-card-row .custom-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+        background-color: #f5f5f5;
+    }
 
-.invoice-card-row .custom-card:hover .card-title {
-    color: #007bff;
-}
+    .invoice-card-row .custom-card:hover .card-title {
+        color: #007bff;
+    }
 
-.invoice-card-row .custom-card:hover .card-subtitle {
-    color: #888; 
-}
+    .invoice-card-row .custom-card:hover .card-subtitle {
+        color: #888;
+    }
 
+    .card-product {
+        cursor: pointer;
+    }
 </style>

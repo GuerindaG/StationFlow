@@ -21,6 +21,7 @@
     </div>
     @include('Gerant.js')
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         @if (session('success'))
             Swal.fire({
@@ -31,7 +32,6 @@
             });
         @endif
     </script>
-
     <script>
         $(document).ready(function () {
             let rowIndex = 1;

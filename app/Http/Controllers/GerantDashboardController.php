@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Vente;
 use Carbon\Carbon;
 
-class StationDashboardController extends Controller
+class GerantDashboardController extends Controller
 {
     public function index(Request $request)
     {

@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Categorie;
 use App\Models\Paiement;
+use Auth;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
@@ -28,5 +29,10 @@ class AppServiceProvider extends ServiceProvider
         View::share('stations', Station::all());
         View::share('paiements', Paiement::all());
         View::share('categories', Categorie::all());
+        View::composer('*', function ($view) {
+            if (Auth::check()) {
+                $view->with('notifications', Auth::user()->unreadNotifications);
+            }
+        });
     }
 }

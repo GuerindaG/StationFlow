@@ -20,7 +20,7 @@
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                         @forelse($stations as $station)
                             <li>
-                                <a class="dropdown-item" href="{{ route('station.show', $station->id) }}">
+                                <a class="dropdown-item" href="{{ route('admin.station.rapports', $station->id) }}">
                                     {{ $station->nom }}
                                 </a>
                             </li>

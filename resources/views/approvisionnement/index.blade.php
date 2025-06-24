@@ -1,7 +1,7 @@
 @extends('Gerant.LayoutGerant')
 @section('content-body')
     <div class="container">
-        <div class="row mb-8">
+        <div class="row mb-4">
             <div class="col-md-12">
                 <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-4">
                     <div>
@@ -39,7 +39,8 @@
                                                     </svg>
                                                 </button>
                                                 <a href="{{ route('approvisionnement.index') }}"
-                                                    class="btn btn-btn btn-outline-gray-400 text-muted"><i class="fa-solid fa-power-off"></i></a>
+                                                    class="btn btn-btn btn-outline-gray-400 text-muted">
+                                                <i class="fa-solid fa-refresh"></i></a>
                                             </div>
                                         </div>
                                     </form>

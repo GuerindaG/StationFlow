@@ -36,7 +36,6 @@ class StationController extends Controller
     {
         return view("Station.create");
     }
-
     public function store(Request $request)
     {
         $request->validate(
@@ -95,7 +94,6 @@ class StationController extends Controller
 
         return redirect()->route('station.index')->with('success', 'Votre station a été enregistrée avec succès.');
     }
-
     public function show(string $id)
     {
         $station = Station::findOrFail($id);
@@ -111,7 +109,6 @@ class StationController extends Controller
 
         return view('station.show2', compact('station', 'rapports'));
     }
-
     public function edit(Station $station)
     {
         return view('Station.edit', compact('station'));
