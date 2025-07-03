@@ -41,8 +41,13 @@
                                                 <a href="{{ route('approvisionnement.index') }}"
                                                     class="btn btn-btn btn-outline-gray-400 text-muted">
                                                     <i class="fa-solid fa-refresh"></i></a>
-                                                <a href="{{ route('voirS.pdf') }}" target="_blank" class="btn btn-dark">
+                                                <a href="{{ route('approvisionnement.download', ['format' => 'pdf', 'date_filter' => $date_filter]) }}"
+                                                    target="_blank" class="btn btn-dark">
                                                     <i class="bi bi-download"></i>
+                                                </a><!-- Bouton Excel -->
+                                                <a href="{{ route('approvisionnement.download', ['format' => 'excel', 'date_filter' => $date_filter]) }}"
+                                                    target="_blank" class="btn btn-primary">
+                                                    <i class="fas fa-file-excel mr-2"></i>
                                                 </a>
                                             </div>
                                         </div>

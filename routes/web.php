@@ -25,6 +25,8 @@ Route::get('/gestionnaire/no-station', fn() => view('Gerant.no-station'))->name(
 
 Route::prefix('/gerant')->middleware(['auth', 'CheckGerant'])->group(function () {
     Route::get('/dashboard', [GerantDashboardController::class, 'index'])->name('gestionnaire.dashboard');
+    Route::get('/approvisionnements/download/{format}', [ApprovisionnementController::class, 'download'])
+    ->name('approvisionnement.download');
     Route::resource('/vente', VenteController::class);
     Route::resource('/approvisionnement', ApprovisionnementController::class);
 

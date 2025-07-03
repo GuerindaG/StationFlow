@@ -19,6 +19,10 @@ class Approvisionnement extends Model
         'montant_total',
         'date_approvisionnement',
     ];
+    protected $casts = [
+        'date_approvisionnement' => 'datetime',
+    ];
+
     public function station()
     {
         return $this->belongsTo(Station::class);
