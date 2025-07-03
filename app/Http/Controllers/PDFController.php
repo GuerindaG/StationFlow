@@ -10,16 +10,6 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class PDFController extends Controller
 {
-    /**
-     * Configure les options communes pour DomPDF et inclut le pied de page.
-     * @param \Barryvdh\DomPDF\PDF $pdf
-     * @return void
-     */
-
-    /**
-     * Génère et télécharge la liste des produits en PDF.
-     * @return \Illuminate\Http\Response
-     */
     public function afficherPDF()
     {
         $produits = Produit::with('categorie')->get();

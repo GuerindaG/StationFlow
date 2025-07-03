@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 - Page non trouvée | StationFlow</title>
+    <title>Station introuvable | StationFlow</title>
     <link rel="shortcut icon" type="" href="{{ asset('./assets/images/favicon/favicon.ico')}}" />
     <style>
         * {
@@ -101,16 +101,15 @@
             position: relative;
         }
 
-        .error-number {
+        .error-icon {
             font-size: 180px;
-            font-weight: 800;
-            color: rgba(20, 189, 11, 0.15);
+            color: rgba(220, 53, 69, 0.15);
             line-height: 0.8;
             position: relative;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05);
         }
 
-        .pump-animation {
+        .search-animation {
             position: absolute;
             top: 50%;
             left: 50%;
@@ -119,11 +118,11 @@
             height: 120px;
         }
 
-        .fuel-drop {
+        .search-pulse {
             position: absolute;
-            background-color: #14bd0b;
+            border: 3px solid #dc3545;
             border-radius: 50%;
-            animation: drop 2s infinite;
+            animation: searchPulse 2s infinite;
         }
 
         .buttons {
@@ -167,52 +166,55 @@
             box-shadow: 0 4px 8px rgba(30, 42, 56, 0.2);
         }
 
-        .gas-station-illustration {
+        .station-illustration {
             max-width: 300px;
             margin-top: 20px;
             position: relative;
         }
 
-        /* Animation pour les gouttelettes de carburant */
-        @keyframes drop {
+        /* Animation pour la recherche */
+        @keyframes searchPulse {
             0% {
-                top: 0;
-                opacity: 0;
-                width: 10px;
-                height: 10px;
+                width: 40px;
+                height: 40px;
+                opacity: 1;
             }
+            100% {
+                width: 120px;
+                height: 120px;
+                opacity: 0;
+            }
+        }
 
+        /* Animation pour la station fermée */
+        @keyframes fadeInOut {
+            0%, 100% {
+                opacity: 0.3;
+            }
             50% {
                 opacity: 1;
-                width: 15px;
-                height: 15px;
-            }
-
-            100% {
-                top: 120px;
-                opacity: 0;
-                width: 10px;
-                height: 10px;
             }
         }
 
-        /* Animation pour la pompe */
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
+        .closed-station {
+            animation: fadeInOut 3s infinite ease-in-out;
+        }
 
-            50% {
-                transform: scale(1.05);
+        /* Animation pour le point d'interrogation */
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
             }
-
-            100% {
-                transform: scale(1);
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
             }
         }
 
-        .animated-element {
-            animation: pulse 2s infinite ease-in-out;
+        .bounce-element {
+            animation: bounce 2s infinite;
         }
 
         /* Responsive */
@@ -221,7 +223,7 @@
                 flex-direction: column-reverse;
             }
 
-            .error-number {
+            .error-icon {
                 font-size: 140px;
             }
 
@@ -253,45 +255,54 @@
         <div class="error-container">
             <div class="error-content">
                 <div class="error-text">
-                    <h1 class="error-title">Oops ! La pompe est à sec.</h1>
-                    <p class="error-message">La page que vous recherchez n'existe pas ou a été déplacée. Peut-être
-                        avez-vous pris le mauvais chemin ?</p>
+                    <h1 class="error-title">Station introuvable</h1>
+                    <p class="error-message">La station-service que vous recherchez n'existe pas dans notre base de données. Vérifiez l'identifiant ou recherchez parmi nos stations disponibles.</p>
                     <div class="buttons">
                         <a href="javascript:history.back()" class="btn btn-secondary">
                             <span>← Retour</span>
                         </a>
-                        <a href="/" class="btn btn-primary">
-                            <span>Retour à l'accueil</span>
+                        <a href="/stations" class="btn btn-primary">
+                            <span>Voir toutes les stations</span>
                         </a>
                     </div>
                 </div>
 
                 <div class="error-visual">
-                    <div class="error-number animated-element">404</div>
-                    <div class="gas-station-illustration">
+                    <div class="error-icon bounce-element">❓</div>
+                    <div class="station-illustration">
                         <svg width="100%" height="100%" viewBox="0 0 240 200" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
-                            <!-- Station-service stylisée -->
-                            <rect x="40" y="80" width="120" height="80" fill="#14bd0b" rx="5" />
-                            <rect x="50" y="90" width="100" height="60" fill="white" rx="3" />
-                            <rect x="70" y="130" width="60" height="30" fill="#f8f9fa" />
-                            <rect x="85" y="130" width="30" height="30" fill="#14bd0b" />
+                            <!-- Station-service fermée/inexistante -->
+                            <rect x="40" y="80" width="120" height="80" fill="#6c757d" rx="5" class="closed-station" />
+                            <rect x="50" y="90" width="100" height="60" fill="#e9ecef" rx="3" class="closed-station" />
+                            <rect x="70" y="130" width="60" height="30" fill="#f8f9fa" class="closed-station" />
+                            <rect x="85" y="130" width="30" height="30" fill="#dc3545" class="closed-station" />
 
-                            <!-- Pompe à essence -->
-                            <rect x="150" y="110" width="30" height="50" fill="#1e2a38" rx="3" />
-                            <rect x="155" y="115" width="20" height="30" fill="#f8f9fa" rx="2" />
+                            <!-- Pompe fermée -->
+                            <rect x="150" y="110" width="30" height="50" fill="#6c757d" rx="3" class="closed-station" />
+                            <rect x="155" y="115" width="20" height="30" fill="#e9ecef" rx="2" class="closed-station" />
                             <path
                                 d="M165 150 L165 170 L175 170 L175 165 L170 165 L170 160 L180 160 L180 170 L190 170 L190 150"
-                                stroke="#14bd0b" stroke-width="4" fill="none" />
+                                stroke="#dc3545" stroke-width="4" fill="none" class="closed-station" />
 
-                            <!-- Gouttes animées -->
-                            <circle class="fuel-drop" cx="165" cy="20" r="5" style="animation-delay: 0s;" />
-                            <circle class="fuel-drop" cx="165" cy="40" r="5" style="animation-delay: 0.7s;" />
-                            <circle class="fuel-drop" cx="165" cy="60" r="5" style="animation-delay: 1.4s;" />
+                            <!-- Panneaux "Fermé" -->
+                            <rect x="60" y="100" width="80" height="15" fill="#dc3545" rx="2" />
+                            <text x="100" y="110" text-anchor="middle" fill="white" font-size="8" font-weight="bold">FERMÉ</text>
 
-                            <!-- Nuages stylisés -->
-                            <ellipse cx="50" cy="40" rx="20" ry="10" fill="rgba(20, 189, 11, 0.1)" />
-                            <ellipse cx="190" cy="30" rx="25" ry="12" fill="rgba(20, 189, 11, 0.1)" />
+                            <!-- Cercles de recherche animés -->
+                            <g class="search-animation">
+                                <circle class="search-pulse" cx="60" cy="60" r="20" style="animation-delay: 0s;" />
+                                <circle class="search-pulse" cx="60" cy="60" r="20" style="animation-delay: 0.7s;" />
+                                <circle class="search-pulse" cx="60" cy="60" r="20" style="animation-delay: 1.4s;" />
+                            </g>
+
+                            <!-- Nuages gris -->
+                            <ellipse cx="50" cy="40" rx="20" ry="10" fill="rgba(108, 117, 125, 0.2)" />
+                            <ellipse cx="190" cy="30" rx="25" ry="12" fill="rgba(108, 117, 125, 0.2)" />
+                            
+                            <!-- Icône de recherche -->
+                            <circle cx="200" cy="50" r="15" fill="none" stroke="#dc3545" stroke-width="3" />
+                            <line x1="210" y1="60" x2="220" y2="70" stroke="#dc3545" stroke-width="3" />
                         </svg>
                     </div>
                 </div>

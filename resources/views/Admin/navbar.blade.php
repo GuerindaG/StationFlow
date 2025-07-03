@@ -20,7 +20,7 @@
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                         @forelse($stations as $station)
                             <li>
-                                <a class="dropdown-item" href="{{ route('admin.station.rapports', $station->id) }}">
+                                <a class="dropdown-item" href="{{ route('station.rapports', $station->id) }}">
                                     {{ $station->nom }}
                                 </a>
                             </li>
@@ -33,7 +33,7 @@
                 <div class="col-lg-4 text-end">
                     <ul class="navbar-nav align-items-center">
                         <li class="nav-item w-100 w-lg-auto">
-                            <a class="nav-link " href="{{ route('admin.dashboard') }}">
+                            <a class="nav-link " href="{{ route('dashboard') }}">
                                 Rapports</a>
                         </li>
                         <li class="nav-item w-100 w-lg-auto">

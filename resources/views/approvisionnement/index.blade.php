@@ -40,7 +40,10 @@
                                                 </button>
                                                 <a href="{{ route('approvisionnement.index') }}"
                                                     class="btn btn-btn btn-outline-gray-400 text-muted">
-                                                <i class="fa-solid fa-refresh"></i></a>
+                                                    <i class="fa-solid fa-refresh"></i></a>
+                                                <a href="{{ route('voirS.pdf') }}" target="_blank" class="btn btn-dark">
+                                                    <i class="bi bi-download"></i>
+                                                </a>
                                             </div>
                                         </div>
                                     </form>

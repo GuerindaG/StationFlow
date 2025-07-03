@@ -28,13 +28,13 @@
                                     </polygon>
                                 </svg>
                             </button>
-                            <a href="{{ route('admin.station.rapports', $station->id) }}"
+                            <a href="{{ route('station.rapports', $station->id) }}"
                                 class="btn btn-btn btn-outline-gray-400 text-muted">
                                 <i class="fa-solid fa-refresh"></i>
                             </a>
                         </div>
                         <div class="col-auto">
-                            <a href="{{ route('admin.dashboard', $station->id) }}" class="btn btn-secondary ">
+                            <a href="{{ route('dashboard', $station->id) }}" class="btn btn-secondary ">
                                 <i class="bi bi-arrow-left"></i>
                             </a>
                         </div>
@@ -47,7 +47,7 @@
         @forelse($moisDisponibles as $mois)
             <div class="col">
                 <div class="card card-product"
-                    ondblclick="window.location='{{ route('admin.station.rapports.mois', ['station' => $station->id, 'mois' => $mois]) }}'">
+                    ondblclick="window.location='{{ route('station.rapports.mois', ['station' => $station->id, 'mois' => $mois]) }}'">
                     <div class="card-body">
                         <div class="text-center position-relative">
                             <i class="fa-solid fa-folder fa-5x text-grey"></i>

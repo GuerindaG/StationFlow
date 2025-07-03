@@ -28,7 +28,7 @@ class RapportSoumisNotification extends Notification
         return (new MailMessage)
             ->subject('Nouveau rapport soumis')
             ->greeting('Bonjour !')
-            ->line("La station {$this->station->nom} a soumis un nouveau rapport.")
+            ->line("La station {$this->station?->nom} a soumis un nouveau rapport.")
             ->action('Voir le rapport', url('/admin/dashboard')) // mettre le vrai url
             ->line('Merci de votre collaboration.');
     }
@@ -37,7 +37,7 @@ class RapportSoumisNotification extends Notification
     {
         return [
             'titre' => 'Nouveau rapport reçu',
-            'station' => $this->station->nom,
+            'station' => $this->station?->nom ?? 'Non défini',
             'rapport' => $this->rapport,
             'lien' => url('/admin/dashboard')
         ];

@@ -21,9 +21,7 @@ Route::get('/api/produits', [ProduitController::class, 'getProduits'])->name('ap
 Route::get('/get-produits/{id}', [ApprovisionnementController::class, 'getByCategorie']);
 
 
-Route::get('/gestionnaire/no-station', function () {
-    return 'Aucune station assignée à votre compte.';
-})->name('gestionnaire.no-station');
+Route::get('/gestionnaire/no-station', fn() => view('Gerant.no-station'))->name("accueil")->name('gestionnaire.no-station');
 
 Route::prefix('/gerant')->middleware(['auth', 'CheckGerant'])->group(function () {
     Route::get('/dashboard', [GerantDashboardController::class, 'index'])->name('gestionnaire.dashboard');
@@ -42,23 +40,20 @@ Route::prefix('/gerant')->middleware(['auth', 'CheckGerant'])->group(function ()
 Route::prefix('/admin')->middleware(['auth', 'CheckAdmin'])->group(function () {
 
     Route::get('/dashboard', [RapportController::class, 'rapportsDuJour'])
-        ->name('admin.dashboard');
+        ->name('dashboard');
     Route::get('/rapport/{station}/{date}', [RapportController::class, 'voirRapportJournalier'])
         ->name('rapports.journalier.voir');
     Route::get('/station/{station}/rapports', [RapportController::class, 'adminRapportsParStation'])
-        ->name('admin.station.rapports');
+        ->name('station.rapports');
     Route::get('/station/{station}/rapports/{mois}', [RapportController::class, 'adminVoirFichiersMois'])
-        ->name('admin.station.rapports.mois');
-
+        ->name('station.rapports.mois');
 
     Route::post('/notifications/read-all', [AdminDashboardControlleur::class, 'readAll'])->name('notifications.readall');
     Route::get('/notifications/{id}/read', [AdminDashboardControlleur::class, 'read'])->name('notifications.read');
     Route::delete('/notifications/{id}', [AdminDashboardControlleur::class, 'destroy'])->name('notifications.destroy');
     Route::delete('/notifications/bulk-delete', [AdminDashboardControlleur::class, 'bulkDelete'])->name('notifications.bulkDelete');
 
-
-
-    Route::get('/parametre', fn() => view('Admin.parametre'))->name("parametre");
+    Route::get('/parametre', fn() => view('parametre'))->name("parametre");
     Route::resource('/station', StationController::class);
     Route::resource('/categorie', CategorieController::class);
     Route::resource('/produit', ProduitController::class);
@@ -76,7 +71,7 @@ Route::get('/redirect-by-role', function () {
 
     switch ($user->role) {
         case 'admin':
-            return redirect()->route('admin.dashboard');
+            return redirect()->route('dashboard');
         case 'gestionnaire':
             return redirect()->route('gestionnaire.dashboard');
         default:
@@ -87,7 +82,6 @@ Route::get('/redirect-by-role', function () {
 Route::get('/voirC-pdf', [PDFController::class, 'afficherCPDF'])->name('voirC.pdf');
 Route::get('/voirS-pdf', [PDFController::class, 'afficherSPDF'])->name('voirS.pdf');
 Route::get('/voir-pdf', [PDFController::class, 'afficherPDF'])->name('voir.pdf');
-Route::get('/s', fn() => view('Admin.notification'))->name("rapport.pdf");
-Route::get('/rapports/{station}/{filename}', [RapportController::class, 'telecharger'])->name('rapport.telecharger');
+Route::get('/newpassword', fn() => view('auth.nouveau-password'))->name("reset.password");
 
 require __DIR__ . '/auth.php';

@@ -45,12 +45,12 @@
             <div class="container">
                 <div class="row justify-content-center align-items-center">
                     <div class="col-12 col-md-6 col-lg-4 order-lg-1 order-2">
-                        <img src="../assets/images/svg-graphics/fp-g.svg" alt="" class="img-fluid" />
+                        <img src="../assets/images/svg-graphics/signin-g.svg" alt="" class="img-fluid" />
                     </div>
                     <div class="col-12 col-md-6 offset-lg-1 col-lg-4 order-lg-2 order-1 d-flex align-items-center">
                         <div>
                             <div class="mb-lg-9 mb-5">
-                                <h1 class="mb-2 h2 fw-bold">Mot de passe oublié ?</h1>
+                                <h1 class="mb-2 h2 fw-bold">Changer votre mot de passe ?</h1>
                                 <p>Entrez votre adresse email et nous vous enverrons un lien pour réinitialiser votre
                                     mot de
                                     passe.</p>
@@ -65,18 +65,32 @@
                                 @csrf
                                 <div class="row g-3">
                                     <div class="col-12">
-                                        <label for="formForgetEmail" class="form-label visually-hidden">Email
-                                            address</label>
-                                        <input type="email" class="form-control" id="formForgetEmail"
-                                            placeholder="Email" value="{{ old('email') }}" name="email" required />
-                                        @error('email')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
+                                        <div class="password-field position-relative">
+                                            <label for="formSignupPassword"
+                                                class="form-label visually-hidden">Password</label>
+                                            <div class="password-field position-relative">
+                                                <input type="password" name="password" class="form-control fakePassword"
+                                                    id="formSignupPassword" placeholder="Mot de passe" required />
+                                                <span><i class="bi bi-eye-slash passwordToggler"></i></span>
+                                                <div class="invalid-feedback">Entrez votre mot de passe.</div>
+                                            </div>
+                                        </div>
                                     </div>
-
+                                    <div class="col-12">
+                                        <div class="password-field position-relative">
+                                            <label for="formSignupPassword"
+                                                class="form-label visually-hidden">Confirm password</label>
+                                            <div class="password-field position-relative">
+                                                <input type="password" name="password" class="form-control fakePassword"
+                                                    id="formSignupPassword" placeholder="Confirmer mot de passe" required />
+                                                <span><i class="bi bi-eye-slash passwordToggler"></i></span>
+                                                <div class="invalid-feedback">Entrez votre mot de passe.</div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="col-12 d-grid gap-2">
-                                        <button type="submit" class="btn btn-primary">Envoyer le lien</button>
-                                        <a href="{{route('reset.password')}}" class="btn btn-light">Retour</a>
+                                        <button type="submit" class="btn btn-primary ">Enregistrer</button>
+                                        <a href="{{route('login')}}" class="btn btn-light ">Continuer</a>
                                     </div>
                                 </div>
                             </form>
@@ -92,6 +106,9 @@
     <script src="../assets/libs/simplebar/dist/simplebar.min.js"></script>
 
     <script src="../assets/js/theme.min.js"></script>
+
+    <script src="../assets/js/vendors/password.js"></script>
+
     <script src="../assets/js/vendors/validation.js"></script>
 </body>
 

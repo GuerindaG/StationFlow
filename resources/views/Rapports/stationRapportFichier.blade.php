@@ -23,13 +23,13 @@
                                     </polygon>
                                 </svg>
                             </button>
-                            <a href="{{ route('admin.station.rapports.mois', ['station' => $station->id, 'mois' => $mois]) }}"
+                            <a href="{{ route('station.rapports.mois', ['station' => $station->id, 'mois' => $mois]) }}"
                                 class="btn btn-outline-gray-400 text-muted">
                                 <i class="fa-solid fa-refresh"></i>
                             </a>
                         </div>
                         <div class="col-auto">
-                            <a href="{{ route('admin.station.rapports', $station->id) }}" class="btn btn-secondary ">
+                            <a href="{{ route('station.rapports', $station->id) }}" class="btn btn-secondary ">
                                 <i class="bi bi-arrow-left"></i>
                             </a>
                         </div>

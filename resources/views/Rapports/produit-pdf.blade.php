@@ -58,6 +58,10 @@
 <body>
     <div class="pdf-preview">
         <div class="header">
+            <div style="flex-shrink: 0;">
+                <img src="{{ public_path('assets/images/logo/stationflow-logo.png') }}" alt="Logo"
+                    style="height: 60px;">
+            </div>
             <div class="report-info">
                 <h1><strong>
                         <center>LISTE DES PRODUITS</center>
@@ -175,10 +179,8 @@
             </div>
         </div>
         <div class="footer">
-            <div>&copy; {{ date('Y') }} StationFlow - Tous droits réservés</div>
-            <div class="footer-right">
-                <div class="footer-right">Rapport généré le : <strong>{{ date('d/m/Y à H:i') }}</strong></div>
-            </div>
+            <div>© StationFlow - Tous droits réservés.</div>
+            <div>Généré le : <strong>{{ date('d/m/Y à H:i') }}</strong></div>
         </div>
     </div>
 </body>

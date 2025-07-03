@@ -31,7 +31,7 @@
         .header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
             margin-bottom: 30px;
             padding-bottom: 15px;
             border-bottom: 1px solid #e9ecef;
@@ -41,43 +41,28 @@
             width: 200px;
         }
 
-        .report-info {
+        .header-info {
             text-align: right;
+            flex: 1;
+            padding-left: 20px;
         }
 
-        .report-info h1 {
+        .header-info h1 {
             font-size: 24px;
-            margin: 0 0 10px 0;
+            margin: 0 0 5px 0;
             color: #0aad0a;
         }
 
-        .report-info .date {
+        .header-info .station {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #21313c;
+        }
+
+        .header-info .date {
             font-size: 14px;
             color: #5c6c75;
-        }
-
-        .station-id {
-            font-size: 14px;
-            color: #5c6c75;
-        }
-
-        .content {
-            position: relative;
-            min-height: 500px;
-            z-index: 2;
-        }
-
-        .section {
-            margin-bottom: 25px;
-        }
-
-        .section-title {
-            font-size: 18px;
-            margin-bottom: 15px;
-            color: #0aad0a;
-            font-weight: 600;
-            padding-bottom: 5px;
-            border-bottom: 2px solid #0aad0a;
         }
 
         .watermark {
@@ -88,11 +73,13 @@
             font-size: 100px;
             color: rgba(10, 173, 10, 0.1);
             z-index: 1;
+            pointer-events: none;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
+            margin-bottom: 15px;
         }
 
         th {
@@ -100,6 +87,7 @@
             color: white;
             padding: 8px;
             text-align: left;
+            font-weight: 600;
         }
 
         td {
@@ -182,26 +170,48 @@
             font-size: 12px;
             color: #5c6c75;
         }
+
+        .section {
+            margin-bottom: 25px;
+            page-break-inside: avoid;
+        }
+
+        .section-title {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #0aad0a;
+            font-weight: 600;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #0aad0a;
+        }
+
+        .footer {
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            color: #5c6c75;
+        }
     </style>
 </head>
 
 <body>
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-        <!-- Infos à gauche -->
-        <div style="flex: 1;">
-            <img src="{{ public_path('assets/images/logo/stationflow-logo.png') }}" alt="Logo" style="height: 60px;">
-
+    <div class="header">
+        <div class="logo-container">
+            <img src="{{ public_path('assets/images/logo/stationflow-logo.png') }}" alt="Logo" style="height: 70px;">
         </div>
 
-        <!-- Logo à droite -->
-        <div style="flex-shrink: 0;">
-            <h1 style="margin: 0; font-size: 20px;">Rapport Journalier</h1>
-            <p style="margin: 2px 0;"><strong>Station :</strong> {{ $station->nom ?? 'Nom de la station inconnu' }}</p>
-            <p style="margin: 2px 0;"><strong>Date :</strong> {{ \Carbon\Carbon::parse($date)->format('d/m/Y') }}</p>
+        <div class="header-info">
+            <h1>Rapport Journalier</h1>
+            <div class="station"><strong>Station :</strong> {{ $station->nom ?? 'Nom de la station inconnu' }}</div>
+            <div class="date">Date : {{ \Carbon\Carbon::parse($date)->format('d/m/Y') }}</div>
         </div>
     </div>
 
     <div class="watermark">STATIONFLOW</div>
+
     <div class="section">
         <h2 class="section-title">État des stocks</h2>
         <table>
@@ -358,9 +368,9 @@
                     <tr>
                         <td><strong>{{ $produitNom }}</strong></td>
                         @foreach($paiements as $mode)
-                            <td class="amount">{{ number_format($totaux[$mode], 2, ',', ' ') }}</td>
+                            <td class="amount">{{ number_format($totaux[$mode], 2, ',', ' ') ?? 'Néant' }}</td>
                         @endforeach
-                        <td class="amount"><strong>{{ number_format($totalGeneral, 2, ',', ' ') }}</strong></td>
+                        <td class="amount"><strong>{{ number_format($totalGeneral, 2, ',', ' ') ?? 'Néant'}}</strong></td>
                     </tr>
                 @endforeach
 
@@ -402,7 +412,6 @@
                 </tr>
             </tbody>
         </table>
-
     </div>
 
     <div class="summary-box">

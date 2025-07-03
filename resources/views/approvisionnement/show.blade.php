@@ -7,8 +7,10 @@
                     <div>
                         <h5>Historique des réceptions du produit : {{ $produit->nom }}</h5>
                     </div>
-                    <div>
-                        <a href="{{route('approvisionnement.index')}}" class="btn btn-light">Retour</a>
+                    <div class="col-auto">
+                        <a href="{{route('approvisionnement.index')}}" class="btn btn-secondary ">
+                            <i class="bi bi-arrow-left"></i>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -41,7 +43,15 @@
                                                     value="{{ request('date_fin') }}">
                                             </div>
                                             <div class="col-auto">
-                                                <button type="submit" class="btn btn-primary">Filtrer</button>
+                                                <button type="submit" class="btn btn-outline-gray-400 text-muted">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                        class="feather feather-filter me-2">
+                                                        <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3">
+                                                        </polygon>
+                                                    </svg>
+                                                </button>
                                             </div>
                                         </div>
                                     </form>
@@ -78,7 +88,8 @@
                         </div>
                     </div>
                     <div class="border-top d-md-flex justify-content-between align-items-center p-6">
-                        <span> Affichage de {{ $approvisionnements->firstItem() }} à {{ $approvisionnements->lastItem() }} sur
+                        <span> Affichage de {{ $approvisionnements->firstItem() }} à {{ $approvisionnements->lastItem() }}
+                            sur
                             {{ $approvisionnements->total() }} résultats</span>
                         <nav>
                             <ul class="pagination mb-0">
