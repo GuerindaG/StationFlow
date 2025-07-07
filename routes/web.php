@@ -26,7 +26,7 @@ Route::get('/gestionnaire/no-station', fn() => view('Gerant.no-station'))->name(
 Route::prefix('/gerant')->middleware(['auth', 'CheckGerant'])->group(function () {
     Route::get('/dashboard', [GerantDashboardController::class, 'index'])->name('gestionnaire.dashboard');
     Route::get('/approvisionnements/download/{format}', [ApprovisionnementController::class, 'download'])
-    ->name('approvisionnement.download');
+        ->name('approvisionnement.download');
     Route::resource('/vente', VenteController::class);
     Route::resource('/approvisionnement', ApprovisionnementController::class);
 
@@ -50,10 +50,14 @@ Route::prefix('/admin')->middleware(['auth', 'CheckAdmin'])->group(function () {
     Route::get('/station/{station}/rapports/{mois}', [RapportController::class, 'adminVoirFichiersMois'])
         ->name('station.rapports.mois');
 
-    Route::post('/notifications/read-all', [AdminDashboardControlleur::class, 'readAll'])->name('notifications.readall');
-    Route::get('/notifications/{id}/read', [AdminDashboardControlleur::class, 'read'])->name('notifications.read');
+    Route::post('/notifications/read-all', [AdminDashboardControlleur::class, 'index'])->name('notifications.index');
+    Route::post('/notifications/{id}/read', [AdminDashboardControlleur::class, 'read'])->name('notifications.read');
+    Route::post('/notifications/{id}/unread', [AdminDashboardControlleur::class, 'unread'])->name('notifications.unread');
+    Route::post('/notifications/read-all', [AdminDashboardControlleur::class, 'readAll'])->name('notifications.read-all');
     Route::delete('/notifications/{id}', [AdminDashboardControlleur::class, 'destroy'])->name('notifications.destroy');
     Route::delete('/notifications/bulk-delete', [AdminDashboardControlleur::class, 'bulkDelete'])->name('notifications.bulkDelete');
+    Route::get('/notifications/unread-count', [AdminDashboardControlleur::class, 'unreadCount']);
+    Route::post('/notifications/{id}/unread', [AdminDashboardControlleur::class, 'unread']);
 
     Route::get('/parametre', fn() => view('parametre'))->name("parametre");
     Route::resource('/station', StationController::class);

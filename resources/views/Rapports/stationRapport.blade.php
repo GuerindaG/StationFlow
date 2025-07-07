@@ -61,7 +61,15 @@
                 </div>
             </div>
         @empty
-            <p class="text-center">Aucun rapport trouvé pour cette station.</p>
+            <div class="card-body p-4 text-center">
+
+                <i class="fa-solid fa-file-circle-exclamation fa-3x text-muted mb-3"></i>
+
+                <h4 class="text-muted mb-3">Aucun rapport disponible</h4>
+                <p class="text-muted mb-4">
+                    Il n'y a actuellement aucun rapport généré .
+                </p>
+            </div>
         @endforelse
     </div>
 @endsection
