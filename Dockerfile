@@ -1,29 +1,20 @@
-FROM php:8.2-fpm
+FROM richarvey/nginx-php-fpm:3.1.6
 
-# Installer les dépendances système
-RUN apt-get update && apt-get install -y \
-    git curl zip unzip libonig-dev libzip-dev libpq-dev libxml2-dev \
-    libjpeg62-turbo-dev libpng-dev libfreetype6-dev \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install pdo pdo_mysql mbstring zip xml gd
-
-# Installer Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-
-# Dossier de travail
-WORKDIR /var/www
-
-# Copier les fichiers du projet Laravel
 COPY . .
 
-# Installer les dépendances PHP (production uniquement)
-RUN composer install --no-dev --optimize-autoloader
+# Image config
+ENV SKIP_COMPOSER 1
+ENV WEBROOT /var/www/html/public
+ENV PHP_ERRORS_STDERR 1
+ENV RUN_SCRIPTS 1
+ENV REAL_IP_HEADER 1
 
-# Donne les bons droits
-RUN chmod -R 775 storage bootstrap/cache
+# Laravel config
+ENV APP_ENV production
+ENV APP_DEBUG false
+ENV LOG_CHANNEL stderr
 
-# Exposer le port pour Laravel (si on utilise `php artisan serve`)
-EXPOSE 8000
+# Allow composer to run as root
+ENV COMPOSER_ALLOW_SUPERUSER 1
 
-# Commande de démarrage (dev)
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+CMD ["/start.sh"]
