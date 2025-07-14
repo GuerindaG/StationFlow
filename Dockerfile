@@ -1,30 +1,51 @@
-# Image PHP avec FPM
-FROM php:8.2-fpm
+### Étape 1 : Build (Composer, dépendances)
+FROM php:8.2-fpm AS builder
 
-# Installe les paquets système et extensions PHP nécessaires
+# Dépendances système
 RUN apt-get update && apt-get install -y \
     git curl zip unzip libonig-dev libzip-dev libpq-dev libxml2-dev \
     libjpeg-dev libpng-dev libfreetype6-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install pdo pdo_mysql mbstring zip xml gd
 
-# Installe Composer (à partir de l'image officielle)
+# Installer Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Définit le dossier de travail dans le conteneur
+# Dossier de travail
 WORKDIR /var/www
 
-# Copie tous les fichiers du projet dans le conteneur
+# Copier les fichiers Laravel
 COPY . .
 
-# Installe les dépendances Laravel (prod uniquement)
+# Installer les dépendances PHP (prod)
 RUN composer install --no-dev --optimize-autoloader
 
-# Donne les bons droits aux dossiers nécessaires
+# Cache Laravel
+RUN php artisan config:cache \
+    && php artisan route:cache \
+    && php artisan view:cache
+
+# Donne les bons droits
 RUN chmod -R 775 storage bootstrap/cache
 
-# Expose le port 8000 utilisé par le serveur Laravel
-EXPOSE 8000
+### Étape 2 : Conteneur final (plus léger)
+FROM php:8.2-fpm
 
-# Commande de démarrage
-CMD php artisan serve --host=0.0.0.0 --port=8000
+# Installer seulement les extensions nécessaires
+RUN apt-get update && apt-get install -y \
+    libzip-dev libpq-dev libxml2-dev \
+    libjpeg-dev libpng-dev libfreetype6-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install pdo pdo_mysql mbstring zip xml gd
+
+WORKDIR /var/www
+
+# Copier les fichiers depuis l'étape de build
+COPY --from=builder /var/www /var/www
+
+# Exposer le port
+EXPOSE 9000
+
+# Laisser PHP-FPM gérer les requêtes (pas php artisan serve)
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+
