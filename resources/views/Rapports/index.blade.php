@@ -9,13 +9,13 @@
                         <h2>Archives des rapports des rapports</h2>
                     </div>
                     <div class="d-flex gap-2">
-                        <a href="{{ route('generer.pdf') }}" class="btn btn-primary active" target="_blank">
+                        <a href="{{ route('generer.pdf') }}" class="btn btn-primary active" target="_blank" title="Générer" >
                             <i class="fa-solid fa-file-circle-plus"></i>
                         </a>
                         <form action="{{ route('rapport.journalier.sauvegarder', ['station' => $station->id]) }}"
                             method="POST">
                             @csrf
-                            <button type="submit" class="btn btn-dark">
+                            <button type="submit" class="btn btn-dark" title="Sauvegarder" >
                                 <i class="bi bi-save"></i>
                             </button>
                         </form>

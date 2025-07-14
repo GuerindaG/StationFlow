@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use DB;
 use App\Exports\ApprovisionnementsExport;
 use Barryvdh\DomPDF\Facade\Pdf;
+use GuzzleHttp\Psr7\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Traits\HandlesControllerErrors;
@@ -246,16 +247,48 @@ class ApprovisionnementController extends Controller
                 ]);
                 return $pdf->stream("$filename.pdf");
 
-            case 'excel':
-                return Excel::download(
-                    new ApprovisionnementsExport($approvisionnements),
-                    "$filename.xls"
-                );
+            case 'csv':
+                $headers = [
+                    "Content-type" => "text/csv",
+                    "Content-Disposition" => "attachment; filename=$filename.csv",
+                    "Pragma" => "no-cache",
+                    "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
+                    "Expires" => "0"
+                ];
+
+                $callback = function () use ($approvisionnements) {
+                    $handle = fopen('php://output', 'w');
+
+                    // En-têtes CSV (adaptez selon vos besoins)
+                    fputcsv($handle, [
+                        'ID',
+                        'Produit',
+                        'Catégorie',
+                        'Quantité',
+                        'Prix Unitaire',
+                        'Montant Total'
+                    ]);
+
+                    // Données
+                    foreach ($approvisionnements as $appro) {
+                        fputcsv($handle, [
+                            $appro->id,
+                            $appro->produit->nom ?? 'N/A',
+                            $appro->produit->categorie->nom ?? 'N/A',
+                            $appro->quantite,
+                            $appro->prix_unitaire,
+                            $appro->station->montant_total
+                        ]);
+                    }
+
+                    fclose($handle);
+                };
+
+                return \Response::stream($callback, 200, $headers);
 
             default:
                 return back()->with('error', 'Format non supporté');
         }
     }
-
 
 }

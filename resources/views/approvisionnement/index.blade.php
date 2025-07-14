@@ -16,8 +16,6 @@
         <div class="row">
             <div class="col-xl-12 col-12 mb-5">
                 <div class="card h-100 card-lg">
-                    <div class="card-header d-block d-sm-flex border-0">
-                    </div>
                     <div class="card-body p-0">
                         <div class="p-6">
                             <div class="row">
@@ -44,8 +42,8 @@
                                                 <a href="{{ route('approvisionnement.download', ['format' => 'pdf', 'date_filter' => $date_filter]) }}"
                                                     target="_blank" class="btn btn-dark">
                                                     <i class="bi bi-download"></i>
-                                                </a><!-- Bouton Excel -->
-                                                <a href="{{ route('approvisionnement.download', ['format' => 'excel', 'date_filter' => $date_filter]) }}"
+                                                </a><!-- Bouton Csv -->
+                                                <a href="{{ route('approvisionnement.download', ['format' => 'csv', 'date_filter' => $date_filter]) }}"
                                                     target="_blank" class="btn btn-primary">
                                                     <i class="fas fa-file-excel mr-2"></i>
                                                 </a>

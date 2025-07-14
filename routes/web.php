@@ -27,6 +27,8 @@ Route::prefix('/gerant')->middleware(['auth', 'CheckGerant'])->group(function ()
     Route::get('/dashboard', [GerantDashboardController::class, 'index'])->name('gestionnaire.dashboard');
     Route::get('/approvisionnements/download/{format}', [ApprovisionnementController::class, 'download'])
         ->name('approvisionnement.download');
+    Route::get('/vente/download/{format}', [VenteController::class, 'download'])
+        ->name('vente.download');
     Route::resource('/vente', VenteController::class);
     Route::resource('/approvisionnement', ApprovisionnementController::class);
 
@@ -59,7 +61,7 @@ Route::prefix('/admin')->middleware(['auth', 'CheckAdmin'])->group(function () {
     Route::get('/notifications/unread-count', [AdminDashboardControlleur::class, 'unreadCount']);
     Route::post('/notifications/{id}/unread', [AdminDashboardControlleur::class, 'unread']);
 
-    Route::get('/parametre', fn() => view('parametre'))->name("parametre");
+    Route::get('/parametre', fn() => view('Admin/parametre'))->name("parametre");
     Route::resource('/station', StationController::class);
     Route::resource('/categorie', CategorieController::class);
     Route::resource('/produit', ProduitController::class);

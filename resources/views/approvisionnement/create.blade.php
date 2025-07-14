@@ -18,13 +18,13 @@
                 <!-- card -->
                 <div class="card mb-6 shadow border-0">
                     <form action="{{ route('approvisionnement.store') }}" method="POST" class="row needs-validation g-3"
-                        novalidate>
+                        class="needs-validation" >
                         @csrf
                         <div class="card-body p-6">
                             <div class="row">
                                 <div class="col-sm-6">
                                     <label for="recipient-name" class="col-form-label">Catégorie</label>
-                                    <select class="default-select form-control wide" id="categorie_id" name="categorie_id">
+                                    <select class="default-select form-control wide" id="categorie_id" name="categorie_id"  >
                                         <option value="">Sélectionnez une catégorie</option>
                                         @foreach($categories as $categorie)
                                             <option value="{{ $categorie->id }}">{{ $categorie->nom }}</option>
@@ -33,8 +33,8 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <label for="recipient-name" class="col-form-label">Produits</label>
-                                    <select class="default-select form-control wide" id="produit_id" name="produit_id">
-                                        <option value="">Sélectionnez une catégorie d'abord</option>
+                                    <select class="default-select form-control wide" id="produit_id" name="produit_id" >
+                                        <option value="" >Sélectionnez une catégorie d'abord</option>
                                     </select>
                                 </div>
 
@@ -42,12 +42,12 @@
                                 <div class="col-sm-12 mb-3">
                                     <label for="recipient-name" class="col-form-label">Quantité</label>
                                     <input type="number" placeholder="" id="qte_appro" name="qte_appro"
-                                        class="form-control pop">
+                                        class="form-control pop" required />
                                 </div>
                                 <div class="col-sm-12 mb-3">
                                     <label for="recipient-name" class="col-form-label">Date de réception</label>
                                     <input type="date" placeholder="" id="date_approvisionnement"
-                                        name="date_approvisionnement" class="form-control flatpickr">
+                                        name="date_approvisionnement" class="form-control flatpickr" required />
                                 </div>
 
                                 <div class="col-lg-12 text-end">
